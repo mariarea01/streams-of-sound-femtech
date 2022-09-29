@@ -11,5 +11,10 @@ namespace StreamsOfSounds.Models
         [Display(Name = "Pick a day to volunteer")]
         [DataType(DataType.Date)]
         public DateTime? DOV { get; set; }
+
+        public string Name { get; set; }
+        public string Instrument { get; set; }
+        public string Email { get; set; }
+
     }
 }

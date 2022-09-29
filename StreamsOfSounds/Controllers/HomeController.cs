@@ -28,6 +28,16 @@ namespace StreamsOfSounds.Controllers
             return View();
         }
 
+        [HttpPost]
+            public ActionResult form1(string txtName, string txtEmail, string txtInstrument)
+        {
+            ViewBag.Name = txtName;
+            ViewBag.Email = txtEmail;
+            ViewBag.Instrument = txtInstrument;
+
+            return View("Date");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -3,6 +3,34 @@
 @{
     ViewData["Title"] = "Date";
 }
+<h1>Volunteer Form</h1>
+<h4 style="color:purple">
+    <b>Name:</b>    @ViewBag.Name <br />
+    <b>Email:</b>  @ViewBag.Email <br />
+    <b>Instrument:</b> @ViewBag.Instrument <br />
+</h4>
+<hr />
+<h3><b>Form</b></h3>
+
+<form action="form1" method="post">
+    <table>
+        <tr>
+            <td>Enter Name: </td>
+            <td><input type="text" name="txtName" /></td>
+        </tr>
+        <tr>
+            <td>Enter Email: </td>
+            <td><input type="text" name="txtEmail" /></td>
+        </tr>
+        <tr>
+            <td>Enter Instrument: </td>
+            <td><input type="text" name="txtInstrument" /></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Submit Form" /></td>
+        </tr>
+    </table>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -22,3 +50,7 @@
 
     </div>
 }
+</form>
+
+
+
