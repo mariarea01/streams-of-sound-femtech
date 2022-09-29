@@ -30,6 +30,7 @@
             <td colspan="2"><input type="submit" value="Submit Form" /></td>
         </tr>
     </table>
+</form>
 
 @using (Html.BeginForm())
 {
@@ -46,11 +47,8 @@
                 @Html.ValidationMessageFor(model => model.DOV, "", new { @class = "text-danger" })
             </div>
         </div>
-
-
     </div>
 }
-</form>
 
 
 
