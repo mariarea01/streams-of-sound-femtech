@@ -35,7 +35,7 @@ namespace StreamsOfSounds.Controllers
             ViewBag.Email = txtEmail;
             ViewBag.Instrument = txtInstrument;
 
-            return View("Date");
+            return View("DateForm");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
