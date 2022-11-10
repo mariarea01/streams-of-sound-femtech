@@ -1,0 +1,64 @@
+﻿@model StreamsOfSounds.Models.OpportunityModel
+@{
+    ViewData["Title"] = "OpportunityList";
+}
+
+<h1>Opportunity List</h1>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Opportunity</th>
+            <th scope="col">Location</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Paid or Unpaid</th>
+            <th scope="col">Openings</th>
+            <th scope="col">Sign Up</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Music Opportunity</td>
+            <td>Jackonville</td>
+            <td>10/31</td>
+            <td>10:45AM</td>
+            <td>1 hour</td>
+            <td>Paid</td>
+            <td>5</td>
+            <td><button type="button" class="btn btn-primary btn-sm"
+                        onclick="@("window.location.href='" + @Url.Action("SignUp", "Home") +"'");">
+                    Sign Up
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>Music Opportunity</td>
+            <td>Riverside</td>
+            <td>11/5</td>
+            <td>9:45AM</td>
+            <td>2 hours</td>
+            <td>Paid</td>
+            <td>10</td>
+            <td><button type="button" class="btn btn-primary btn-sm"
+                        onclick="@("window.location.href='" + @Url.Action("SignUp", "Home") +"'");">
+                    Sign Up
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>Music Opportunity</td>
+            <td>San Marcos</td>
+            <td>11/8</td>
+            <td>1:45PM</td>
+            <td>1 hour</td>
+            <td>Paid</td>
+            <td>2</td>
+            <td><button type="button" class="btn btn-primary btn-sm"
+                        onclick="@("window.location.href='" + @Url.Action("SignUp", "Home") +"'");">
+                    Sign Up
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

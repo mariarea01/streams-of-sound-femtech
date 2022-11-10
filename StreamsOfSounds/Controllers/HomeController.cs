@@ -28,6 +28,20 @@ namespace StreamsOfSounds.Controllers
             return View();
         }
 
+        public IActionResult MyOpportunities()
+        {
+            return View();
+        }
+
+        public IActionResult OpportunityList()
+        {
+            return View();
+        }
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
         [HttpPost]
             public ActionResult form1(string txtName, string txtEmail, string txtInstrument)
         {
@@ -36,6 +50,17 @@ namespace StreamsOfSounds.Controllers
             ViewBag.Instrument = txtInstrument;
 
             return View("Date");
+        }
+
+        [HttpPost]
+        public ActionResult SignUp(string txtName, string txtEmail, string txtInstrument, string txtPhone)
+        {
+            ViewBag.Name = txtName;
+            ViewBag.Email = txtEmail;
+            ViewBag.Phone = txtPhone;
+            ViewBag.Instrument = txtInstrument;
+
+            return View("MyOpportunities");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
