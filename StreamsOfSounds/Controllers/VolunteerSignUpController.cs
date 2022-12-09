@@ -1,41 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StreamsOfSounds.Models;
+using System.Diagnostics;
 
 namespace StreamsOfSounds.Controllers
 {
     public class VolunteerSignUpController : Controller
     {
-        public ActionResult GetEmployeeData()
+        [HttpPost]
+        public ActionResult form1(string txtName, string txtEmail, string txtInstrument)
         {
-            List<VolunteerSignUp> vol = new List<VolunteerSignUp>
-            {
-                new VolunteerSignUp
-                {
-                    EmployeeId = 1,
-                    EmployeeName = "John",
-                    Address = "12 Fremont St. Clermont, FL 2813",
-                    Phone = "+1-234-2838421"
-                },
-                new VolunteerSignUp
-                {
-                    EmployeeId = 2,
-                    EmployeeName = "Smith",
-                    Address = "14 Highland Drive Fort Worth, TX 3994",
-                    Phone = "+1-234-2244521"
-                },
-                new VolunteerSignUp
-                {
-                    EmployeeId = 3,
-                    EmployeeName = "Marry",
-                    Address = "23 Fremont Road Milledgeville, GA 6788",
-                    Phone = "+1-234-46568421"
-                }
-            };
+            ViewBag.Name = txtName;
+            ViewBag.Email = txtEmail;
+            ViewBag.Instrument = txtInstrument;
 
-            ViewBag.VolunteerSignUp = vol;
-
-            return View();
+            return View("Date");
         }
 
+        [HttpPost]
+        public ActionResult SignUp(string txtName, string txtEmail, string txtInstrument, string txtPhone)
+        {
+            ViewBag.Name = txtName;
+            ViewBag.Email = txtEmail;
+            ViewBag.Phone = txtPhone;
+            ViewBag.Instrument = txtInstrument;
+
+            return View("MyOpportunities");
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }
