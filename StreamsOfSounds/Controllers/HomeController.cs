@@ -22,7 +22,10 @@ namespace StreamsOfSounds.Controllers
         {
             return View();
         }
-
+        public IActionResult MyOpportunityList()
+        {
+            return View();
+        }
 
         public IActionResult Form(string eventName, DateTime dateTime, string duration, string address, string state, string city, int zip, int numOfVolunteers, bool paid, bool unpaid, string paidAmount)
         {
