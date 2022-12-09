@@ -58,7 +58,8 @@
             <!--<td>@ViewBag.Paid @ViewBag.Unpaid @ViewBag.PaidAmount</td>-->
             <td>
                 <form>
-                    <input type="checkbox" id="signup" name="signup" value="signup">
+                    <input type="checkbox" id="signup" name="signup" value="signup"
+                           onclick="@("window.location.href='" + @Url.Action("MyOpportunityList", "Home") +"'");">
                 </form>
             </td>
         </tr>
