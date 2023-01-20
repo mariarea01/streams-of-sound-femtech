@@ -17,12 +17,13 @@ namespace StreamsOfSounds.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUp(string txtName, string txtEmail, string txtInstrument, string txtPhone)
+        public ActionResult SignUp(VolunteerSignUpFormRequest request)
         {
-            ViewBag.Name = txtName;
-            ViewBag.Email = txtEmail;
-            ViewBag.Phone = txtPhone;
-            ViewBag.Instrument = txtInstrument;
+            // TODO.MR: Create the object for the database, add to database, return good view, and validation
+            ViewBag.FirstName = request.FirstName; 
+            ViewBag.LastName = request.LastName;
+            ViewBag.Email = request.Email;
+            ViewBag.Phone = request.PhoneNumber;
 
             return View("MyOpportunities");
         }
