@@ -1,4 +1,4 @@
-namespace StreamsOfSounds.Models
+﻿namespace StreamsOfSounds.Models
 {
     public class ErrorViewModel
     {
