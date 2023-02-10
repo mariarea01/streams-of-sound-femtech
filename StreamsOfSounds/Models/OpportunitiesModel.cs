@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VolunteerWebApplication.Models
 {
-    public class CreateOpportunity
+    public class OpportunitiesModel
     {
-        public CreateOpportunity()
+        public OpportunitiesModel()
         {
         }
         public string? EventName { get; set; }

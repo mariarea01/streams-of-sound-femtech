@@ -22,6 +22,7 @@ namespace StreamsOfSounds.Controllers
         {
             return View();
         }
+<<<<<<< HEAD
         public IActionResult MyOpportunityList()
         {
             return View();
@@ -57,6 +58,11 @@ namespace StreamsOfSounds.Controllers
 
 
         public IActionResult Date()
+=======
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+>>>>>>> StaffFixOpportunities
         {
             return View();
         }
