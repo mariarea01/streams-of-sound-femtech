@@ -11,7 +11,7 @@
     [State] NVARCHAR(50) NULL, 
     [SlotsOpenings] INT NULL, 
     [SlotsAvailable] INT NULL,
-    [UserId] UNIQUEIDENTIFIER NULL
+    [UserId]  NVARCHAR (450) NULL,
 
     CONSTRAINT [FK_Opportunity_AspNetUser] FOREIGN KEY (UserId) REFERENCES [AspNetUsers](Id) 
 )

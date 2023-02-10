@@ -1,29 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using StreamsOfSounds.Data;
 using StreamsOfSounds.Models;
 using System.Diagnostics;
 
 namespace StreamsOfSounds.Controllers
 {
     public class VolunteerSignUpController : Controller
-    {
-        [HttpPost]
+    { 
+        private readonly ApplicationDbContext _context;
 
-        [HttpPost]
-        public ActionResult SignUp(VolunteerSignUpFormRequest request)
+        public VolunteerSignUpController(ApplicationDbContext context)
         {
-            // TODO.MR: Create the object for the database, add to database, return good view, and validation
-            ViewBag.FirstName = request.FirstName;
-            ViewBag.LastName = request.LastName;
-            ViewBag.Email = request.Email;
-            ViewBag.Phone = request.PhoneNumber;
+            _context = context;
+        }
+
+        public async Task<ActionResult> SignUp(VolunteerSignUpFormRequest request)
+        {
+            var userId = request.UserId;
+            var oppId = request.OppId;
+            var opportunity =  await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == oppId);
+            //Check if opp is null, return to an error page or error message, if opp not null - update & obtain userID, verify that the user exists - context (similar to 23)
+            if(opportunity == null)
+            {
+                return NotFound("Product not found");
+            }
+            else { 
+            var user = await _context.Opportunities.FirstOrDefaultAsync(y => y.UserId == userId);
+            }
 
             return View("MyOpportunities");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
