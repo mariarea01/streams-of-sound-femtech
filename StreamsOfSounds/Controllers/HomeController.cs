@@ -18,47 +18,11 @@ namespace StreamsOfSounds.Controllers
             return View();
         }
 
-        public IActionResult CreateOpportunity()
+       
+        public IActionResult Privacy()
         {
             return View();
         }
-<<<<<<< HEAD
-        public IActionResult MyOpportunityList()
-        {
-            return View();
-        }
-
-        public IActionResult Form(string eventName, DateTime dateTime, string duration, string address, string state, string city, int zip, int numOfVolunteers, bool paid, bool unpaid, string paidAmount)
-        {
-
-            ViewBag.eventName = eventName;
-            ViewBag.date = dateTime;
-            ViewBag.duration = duration;
-            ViewBag.address = address;
-            ViewBag.state = state;
-            ViewBag.city = city;
-            ViewBag.zip = zip;
-            ViewBag.numOfVolunteers = numOfVolunteers;
-
-
-            if (paid == null)
-                ViewBag.Paid = "Unpaid";
-            else
-                ViewBag.Paid = "Paid";
-            ViewBag.paidAmount = paidAmount;
-
-            return View("ViewOpportunity");
-
-        }
-
-        public IActionResult ViewOpportunity()
-        {
-            return View();
-        }
-
-
-        public IActionResult Date()
-=======
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
