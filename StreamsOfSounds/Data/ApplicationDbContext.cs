@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using StreamsOfSounds.Models;
+
 
 namespace StreamsOfSounds.Data
 {
@@ -9,5 +11,7 @@ namespace StreamsOfSounds.Data
             : base(options)
         {
         }
+
+        public DbSet<StreamsOfSounds.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }

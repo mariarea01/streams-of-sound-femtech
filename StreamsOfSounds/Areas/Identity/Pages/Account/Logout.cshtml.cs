@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using StreamsOfSounds.Data;
+using StreamsOfSounds.Models;
 
 namespace StreamsOfSounds.Areas.Identity.Pages.Account
 {

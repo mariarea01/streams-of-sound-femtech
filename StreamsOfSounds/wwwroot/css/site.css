@@ -16,3 +16,29 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.color {
+    color: #734e16;
+}
+
+.block {
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: #734e17;
+    padding: 7px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.whiteButtonText {
+    color: white;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}

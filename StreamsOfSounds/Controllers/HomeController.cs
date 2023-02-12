@@ -24,6 +24,11 @@ namespace StreamsOfSounds.Controllers
             return View();
         }
 
+        public IActionResult UsersList()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
