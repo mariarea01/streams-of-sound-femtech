@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using StreamsOfSounds.Data
+@using StreamsOfSounds.Models
+@inject SignInManager<StreamsOfSounds.Models.ApplicationUser> SignInManager
+@inject UserManager<StreamsOfSounds.Models.ApplicationUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

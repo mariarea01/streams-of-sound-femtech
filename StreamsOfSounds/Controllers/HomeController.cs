@@ -18,6 +18,8 @@ namespace StreamsOfSounds.Controllers
             return View();
         }
 
+       
+        public IActionResult Privacy()
         public IActionResult CreateOpportunity()
         {
             return View();
