@@ -22,12 +22,12 @@ namespace StreamsOfSounds.Controllers
         {
             return View();
         }
-<<<<<<< HEAD
+
         public IActionResult MyOpportunityList()
         {
             return View();
         }
-
+/*
         public IActionResult Form(string eventName, DateTime dateTime, string duration, string address, string state, string city, int zip, int numOfVolunteers, bool paid, bool unpaid, string paidAmount)
         {
 
@@ -50,19 +50,17 @@ namespace StreamsOfSounds.Controllers
             return View("ViewOpportunity");
 
         }
-
+*/
         public IActionResult ViewOpportunity()
         {
             return View();
         }
 
 
-        public IActionResult Date()
-=======
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
->>>>>>> StaffFixOpportunities
+
         {
             return View();
         }

@@ -1,0 +1,74 @@
+﻿@model StreamsOfSounds.Models.Domain_Entities.Opportunity
+@{
+    ViewData["Title"] = "Opportunity List";
+}
+
+<h1>Opportunity List</h1>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Opportunity Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Address</th>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col">Zip</th>
+            <th scope="col">NumOfVolunteers</th>
+            <th scope="col">Sign Up</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@ViewBag.EventName</td>
+            <td>@ViewBag.Date</td>
+            <td>@ViewBag.Duration</td>
+            <td>@ViewBag.Address</td>
+            <td>@ViewBag.City</td>
+            <td>@ViewBag.State</td>
+            <td>@ViewBag.Zip</td>
+            <td>@ViewBag.NumOfVolunteers</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm"
+                        onclick="@("window.location.href='" + @Url.Action("SignUp", "Home") +"'");">
+                    Sign Up
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>University of North Florida</td>
+            <td>12/30/2022 1:30:00 PM</td>
+            <td>2 hours</td>
+            <td>1 UNF Dr.</td>
+            <td>Jacksonville</td>
+            <td>FL</td>
+            <td>32224</td>
+            <td>20</td>
+            @*<td>@Model.Paid @Model.Unpaid @Model.PaidAmount</td>*@
+            <td>
+                <button type="button" class="btn btn-primary btn-sm"
+                        onclick="@("window.location.href='" + @Url.Action("SignUp", "Home") +"'");">
+                    Sign Up
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>Mayo Clinic</td>
+            <td>1/12/2022 12:30:00 PM</td>
+            <td>3 hours</td>
+            <td>4500 San Pablo Rd. S.</td>
+            <td>Jacksonville</td>
+            <td>FL</td>
+            <td>32224</td>
+            <td>2</td>
+            @*<td>@Model.Paid @Model.Unpaid @Model.PaidAmount</td>*@
+            <td>
+                <button type="button" class="btn btn-primary btn-sm"
+                        onclick="@("window.location.href='" + @Url.Action("SignUp", "Home") +"'");">
+                    Sign Up
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+

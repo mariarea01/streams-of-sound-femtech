@@ -22,8 +22,23 @@
             <th><b>Allowed Volunteers</b></th>
             <th><b>Sign up?</b></th>
         </tr>
-        @foreach (var opp in Model)
-        {
+        <tr>
+            <td>@ViewBag.EventName</td>
+            <td>@ViewBag.Date</td>
+            <td>@ViewBag.Duration</td>
+            <td>@ViewBag.Address</td>
+            <td>@ViewBag.City</td>
+            <td>@ViewBag.State</td>
+            <td>@ViewBag.Zip</td>
+            <td>@ViewBag.NumOfVolunteers</td>
+            <td> <form>
+                    <input type="checkbox" id="signup" name="signup" value="signup">
+                </form>
+            </td>
+        </tr>
+
+        @*@foreach (var opp in Model)*@
+        @*{
             <tr>
                 <td>opp.EventName</td>
                 <td>opp.DateTime</td>
@@ -40,7 +55,7 @@
                 </td>
             </tr>
         }
-
+      *@
 
         <tr>
             <td>University of North Florida</td>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StreamsOfSounds.Data;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -41,16 +42,20 @@ namespace StreamsOfSounds.Controllers
             ViewBag.zip = zip;
             ViewBag.numOfVolunteers = numOfVolunteers;
 
-            return View("ViewOpportunities");
+            return View("OpportunityList");
 
         }
 
-        public async Task<IActionResult> ViewOpportunities()
+        /*public async Task<IActionResult> ViewOpportunities()
         {
             var opportunitiesList = await _context.Opportunities.ToListAsync();
             return View(opportunitiesList);
         }
-
+        */
+        public IActionResult OpportunityList()
+        {
+            return View();
+        }
     }
 }
 
