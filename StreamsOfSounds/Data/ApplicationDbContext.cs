@@ -15,6 +15,6 @@ namespace StreamsOfSounds.Data
         }
         public virtual DbSet<Opportunity> Opportunities { get; set; }
 
-        public DbSet<StreamsOfSounds.Models.ApplicationUser> ApplicationUser { get; set; }
+       
     }
 }

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Opportunities]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
     [Name] NVARCHAR(200) NULL, 
     [Description] NVARCHAR(MAX) NULL, 
     [DateTime] DATETIME NULL, 
@@ -11,7 +11,7 @@
     [State] NVARCHAR(50) NULL, 
     [SlotsOpenings] INT NULL, 
     [SlotsAvailable] INT NULL,
-    [UserId]  NVARCHAR (450) NULL,
+    [UserId]  UNIQUEIDENTIFIER NULL,
 
     CONSTRAINT [FK_Opportunity_AspNetUser] FOREIGN KEY (UserId) REFERENCES [AspNetUsers](Id) 
 )
