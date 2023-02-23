@@ -1,20 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
-using StreamsOfSounds.Models.Domain_Entities;
-using StreamsOfSounds.Models;
+using StreamsOfSound.Models.Domain_Entities;
 
-
-namespace StreamsOfSounds.Data
+namespace StreamsOfSound.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
-        public virtual DbSet<Opportunity> Opportunities { get; set; }
+            : base(options) { }
 
-       
+        public virtual DbSet<Opportunity> Opportunities { get; set; }
     }
 }

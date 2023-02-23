@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamsOfSounds", "StreamsOfSounds\StreamsOfSounds.csproj", "{7D2A3943-7629-4121-B0A1-8DDE06768791}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamsOfSound", "StreamsOfSounds\StreamsOfSound.csproj", "{7D2A3943-7629-4121-B0A1-8DDE06768791}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StreamsOfSounds.db", "Streams_Of_Sound_Database\StreamsOfSounds.db.sqlproj", "{D41E0A51-F001-473B-AD08-41469284C5C3}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StreamsOfSound.DB", "Streams_Of_Sound_Database\StreamsOfSound.DB.sqlproj", "{D41E0A51-F001-473B-AD08-41469284C5C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

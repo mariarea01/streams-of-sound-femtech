@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StreamsOfSounds.Data;
+using StreamsOfSound.Data;
+using StreamsOfSound.Models.Domain_Entities;
+using StreamsOfSound.Models.Requests;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace StreamsOfSounds.Controllers
+namespace StreamsOfSound.Controllers
 {
     public class OpportunityController : Controller
     {
@@ -19,43 +15,74 @@ namespace StreamsOfSounds.Controllers
             _context = context;
         }
 
-        // GET: /<controller>/
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult CreateOpportunities()
+        [HttpGet]
+        public IActionResult CreateOpportunity()
         {
             return View();
         }
 
-        public IActionResult Form(string eventName, DateTime dateTime, string duration, string address, string state, string city, int zip, int numOfVolunteers, bool paid, bool unpaid, string paidAmount)
+        [HttpPost]
+        public async Task<IActionResult> CreateOpportunity(CreateOpportunityRequest request)
         {
+            if (request == null)
+                return new JsonResult(BadRequest());
 
-            ViewBag.eventName = eventName;
-            ViewBag.date = dateTime;
-            ViewBag.duration = duration;
-            ViewBag.address = address;
-            ViewBag.state = state;
-            ViewBag.city = city;
-            ViewBag.zip = zip;
-            ViewBag.numOfVolunteers = numOfVolunteers;
+            var opportunity = request.ToOpportunity();
+
+            _context.Opportunities.Add(opportunity);
+            await _context.SaveChangesAsync();
 
             return View("OpportunityList");
-
         }
 
-        /*public async Task<IActionResult> ViewOpportunities()
+        [HttpGet]
+        public async Task<IActionResult> MyOpportunities(Guid userId)
         {
-            var opportunitiesList = await _context.Opportunities.ToListAsync();
-            return View(opportunitiesList);
+            // TODO: Update your view to match the logic of OpportunityList
+            //var opportunitiesList = await _context.Opportunities.Where(x => x.UserId == userId).ToListAsync();
+
+            var oppList = new List<Opportunity>();
+            for (var i = 0; i < 8; i++)
+            {
+                oppList.Add(new Opportunity() { Name = "James" });
+            }
+
+            return View(oppList);
         }
-        */
-        public IActionResult OpportunityList()
+
+        [HttpGet]
+        public async Task<IActionResult> OpportunityList()
         {
-            return View();
+            //var opportunitiesList = await _context.Opportunities.ToListAsync();
+
+            var oppList = new List<Opportunity>();
+            for (var i = 0; i < 8; i++)
+            {
+                oppList.Add(new Opportunity() { Name = "James" });
+            }
+
+            return View(oppList);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SignUp(VolunteerSignUpFormRequest request)
+        {
+            // TODO: Check if request is null, return to an error page or error message,
+            // if opp not null - update & obtain userID, verify that the user exists - context (similar to 23)
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OppId);
+            var user = await _context.Opportunities.FirstOrDefaultAsync(y => y.UserId == request.UserId);
+            if (opportunity == null || user == null)
+            {
+                return NotFound("PROVIDE BETTER ERROR MESSAGE HERE");
+            }
+
+            return View("MyOpportunities");
         }
     }
 }
-

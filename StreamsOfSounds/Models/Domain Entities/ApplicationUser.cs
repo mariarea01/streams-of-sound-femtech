@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace StreamsOfSounds.Models
+namespace StreamsOfSound.Models.Domain_Entities
 {
-    //Application user is essentially going to be the Volunteers  
-    public class ApplicationUser : IdentityUser
+    public partial class ApplicationUser : IdentityUser<Guid>
     {
         public string FirstName { get; set; } = string.Empty;
 

@@ -1,7 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal
-@model CreateNewStaff
+﻿@model RegisterStaffRequest
 @{
-   ViewData["Title"] = "Register";
+   ViewData["Title"] = "Register Staff";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -9,7 +8,7 @@
 <div class="row">
     <div class="col-md-10">
         <form id="registerForm" method="post">
-            <h2>Create a new Streams of Sound account.</h2>
+            <h2>Create a new Streams of Sound staff account.</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">

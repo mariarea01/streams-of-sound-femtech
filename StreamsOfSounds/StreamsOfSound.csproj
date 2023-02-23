@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-StreamsOfSounds-A8466CA3-09F2-493A-B23B-1EA442FBF3F1</UserSecretsId>
+    <UserSecretsId>aspnet-StreamsOfSound-A8466CA3-09F2-493A-B23B-1EA442FBF3F1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

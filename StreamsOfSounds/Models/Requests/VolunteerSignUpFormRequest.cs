@@ -1,8 +1,8 @@
-﻿namespace StreamsOfSounds.Models
+﻿namespace StreamsOfSound.Models.Requests
 {
     public class VolunteerSignUpFormRequest
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public int OppId { get; set; }
     }
 }

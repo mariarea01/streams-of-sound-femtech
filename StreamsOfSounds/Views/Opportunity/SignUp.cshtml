@@ -1,9 +1,9 @@
-﻿@model StreamsOfSounds.Models.VolunteerSignUpFormRequest
+﻿@model VolunteerSignUpFormRequest
 @{
-    ViewData["Title"] = "SignUp";
+    ViewData["Title"] = "Sign Up";
 }
 
-<h1>Sign Up</h1>
+<h1>@ViewData["Title"]</h1>
 <form action="SignUp" method="post">
     <table>
         <tr>
@@ -26,6 +26,5 @@
             <td colspan="1"><input type="submit" value="Cancel Form" /></td>
             <td colspan="1"><input type="submit" value="Submit Form" /></td>
         </tr>
-        
     </table>
 </form>

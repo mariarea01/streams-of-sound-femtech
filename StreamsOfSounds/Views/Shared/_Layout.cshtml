@@ -1,12 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@{
+    const string OpporunityController = "Opportunity";
+    const string StreamsOfSound = "Streams of Sound";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - StreamsOfSounds</title>
+    <title>@ViewData["Title"] - @StreamsOfSound</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/StreamsOfSounds.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/StreamsOfSound.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -26,27 +31,27 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li>
-                        <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="CreateOpportunities">Create Opportunities</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="CreateOpportunity">Create Opportunities</a>
                         </li>
                         <li class="nav-item">
 
-                            <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="OpportunityList">Opportunity List</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="OpportunityList">Opportunity List</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="MyOpportunities">My Opportunites</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="MyOpportunities">My Opportunites</a>
                         </li>
+                        
                         @*<li class="nav-item">
-
                             <a class="nav-link text-dark" asp-area="" asp-controller="Opportunity" asp-action="CreateOpportunities">Create Opportunities</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Opportunity" asp-action="ViewOpportunities">View Opportunities</a>
-                        </li>*@
-                        @*
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UsersList">Users</a>
                         </li>*@
-
                     </ul>
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -62,7 +67,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - StreamsOfSounds - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - @StreamsOfSound - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
