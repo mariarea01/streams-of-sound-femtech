@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StreamsOfSounds.Data;
+using VolunteerWebApplication.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,36 +20,37 @@ namespace StreamsOfSounds.Controllers
         }
 
         // GET: /<controller>/
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult CreateOpportunities()
+        [HttpGet]
+        public IActionResult CreateOpportunity()
         {
             return View();
         }
 
-        public IActionResult Form(string eventName, DateTime dateTime, string duration, string address, string state, string city, int zip, int numOfVolunteers, bool paid, bool unpaid, string paidAmount)
-        {
+        [HttpPost]
+        public async Task<IActionResult> CreateOpportunity(Opportunities opportunity) {
 
-            ViewBag.eventName = eventName;
-            ViewBag.date = dateTime;
-            ViewBag.duration = duration;
-            ViewBag.address = address;
-            ViewBag.state = state;
-            ViewBag.city = city;
-            ViewBag.zip = zip;
-            ViewBag.numOfVolunteers = numOfVolunteers;
+            if (ModelState.IsValid)
+            {
+                _context.Opportunities.Add(opportunity);
+                await _context.SaveChangesAsync();
+            }
 
-            return View("ViewOpportunities");
-
+            return View("OpportunityList");
         }
 
-        public async Task<IActionResult> ViewOpportunities()
+        [HttpPost]
+        public IActionResult OpportunityList()
         {
-            var opportunitiesList = await _context.Opportunities.ToListAsync();
+            var opportunitiesList = _context.Opportunities.ToList();
+
             return View(opportunitiesList);
+
         }
 
     }

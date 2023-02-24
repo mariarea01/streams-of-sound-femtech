@@ -8,20 +8,35 @@ namespace VolunteerWebApplication.Models
         {
         }
         public int Id { get; set; }
+
         [Required(ErrorMessage = "Opportunity Name is required.")]
-        public string Name { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        [Required(ErrorMessage = "Date and Time is required.")]
-        public DateTimeOffset StartDateTimeUtc { get; set; }
-        public int Duration { get; set; }
+        public string? Name { get; set; }
+
+        public string? Description { get; set; } 
+
+        [Required(ErrorMessage = "Start Date and Time is required.")]
+        public DateTimeOffset? StartDateTimeUtc { get; set; }
+
+        [Required(ErrorMessage = "End Date and Time is required.")]
+        public DateTimeOffset? EndDateTimeUtc { get; set; }
+
         [Required(ErrorMessage = "Address is required.")]
-        public string Address { get; set; } = string.Empty;
-        public string City { get; set; } = string.Empty;
-        public string State { get; set; } = string.Empty;
-        public string Zip { get; set; } = string.Empty;
-        [Display(Name = "Opening Slots")]
-        public int SlotsOpenings { get; set; }
-        public int SlotsAvailable { get; set; }
+        public string? Address { get; set; }
+
+        [Required(ErrorMessage = "City is required.")]
+        public string? City { get; set; }
+
+        [Required(ErrorMessage = "State is required.")]
+        public string? State { get; set; }
+
+        [Required(ErrorMessage = "Zip is required.")]
+        public int? Zip { get; set; }
+
+        [Display(Name = "Slots Available")]
+        public int? SlotsAvailable { get; set; }
+
+        [Display(Name = "Slots Opened")]
+        public int? SlotsOpenings { get; set; }
     }
 }
 
