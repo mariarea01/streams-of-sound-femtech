@@ -1,0 +1,47 @@
+﻿@model List<VolunteerWebApplication.Models.Opportunities>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View Opportunities</title>
+</head>
+<body>
+    <h1>View Opportunities</h1>
+    <table width="100%">
+        <tr>
+            <th><b>Opportunity Name</b></th>
+            <th><b>Date</b></th>
+            <th><b>Duration</b></th>
+            <th><b>Address</b></th>
+            <th><b>City</b></th>
+            <th><b>State</b></th>
+            <th><b>ZIP</b></th>
+            <th><b>Allowed Volunteers</b></th>
+            <th><b>Sign up?</b></th>
+        </tr>
+        @foreach (var opp in Model)
+        {
+            <tr>
+                <td>opp.Name</td>
+                <td>opp.DateTime</td>
+                <td>opp.Duration</td>
+                <td>opp.Address</td>
+                <td>opp.City</td>
+                <td>opp.State</td>
+                <td>opp.Zip</td>
+                <td>opp.NumOfVolunteers</td>
+                <td>
+                    <form>
+                        <input type="checkbox" id="signup" name="signup" value="signup">
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+
+
+</body>
+</html>
