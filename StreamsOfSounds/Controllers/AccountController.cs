@@ -1,78 +1,66 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+//using StreamsOfSound.Data;
+//using StreamsOfSound.Models.Domain_Entities;
+//using StreamsOfSound.Models.Requests;
 using StreamsOfSounds.Data;
 using StreamsOfSounds.Models;
+using StreamsOfSounds.Services;
 
-namespace StreamsOfSounds.Controllers
+namespace StreamsOfSound.Controllers
 {
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        //
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
-        /*private readonly IUserEmailStore<ApplicationUser> _emailStore;
-        private readonly IEmailSender _emailSender;*/
+        //added email
+        private readonly IEmailSender _emailSender;
 
-
-        //passed all 
-        public AccountController(ApplicationDbContext context,
+        public AccountController(
+            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender
+            )
         {
-
             _context = context;
             _userManager = userManager;
             _userStore = userStore;
-            //_emailStore = GetEmailStore(); causes error rn
             _signInManager = signInManager;
-            //_emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
-
-        #region EmailMethod
-
-
-        private IUserEmailStore<ApplicationUser> GetEmailStore()
+        [HttpGet]
+        public IActionResult RegisterNewStaff()
         {
-            if (!_userManager.SupportsUserEmail)
-            {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
-            }
-            return (IUserEmailStore<ApplicationUser>)_userStore;
+            return View();
         }
-        #endregion
 
         [HttpPost]
-        public async Task<IActionResult> RegisterNewStaff(CreateNewStaff staff)
+        public async Task<IActionResult> RegisterStaff(CreateNewStaff staff)
         {
             var user = new ApplicationUser();
 
             await _userStore.SetUserNameAsync(user, staff.Email, CancellationToken.None);
-            //await _emailStore.SetEmailAsync(user, staff.Email, CancellationToken.None);
+            
+            await _emailSender.SendEmailAsync(staff.Email, "new staff signed up", "Body of Email");
+            // TODO: If there are a number of props for this then consider a method
+            // SetUserProps(ApplicationUser user, RegisterStaffRequest request)
+            // Mainly to remove the logic from the controller's action method.
             user.FirstName = staff.FirstName;
             user.LastName = staff.LastName;
-            var result = await _userManager.CreateAsync(user, staff.Password);
+            user.Email = staff.Email;
+            var result = await _userManager.CreateAsync(user, null);
+
+            // TODO: What happens if there are errors creating the account?
+
             return View(staff);
-
         }
-
-
-        [HttpGet]
-        public async Task<IActionResult> RegisterNewStaff()
-        {
-            var model = new CreateNewStaff();
-            return View(model);
-        }
-
 
         [HttpGet]
         public async Task<IActionResult> UsersList()
@@ -82,47 +70,35 @@ namespace StreamsOfSounds.Controllers
             return View(users);
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> DeleteUser(string id)
         {
+            // TODO: Tell them what happened
+            if (id == null)
+            {
+                return new JsonResult(BadRequest());
+            }
 
-            //var user = await _context.Users.FindAsync(id);
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
+            // TODO: Tell them what happened (i.e. No user found)
+            if (user == null)
             {
                 return View("Error");
             }
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(UsersList));
+        }
 
-            #region ExtraResearchStuff
-            //cool region # comment out
-            //control H to change all variable names at once 
-            //cntrol kd to indent nicely
-
-            /*
-             * [ x ]grab stuff from register logic code
-             * [ x ]make view for new staff member 
-             * [ x ]navbar for staff member view form
-             * [ x ]make model for staff
-             *      it wants me to add confirm password and password???
-             *      [  ] how to blur out the passwords with little dots
-             *      
-             * 
-             * 
-             * wTf is return Activator.CreateInstance<ApplicationUser>();????????????????????????????
-             *          oh its just user = new ApplicationUser()
-             *          
-             * 
-             * 
-             * [ x ]see if db adds user info
-             */
-
-            #endregion
+        private IUserEmailStore<ApplicationUser> GetEmailStore()
+        {
+            if (!_userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("The default UI requires a user store with email support.");
+            }
+            return (IUserEmailStore<ApplicationUser>)_userStore;
         }
     }
 }
-
-

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using StreamsOfSounds.Data;
 using StreamsOfSounds.Models;
+using StreamsOfSounds.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
 
 //builder.Services.AddScoped<IEmailSender, IEmailSender>();   
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();   
+builder.Services.AddRazorPages();
+
+//Added Dependency Injection for Email Service to use emailsender class
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
