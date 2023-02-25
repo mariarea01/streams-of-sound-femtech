@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<ApplicationUser>
+<h1>Confirm Sign Up</h1>
+
+@foreach (var user in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">First Name : @user.FirstName</h5>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Last Name : @user.LastName</h5>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Email : @user.UserName
+            </h5>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Opportunity Info
+            </h5>
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary btn-sm">Cancel</button> <br>
+        <button type="button" class="btn btn-primary btn-sm">Confirm</button>
+        <br>
+    </div>
+}

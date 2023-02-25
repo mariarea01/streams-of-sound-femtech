@@ -1,4 +1,5 @@
-﻿@model List<Opportunity>
+﻿
+@model List<Opportunity>
 @{
     ViewData["Title"] = "View Opportunities";
 }
@@ -30,28 +31,29 @@
             @{
                 if(Model == null || Model.Count() == 0)
                 {
-                    <tr><td colspan="100">No data</td></tr>
+                        <tr><td colspan="100">No data</td></tr>
                     return;
                 }
 
                 foreach (var opp in Model)
                 {
-                    <tr>
-                        <td>@opp.Name</td>
-                        <td>@opp.StartDateTimeUtc</td>
-                        <td>@opp.Duration</td>
-                        <td>@opp.Address</td>
-                        <td>@opp.City</td>
-                        <td>@opp.State</td>
-                        <td>@opp.Zip</td>
-                        <td>@opp.SlotsAvailable</td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm"
-                                onclick="@("window.location.href='" + @Url.Action("SignUp", "Home") +"'");">
+                        <tr>
+                            <td>@opp.Name</td>
+                            <td>@opp.StartDateTimeUtc</td>
+                            <td>@opp.Duration</td>
+                            <td>@opp.Address</td>
+                            <td>@opp.City</td>
+                            <td>@opp.State</td>
+                            <td>@opp.Zip</td>
+                            <td>@opp.SlotsAvailable</td>
+                            <td>
+                            <button type="button" 
+                            onclick="location.href='@Url.Action("ConfirmSignUp", "Opportunity")'" 
+                            class="btn btn-primary btn-sm">
                                 Sign Up
-                            </button>
-                        </td>
-                    </tr>
+                                </button>
+                            </td>
+                        </tr>
                 }
             }
             </tbody>

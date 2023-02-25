@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Data;
 using StreamsOfSound.Models.Domain_Entities;
@@ -9,10 +11,12 @@ namespace StreamsOfSound.Controllers
     public class OpportunityController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public OpportunityController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public OpportunityController(ApplicationDbContext context, 
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -79,10 +83,26 @@ namespace StreamsOfSound.Controllers
             var user = await _context.Opportunities.FirstOrDefaultAsync(y => y.UserId == request.UserId);
             if (opportunity == null || user == null)
             {
-                return NotFound("PROVIDE BETTER ERROR MESSAGE HERE");
+                return NotFound("This opportunity or user is not found");
+            }
+            else
+            {
+                var signUp = new VolunteerSignUpFormRequest()
+                {
+                    OppId = request.OppId,
+                    UserId = request.UserId,
+                };
+                _context.Add(signUp);
+                _context.SaveChanges();
+                return View("MyOpportunities");
             }
 
-            return View("MyOpportunities");
+            //return View("MyOpportunities");
+        }
+        public async Task<ActionResult> ConfirmSignUp()
+        {
+            var users = await _context.Users.ToListAsync();
+            return View(users);
         }
     }
 }
