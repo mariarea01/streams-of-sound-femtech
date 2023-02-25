@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Data;
 using StreamsOfSound.Models.Domain_Entities;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 
 app.UseRouting();
 
