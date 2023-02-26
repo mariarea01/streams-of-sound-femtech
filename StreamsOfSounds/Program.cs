@@ -4,8 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using StreamsOfSounds.Data;
 using StreamsOfSounds.Models;
 using StreamsOfSounds.Services;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
+System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -24,6 +27,7 @@ builder.Services.AddRazorPages();
 
 //Added Dependency Injection for Email Service to use emailsender class
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

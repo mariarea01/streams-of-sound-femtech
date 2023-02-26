@@ -42,20 +42,17 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterStaff(CreateNewStaff staff)
+        public async Task<IActionResult> RegisterNewStaff(CreateNewStaff staff)
         {
             var user = new ApplicationUser();
 
             await _userStore.SetUserNameAsync(user, staff.Email, CancellationToken.None);
             
             await _emailSender.SendEmailAsync(staff.Email, "new staff signed up", "Body of Email");
-            // TODO: If there are a number of props for this then consider a method
-            // SetUserProps(ApplicationUser user, RegisterStaffRequest request)
-            // Mainly to remove the logic from the controller's action method.
             user.FirstName = staff.FirstName;
             user.LastName = staff.LastName;
             user.Email = staff.Email;
-            var result = await _userManager.CreateAsync(user, null);
+            var result = await _userManager.CreateAsync(user, staff.Password);
 
             // TODO: What happens if there are errors creating the account?
 
