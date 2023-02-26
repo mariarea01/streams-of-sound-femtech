@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Data;
 using StreamsOfSound.Models.Domain_Entities;
 using StreamsOfSound.Models.Requests;
-
+using System.Security.Claims;
 namespace StreamsOfSound.Controllers
 {
     public class OpportunityController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         public OpportunityController(ApplicationDbContext context, 
-            UserManager<ApplicationUser> userManager)
+            UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -101,8 +101,10 @@ namespace StreamsOfSound.Controllers
         }
         public async Task<ActionResult> ConfirmSignUp()
         {
-            var users = await _context.Users.ToListAsync();
-            return View(users);
+            //var users = await _userManager.GetUserIdAsync(User);
+            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            //var user = await _context.Users.FindAsync(x => x.UserId == userId); 
+            //return View(users);
         }
     }
 }

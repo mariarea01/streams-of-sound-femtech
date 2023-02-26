@@ -48,7 +48,7 @@
                             <td>@opp.SlotsAvailable</td>
                             <td>
                             <button type="button" 
-                            onclick="location.href='@Url.Action("ConfirmSignUp", "Opportunity")'" 
+                            onclick="location.href='@Url.Action("ConfirmSignUp", "Opportunity", new { id = opp.id })'" 
                             class="btn btn-primary btn-sm">
                                 Sign Up
                                 </button>
