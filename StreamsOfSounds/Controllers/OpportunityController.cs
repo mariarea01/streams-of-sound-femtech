@@ -89,14 +89,14 @@ namespace StreamsOfSound.Controllers
         //{ }
 
         [HttpGet]
-        public async Task<ActionResult> DeleteOpportunity([FromQuery]int Id)
+        public async Task<ActionResult> DeleteOpportunity(int Id)
         {
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
 
-            if (Id == null)
+            if (Id == default(int))
             {
                 return new JsonResult(BadRequest());
             }
-            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (opportunity == null)
             {
@@ -106,7 +106,7 @@ namespace StreamsOfSound.Controllers
             _context.Opportunities.Remove(opportunity);
             await _context.SaveChangesAsync();
 
-            return View("OpportunityList");
+            return RedirectToAction("OpportunityList");
         }
 
         [HttpPost]
