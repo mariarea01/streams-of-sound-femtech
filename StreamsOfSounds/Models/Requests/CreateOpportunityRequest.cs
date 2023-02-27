@@ -8,8 +8,8 @@ namespace StreamsOfSound.Models.Requests
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public DateTimeOffset StartDateTimeUtc { get; set; }
-        public DateTimeOffset EndDateTimeUtc { get; set; }
+        public DateTimeOffset StartTime { get; set; }
+        public DateTimeOffset EndTime { get; set; }
         public string Address { get; set; } = string.Empty;
         public string Address1 { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;

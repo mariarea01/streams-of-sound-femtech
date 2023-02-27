@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Data;
 using StreamsOfSound.Models;
 using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Models.Domain_Entities;
 using StreamsOfSound.Models.Requests;
+using System.Security.Claims;
+using StreamsOfSound.Models.ViewModel;
+using Microsoft.AspNetCore.Components.Web;
 using System.Net;
 
 namespace StreamsOfSound.Controllers
@@ -15,10 +22,15 @@ namespace StreamsOfSound.Controllers
     public class OpportunityController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public OpportunityController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public OpportunityController(ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -54,7 +66,7 @@ namespace StreamsOfSound.Controllers
         {
             return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> CreateOpportunity(CreateOpportunityRequest request)
         {
@@ -110,16 +122,34 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SignUp(VolunteerSignUpFormRequest request)
+        public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest request)
         {
             var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OppId);
             var user = await _context.Opportunities.FirstOrDefaultAsync(y => y.UserId == request.UserId);
             if (opportunity == null || user == null)
             {
-                return NotFound("PROVIDE BETTER ERROR MESSAGE HERE");
+                return NotFound("This opportunity or user is not found");
+            }
+            
+            opportunity.UserId = request.UserId;
+            _context.Opportunities.Update(opportunity);
+            await _context.SaveChangesAsync();
+            return View("MyOpportunities");
+        }
+        public async Task<ActionResult> PassingInSignUp(VolunteerSignUpFormRequest request)
+        {
+            // TODO: Check if request is null, return to an error page or error message,
+            // if opp not null - update & obtain userID, verify that the user exists - context (similar to 23)
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OppId);
+            var user = await _context.Opportunities.FirstOrDefaultAsync(y => y.UserId == request.UserId);
+            if (opportunity == null || user == null)
+            {
+                return NotFound("This opportunity or user is not found");
             }
 
-            return View("MyOpportunities");
+            opportunity.UserId = request.UserId;
+            await _context.SaveChangesAsync();
+            return View("ConfirmSignUp");
         }
     }
 }
