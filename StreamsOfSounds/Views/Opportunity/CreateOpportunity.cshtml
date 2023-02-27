@@ -4,44 +4,49 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <title>@ViewData["Title"]</title>
-    </head>
-    <body>
-        <h1>@ViewData["Title"]</h1>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
 
-        <form action="Form" method="post" width="100%" display="inline-block">
+    <form method="post" width="100%" display="inline-block">
 
-            <label for="eventName">Opportunity Name: </label>
-            <input type="text" id="eventName" name="eventName"><br>
+        <label for="name">Opportunity Name: </label>
+        <input type="text" id="name" name="name"><br>
 
-            <label for="dateTime">Date</label>
-            <input type="datetime-local" id="dateTime" name="dateTime"><br>
+        <label for="StartDateTimeUtc">Start Date&Time:</label>
+        <input type="datetime-local" id="StartDateTimeUtc" name="StartDateTimeUtc"><br>
 
-            <label for="duration">Duration: </label>
-            <input type="text" id="duration" name="duration"><br>
+        <label for="EndDateTimeUtc">End Date&Time:</label>
+        <input type="datetime-local" id="EndDateTimeUtc" name="EndDateTimeUtc"><br>
 
-            <label for="address">Address: </label>
-            <input type="text" id="address" name="address"><br>
+        <label for="description">Description: </label>
+        <input type="text" id="description" name="description"><br>
 
-            <label for="city">City: </label>
-            <input type="text" id="city" name="city"><br>
+        <label for="address">Address: </label>
+        <input type="text" id="address" name="address"><br>
 
-            <label for="state">State: </label>
-            <input type="text" id="state" name="state"><br>
+        <label for="city">City: </label>
+        <input type="text" id="city" name="city"><br>
 
-            <label for="zip">ZIP: </label>
-            <input type="text" id="zip" name="zip"><br>
+        <label for="state">State: </label>
+        <input type="text" id="state" name="state"><br>
 
-            <label for="numOfVolunteers">Allowed Volunteers: </label>
-            <input type="text" id="numOfVolunteers" name="numOfVolunteers"><br>
+        <label for="zip">ZIP: </label>
+        <input type="text" id="zip" name="zip"><br>
 
-            <br>
-            <br>
+        <label for="SlotsAvailable">Slots Available: </label>
+        <input type="text" id="SlotsAvailable" name="SlotsAvailable"><br>
 
-            <input type="submit" value="Submit">
-            <input type="reset" value="Reset">
-        </form>
-    </body>
+        <br>
+        <br>
+
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset">
+    </form>
+
+</body>
 </html>
+

@@ -1,9 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Data;
+using StreamsOfSound.Models;
+using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Models.Domain_Entities;
 using StreamsOfSound.Models.Requests;
 using System.Security.Claims;
@@ -34,6 +40,28 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> OpportunityList()
+        {
+            var opportunitiesList = await _context.Opportunities.ToListAsync();
+
+            return View(opportunitiesList);
+        }
+
+        [HttpPost]
+        public IActionResult OpportunityList(int? id)
+        {
+            if (id == null)
+                return new JsonResult(BadRequest());
+
+            var opportunitiesList = _context.Opportunities.SingleOrDefault(x => x.Id == id);
+
+            if (opportunitiesList == null)
+                return NotFound();
+
+            return View(opportunitiesList);
+        }
+
+        [HttpGet]
         public IActionResult CreateOpportunity()
         {
             return View();
@@ -46,47 +74,56 @@ namespace StreamsOfSound.Controllers
                 return new JsonResult(BadRequest());
 
             var opportunity = request.ToOpportunity();
-
             _context.Opportunities.Add(opportunity);
             await _context.SaveChangesAsync();
 
-            return View("OpportunityList");
+            return RedirectToAction("OpportunityList");
         }
 
         [HttpGet]
         public async Task<IActionResult> MyOpportunities(Guid userId)
         {
-            // TODO: Update your view to match the logic of OpportunityList
-            //var opportunitiesList = await _context.Opportunities.Where(x => x.UserId == userId).ToListAsync();
+            var opportunitiesList = await _context.Opportunities.Where(x => x.UserId == userId).ToListAsync();
 
-            var oppList = new List<Opportunity>();
-            for (var i = 0; i < 8; i++)
-            {
-                oppList.Add(new Opportunity() { Name = "James" });
-            }
+            opportunitiesList = new List<Opportunity>();
 
-            return View(oppList);
+            opportunitiesList.Add(new Opportunity() { Name = "James" });
+           
+            return View(opportunitiesList);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> OpportunityList()
-        {
-            //var opportunitiesList = await _context.Opportunities.ToListAsync();
+        //[HttpGet]
+        //public ActionResult EditOpportunity()
+        //{ }
 
-            var oppList = new List<Opportunity>();
-            for (var i = 0; i < 8; i++)
+        //[HttpPost]
+        //public ActionResult EditOpportunity()
+        //{ }
+
+        [HttpGet]
+        public async Task<ActionResult> DeleteOpportunity(int Id)
+        {
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if (Id == default(int))
             {
-                oppList.Add(new Opportunity() { Name = "James" });
+                return new JsonResult(BadRequest());
             }
 
-            return View(oppList);
+            if (opportunity == null)
+            {
+                return NotFound();
+            }
+
+            _context.Opportunities.Remove(opportunity);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("OpportunityList");
         }
 
         [HttpPost]
         public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest request)
         {
-            // TODO: Check if request is null, return to an error page or error message,
-            // if opp not null - update & obtain userID, verify that the user exists - context (similar to 23)
             var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OppId);
             var user = await _context.Opportunities.FirstOrDefaultAsync(y => y.UserId == request.UserId);
             if (opportunity == null || user == null)

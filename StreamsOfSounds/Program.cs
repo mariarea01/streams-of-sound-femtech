@@ -20,7 +20,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options => opt
 
 //builder.Services.AddScoped<IEmailSender, IEmailSender>();   
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();   
+builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -5,7 +5,8 @@ namespace StreamsOfSound.Models.Requests
     // TODO: Consider having a base class to inherit from
     public class CreateOpportunityRequest
     {
-        public string EventName { get; set; } = string.Empty;
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTimeOffset StartTime { get; set; }
         public DateTimeOffset EndTime { get; set; }
@@ -14,26 +15,26 @@ namespace StreamsOfSound.Models.Requests
         public string City { get; set; } = string.Empty;
         public string State { get; set; } = string.Empty;
         public string Zip { get; set; } = string.Empty;
-        public int NumOfVolunteers { get; set; }
-        public bool Paid { get; set; }
-        public bool Unpaid { get; set; }
-        public decimal? PaidAmount { get; set; }
-
+        public int SlotsOpenings { get; set; }
+        public int SlotsAvailable { get; set; }
 
         public Opportunity ToOpportunity()
         {
             return new Opportunity
             {
-                Name = EventName,
+                Id = Id,
+                Name = Name,
                 Description = Description,
-                StartDateTimeUtc = StartTime,
-                EndDateTimeUtc = EndTime,
+                StartTime = StartDateTimeUtc,
+                EndTime = EndDateTimeUtc,
                 Address = Address,
                 Address1 = Address1,
                 City = City,
                 State = State,
-                Zip = Zip
-                // TODO: etc...
+                Zip = Zip,
+                SlotsOpenings = SlotsOpenings,
+                SlotsAvailable = SlotsAvailable,
+                UserId = null
             };
         }
     }

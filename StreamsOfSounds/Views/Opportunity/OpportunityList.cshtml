@@ -1,4 +1,4 @@
-﻿@model List<Opportunity>
+@model List<Opportunity>
 @{
     ViewData["Title"] = "View Opportunities";
 }
@@ -10,19 +10,18 @@
         <title>@ViewData["Title"]</title>
     </head>
     <body>
-        <h1>@ViewData["Title"]</h1>
         <table class="table" width="100%">
             <thead class="thead-light">
                 <tr>
                     <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Name)</b></th>
-                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.StartDateTimeUtc)</b></th>
-                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.EndDateTimeUtc)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.StartTime)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.EndTime)</b></th>
                     <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Address)</b></th>
                     <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.City)</b></th>
                     <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.State)</b></th>
                     <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Zip)</b></th>
                     <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.SlotsAvailable)</b></th>
-                    <th><b>Sign up?</b></th>
+                    <th> </th>
                 </tr>
             </thead>
 
@@ -36,23 +35,21 @@
 
                 foreach (var opp in Model)
                 {
-                        <tr>
-                            <td>@opp.Name</td>
-                            <td>@opp.StartDateTimeUtc</td>
-                            <td>@opp.EndDateTimeUtc</td>
-                            <td>@opp.Address</td>
-                            <td>@opp.City</td>
-                            <td>@opp.State</td>
-                            <td>@opp.Zip</td>
-                            <td>@opp.SlotsAvailable</td>
-                            <td>
-                            <button type="button" 
-                            onclick="location.href='@Url.Action("ConfirmSignUp", "Opportunity")'" 
-                            class="btn btn-primary btn-sm">
-                                Sign Up
-                                </button>
-                            </td>
-                        </tr>
+            <tr>
+                <td>@opp.Name</td>
+                <td>@opp.StartTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                <td>@opp.EndTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                <td>@opp.Address</td>
+                <td>@opp.City</td>
+                <td>@opp.State</td>
+                <td>@opp.Zip</td>
+                <td>@opp.SlotsAvailable</td>
+                <td>
+                    @Html.ActionLink("Edit", "EditOpportunity", new{Id = opp.Id })
+                    @Html.ActionLink("Delete", "DeleteOpportunity", new {Id = opp.Id})
+                </td>
+            </tr>
+
                 }
             }
             </tbody>
