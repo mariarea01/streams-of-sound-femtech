@@ -2,10 +2,9 @@
 (
 	[Id]                INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
     [Name]              NVARCHAR(200) NOT NULL, 
-    [Description]       NVARCHAR(MAX) NULL, 
-    [DateTime]          DATETIME NOT NULL, 
-    [StartTime]         DATETIME NOT NULL, 
-    [EndTime]           DATETIME NOT NULL,
+    [Description]       NVARCHAR(MAX) NULL,  
+    [StartTime]         DATETIMEOFFSET NOT NULL, 
+    [EndTime]           DATETIMEOFFSET NOT NULL,
     [Address]           NVARCHAR(50) NOT NULL, 
     [Address1]          NVARCHAR(50) NULL, 
     [City]              NVARCHAR(50) NOT NULL, 

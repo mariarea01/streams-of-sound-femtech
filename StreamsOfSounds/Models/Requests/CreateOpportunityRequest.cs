@@ -7,8 +7,8 @@ namespace StreamsOfSound.Models.Requests
     {
         public string EventName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public DateTimeOffset StartDateTimeUtc { get; set; }
-        public int Duration { get; set; }
+        public DateTimeOffset StartTime { get; set; }
+        public DateTimeOffset EndTime { get; set; }
         public string Address { get; set; } = string.Empty;
         public string Address1 { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
@@ -26,8 +26,8 @@ namespace StreamsOfSound.Models.Requests
             {
                 Name = EventName,
                 Description = Description,
-                StartDateTimeUtc = StartDateTimeUtc,
-                Duration = Duration,
+                StartDateTimeUtc = StartTime,
+                EndDateTimeUtc = EndTime,
                 Address = Address,
                 Address1 = Address1,
                 City = City,

@@ -12,7 +12,7 @@ namespace StreamsOfSound.Models.Domain_Entities
         public string Description { get; set; } = string.Empty;
         [Display(Name="Start Date and Time")]
         public DateTimeOffset StartDateTimeUtc { get; set; }
-        public int Duration { get; set; }
+        public DateTimeOffset EndDateTimeUtc { get; set; }
         public string Address { get; set; } = string.Empty;
         public string Address1 { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
@@ -22,5 +22,6 @@ namespace StreamsOfSound.Models.Domain_Entities
         public int SlotsOpenings { get; set; }
         public int SlotsAvailable { get; set; }
         public Guid UserId { get; set; }
+
     }
 }
