@@ -1,0 +1,49 @@
+﻿@model List<Opportunity>
+@{
+    ViewData["Title"] = "MyOpportunities";
+}
+
+<h1>My Opportunities</h1>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Opportunity</th>
+            <th scope="col">Location</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Paid or Unpaid</th>
+            <th scope="col">Cancel Opportunity</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Music Opportunity</td>
+            <td>Jackonville</td>
+            <td>10/31</td>
+            <td>10:45AM</td>
+            <td>1 hour</td>
+            <td>Paid</td>
+            <td><button type="button" class="btn btn-primary btn-sm">Cancel</button></td>
+        </tr>
+        <tr>
+            <td>Music Opportunity</td>
+            <td>Riverside</td>
+            <td>11/5</td>
+            <td>9:45AM</td>
+            <td>2 hours</td>
+            <td>Paid</td>
+            <td><button type="button" class="btn btn-primary btn-sm">Cancel</button></td>
+        </tr>
+        <tr>
+            <td>Music Opportunity</td>
+            <td>San Marcos</td>
+            <td>11/8</td>
+            <td>1:45PM</td>
+            <td>1 hour</td>
+            <td>Paid</td>
+            <td><button type="button" class="btn btn-primary btn-sm">Cancel</button></td>
+        </tr>
+    </tbody>
+</table>
+

@@ -1,0 +1,30 @@
+﻿@model VolunteerSignUpFormRequest
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<h1>@ViewData["Title"]</h1>
+<form action="SignUp" method="post">
+    <table>
+        <tr>
+            <td>Enter Name: </td>
+            <td><input type="text" name="txtName" /></td>
+        </tr>
+        <tr>
+            <td>Enter Email: </td>
+            <td><input type="text" name="txtEmail" /></td>
+        </tr>
+        <tr>
+             <td>Enter Phone number: </td>
+            <td><input type="text" name="txtPhone" /></td>
+        </tr>
+        <tr>
+            <td>Enter Instrument: </td>
+            <td><input type="text" name="txtInstrument" /></td>
+        </tr>
+        <tr>
+            <td colspan="1"><input type="submit" value="Cancel Form" /></td>
+            <td colspan="1"><input type="submit" value="Submit Form" /></td>
+        </tr>
+    </table>
+</form>

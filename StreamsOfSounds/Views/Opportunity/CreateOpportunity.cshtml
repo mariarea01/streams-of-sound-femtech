@@ -2,7 +2,6 @@
     ViewData["Title"] = "Create Opportunity";
 }
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,15 +11,15 @@
 <body>
     <h1>@ViewData["Title"]</h1>
 
-    <form action="Form" method="post" width="100%" display="inline-block">
+    <form method="post" width="100%" display="inline-block">
 
-        <label for="eventName">Opportunity Name: </label>
+        <label for="name">Opportunity Name: </label>
         <input type="text" id="name" name="name"><br>
 
-        <label for="dateTime">Start Date&Time:</label>
+        <label for="StartDateTimeUtc">Start Date&Time:</label>
         <input type="datetime-local" id="StartDateTimeUtc" name="StartDateTimeUtc"><br>
 
-        <label for="dateTime">End Date&Time:</label>
+        <label for="EndDateTimeUtc">End Date&Time:</label>
         <input type="datetime-local" id="EndDateTimeUtc" name="EndDateTimeUtc"><br>
 
         <label for="description">Description: </label>
@@ -41,9 +40,6 @@
         <label for="SlotsAvailable">Slots Available: </label>
         <input type="text" id="SlotsAvailable" name="SlotsAvailable"><br>
 
-        <label for="SlotsOpenings">Total Slots: </label>
-        <input type="text" id="SlotsOpenings" name="SlotsOpenings"><br>
-
         <br>
         <br>
 
@@ -51,14 +47,6 @@
         <input type="reset" value="Reset">
     </form>
 
-    @if (Model != null)
-    {
-        <script type="text/javascript">
-            $(function () {
-                alert("Opportunity Successfully Created: " + @Model.Opportunities);
-            });
-        </script>
-    }
-
 </body>
 </html>
+
