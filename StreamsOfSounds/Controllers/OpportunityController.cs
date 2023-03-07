@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Data;
 using StreamsOfSound.Models;
-using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Models.Domain_Entities;
 using StreamsOfSound.Models.Requests;
 using System.Security.Claims;
@@ -35,6 +34,11 @@ namespace StreamsOfSound.Controllers
 
         [HttpGet]
         public IActionResult Index()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ConfirmSignUp()
         {
             return View();
         }
@@ -140,16 +144,20 @@ namespace StreamsOfSound.Controllers
         {
             // TODO: Check if request is null, return to an error page or error message,
             // if opp not null - update & obtain userID, verify that the user exists - context (similar to 23)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var guidId = Guid.Parse(userId);
             var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OppId);
-            var user = await _context.Opportunities.FirstOrDefaultAsync(y => y.UserId == request.UserId);
+            var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == guidId);
             if (opportunity == null || user == null)
             {
                 return NotFound("This opportunity or user is not found");
             }
-
-            opportunity.UserId = request.UserId;
-            await _context.SaveChangesAsync();
-            return View("ConfirmSignUp");
+            var viewModel = new ConfirmSignUpViewModel()
+            {
+                Opportunity = opportunity,
+                UserId = user
+            };
+            return View("ConfirmSignUp", viewModel);
         }
     }
 }

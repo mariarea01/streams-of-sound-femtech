@@ -5,8 +5,8 @@ namespace StreamsOfSound.Models.ViewModel
 {
     public class ConfirmSignUpViewModel
     {
-        public ApplicationUser? UserId { get; set; }
-        public Opportunity? Opportunity { get; set; }
+        public ApplicationUser UserId { get; set; }
+        public Opportunity Opportunity { get; set; }
 
 
     }
