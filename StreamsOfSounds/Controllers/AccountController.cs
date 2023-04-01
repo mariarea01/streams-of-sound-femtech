@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 //using StreamsOfSound.Data;
 //using StreamsOfSound.Models.Domain_Entities;
@@ -8,6 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using StreamsOfSounds.Data;
 using StreamsOfSounds.Models;
 using StreamsOfSounds.Services;
+using System.Text.Encodings.Web;
+using System.Text;
+using Microsoft.Extensions.Logging;
+using NuGet.Protocol;
+using Microsoft.AspNetCore.Authorization;
+using StreamsOfSounds.Models.Requests;
 
 namespace StreamsOfSound.Controllers
 {
@@ -17,7 +24,7 @@ namespace StreamsOfSound.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
-        //added email
+        private readonly ILogger<CreateNewStaff> _logger;
         private readonly IEmailSender _emailSender;
 
         public AccountController(
@@ -25,7 +32,8 @@ namespace StreamsOfSound.Controllers
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender
+            IEmailSender emailSender,
+            ILogger<CreateNewStaff> logger
             )
         {
             _context = context;
@@ -33,6 +41,7 @@ namespace StreamsOfSound.Controllers
             _userStore = userStore;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -41,22 +50,77 @@ namespace StreamsOfSound.Controllers
             return View();
         }
 
+        
         [HttpPost]
-        public async Task<IActionResult> RegisterNewStaff(CreateNewStaff staff)
+        public async Task<IActionResult> RegisterNewStaff(CreateNewStaff staff, string returnUrl = null)
         {
             var user = new ApplicationUser();
 
             await _userStore.SetUserNameAsync(user, staff.Email, CancellationToken.None);
-            
-            await _emailSender.SendEmailAsync(staff.Email, "new staff signed up", "Body of Email");
+
+            //await _emailSender.SendEmailAsync(staff.Email, "new staff signed up", "Body of Email");
             user.FirstName = staff.FirstName;
             user.LastName = staff.LastName;
             user.Email = staff.Email;
+            user.EmailConfirmed = true;
+            staff.Password = "123Abc!";
             var result = await _userManager.CreateAsync(user, staff.Password);
+            returnUrl ??= Url.Content("~/");
 
-            // TODO: What happens if there are errors creating the account?
+            if (result.Succeeded)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
+                token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+                var staffCreatePasswordUrl = (Url.Action(
+                    "CreateStaffPassword",
+                    "Account",
+                    new
+                    {
+                        email = staff.Email,
+                        token = token
+                    },Request.Scheme));
+
+                await _emailSender.SendEmailAsync(staff.Email, "Set your Staff account password",
+                $"Please set your staff account password " +
+                $"<a href={staffCreatePasswordUrl}> by clicking the link</a>.");
+
+                return View("ConfirmStaffPassword");
+            }
             return View(staff);
+        }
+
+        
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult CreateStaffPassword(string token, string email)
+        { 
+            if(email == null || token == null)
+            {
+                ModelState.AddModelError("", "invalid password reset token");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateStaffPassword(StaffPasswordRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);  
+            if(user != null)
+            {
+                var token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Token));
+                var result = await _userManager.ResetPasswordAsync(user, token, request.Password);
+                if(result.Succeeded)
+                {
+                    return View("ResetStaffPasswordConfirmation");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View();
+            }
+            return View("ResetStaffPasswordConfirmation");
         }
 
         [HttpGet]
@@ -66,6 +130,7 @@ namespace StreamsOfSound.Controllers
 
             return View(users);
         }
+
 
         [HttpPut]
         public async Task<IActionResult> DeleteUser(string id)
@@ -80,6 +145,7 @@ namespace StreamsOfSound.Controllers
             // TODO: Tell them what happened (i.e. No user found)
             if (user == null)
             {
+                ModelState.AddModelError("", "No user found");
                 return View("Error");
             }
 
