@@ -42,6 +42,17 @@ namespace StreamsOfSound.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult CancelOpportunity()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult CreateOpportunity()
+        {
+            return View();
+        }
 
         [HttpGet]
         public async Task<IActionResult> OpportunityList()
@@ -64,13 +75,6 @@ namespace StreamsOfSound.Controllers
 
             return View(opportunitiesList);
         }
-
-        [HttpGet]
-        public IActionResult CreateOpportunity()
-        {
-            return View();
-        }
-        
         [HttpPost]
         public async Task<IActionResult> CreateOpportunity(CreateOpportunityRequest request)
         {
@@ -84,27 +88,15 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("OpportunityList");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> MyOpportunities(Guid userId)
-        {
-            var opportunitiesList = await _context.Opportunities.Where(x => x.UserId == userId).ToListAsync();
+            //[HttpGet]
+            //public ActionResult EditOpportunity()
+            //{ }
 
-            opportunitiesList = new List<Opportunity>();
+            //[HttpPost]
+            //public ActionResult EditOpportunity()
+            //{ }
 
-            opportunitiesList.Add(new Opportunity() { Name = "James" });
-           
-            return View(opportunitiesList);
-        }
-
-        //[HttpGet]
-        //public ActionResult EditOpportunity()
-        //{ }
-
-        //[HttpPost]
-        //public ActionResult EditOpportunity()
-        //{ }
-
-        [HttpGet]
+            [HttpGet]
         public async Task<ActionResult> DeleteOpportunity(int Id)
         {
             var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
@@ -126,19 +118,28 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest request)
+        public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest signup)
         {
-            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OppId);
-            var user = await _context.Opportunities.FirstOrDefaultAsync(y => y.UserId == request.UserId);
+
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == signup.OpportunityId);
+            var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == signup.UserId);
             if (opportunity == null || user == null)
             {
                 return NotFound("This opportunity or user is not found");
             }
-            
-            opportunity.UserId = request.UserId;
-            _context.Opportunities.Update(opportunity);
-            await _context.SaveChangesAsync();
-            return View("MyOpportunities");
+
+            //var signUpOpportunity = signup.ToSignUp();
+            //_context.SignUpForOpportunities.Add(signUpOpportunity);
+            //await _context.SaveChangesAsync();
+            //var signUpOpportunity = signup.ToSignUp();
+            //_context.SignUpForOpportunities.Add(signUpOpportunity);
+            var ConfirmSignUpViewModel = new ConfirmSignUpViewModel()
+            {
+                Opportunity = opportunity,
+                UserId = user
+            };
+            return View("MyOpportunities",ConfirmSignUpViewModel);
+
         }
         public async Task<ActionResult> PassingInSignUp(VolunteerSignUpFormRequest request)
         {
@@ -146,7 +147,7 @@ namespace StreamsOfSound.Controllers
             // if opp not null - update & obtain userID, verify that the user exists - context (similar to 23)
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var guidId = Guid.Parse(userId);
-            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OppId);
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OpportunityId);
             var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == guidId);
             if (opportunity == null || user == null)
             {
@@ -159,5 +160,6 @@ namespace StreamsOfSound.Controllers
             };
             return View("ConfirmSignUp", viewModel);
         }
+
     }
 }

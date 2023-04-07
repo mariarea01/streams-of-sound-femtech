@@ -1,42 +1,58 @@
 ﻿@model StreamsOfSound.Models.ViewModel.ConfirmSignUpViewModel
 
 <h1>Confirm Sign Up</h1>
+<body>
 
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">First Name : @Model.UserId.FirstName</h5>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Last Name : @Model.UserId.LastName</h5>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Email : @Model.UserId.Email
-            </h5>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Opportunity Name: @Model.Opportunity.Name
-            </h5>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Opportunity Address: @Model.Opportunity.Address + @Model.Opportunity.City + @Model.Opportunity.State + @Model.Opportunity.Zip
-            </h5>
-        </div>
-    <div class="card-body">
-        <h5 class="card-title">
-            Opportunity Duration: @Model.Opportunity.StartTime
-        </h5>
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">
-            Opportunity Start Time: @Model.Opportunity.EndTime
-        </h5>
-    </div>
-        <br>
-        <button type="button" class="btn btn-primary btn-sm">Cancel</button> <br>
-        <button type="button" class="btn btn-primary btn-sm"
-        onclick="location.href='@Url.Action("MyOpportunities", "Opportunity")'">Confirm</button>
-        <br>
-    </div>
+        <table>
+            <tr>Confirm Sign Up Table</tr>
+            <tr>
+                <td>User ID: </td>
+                <td>@Model.UserId.Id</td>
+            </tr>
+            <tr>
+                <td>Opp ID: </td>
+                <td>@Model.Opportunity.Id</td>
+            </tr>
+            <tr>
+                <td>First Name: </td>
+                <td>@Model.UserId.FirstName</td>
+            </tr>
+            <tr>
+                <td>Last Name: </td>
+                <td>@Model.UserId.LastName
+            </tr>
+            <tr>
+                <td>Email: </td>
+                <td>@Model.UserId.Email
+            </tr>
+            <tr>
+                <td>Opportunity Name: </td>
+                <td>@Model.Opportunity.Name
+            </tr>
+            <tr>
+                <td>Opportunity Address: </td>
+                <td>@Model.Opportunity.Address
+            </tr>
+            <tr>
+                <td>Opportunity City: </td>
+                <td>@Model.Opportunity.City
+            </tr>
+            <tr>
+                <td>Opportunity State: </td>
+                <td>@Model.Opportunity.State
+            </tr>
+            <tr>
+                <td>Opportunity Zip: </td>
+                <td>@Model.Opportunity.Zip
+            </tr>
+            <tr>
+                <td>Opportunity Start Time: </td>
+                <td>@Model.Opportunity.StartTime
+            </tr>
+            <tr>
+                <td>Opportunity End Time: </td>
+                <td>@Model.Opportunity.EndTime
+            </tr>
+        </table>
+    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("ConfirmSignUp", "Opportunity")'">Confirm</button>
+</body>

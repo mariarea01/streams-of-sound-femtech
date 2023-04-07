@@ -1,13 +1,40 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<div class="site-wrapper">
-    <div class="site-wrapper-inner">
-        <div class="text-center">
-            <h1 class="display-4">Welcome to Streams of Sound</h1>
-            <img src="images/sos-eric-image.jpg" alt="Eric SoS" class="img-thumbnail rounded float-left">
-            <img src="images/sos-image.jpg" alt="Waterfall" class="img-thumbnail rounded text-center">
-            <img src="images/sos-john-image.jpg" alt="John Sos" class="img-thumbnail rounded float-right ">
+
+<div class="text-center">
+   <h1 class="display-4">Welcome to Streams of Sound</h1>
+</div>
+
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="images/SOSEvent.jpg" class="d-block w-100" alt="Streams of Sound Booth">
+            <div class="carousel-caption d-none d-sm-block">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="images/SOSEvent4.jpg" class="d-block w-100" alt="Streams of Sound Booth">
+            <div class="carousel-caption d-none d-sm-block">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="images/SOSEvent6.jpg" class="d-block w-100" alt="Streams of Sound handpans">
+            <div class="carousel-caption d-none d-sm-block">
+            </div>
         </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>

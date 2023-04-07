@@ -7,7 +7,5 @@ namespace StreamsOfSound.Models.ViewModel
     {
         public ApplicationUser UserId { get; set; }
         public Opportunity Opportunity { get; set; }
-
-
     }
 }

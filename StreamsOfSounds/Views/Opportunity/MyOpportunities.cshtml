@@ -1,49 +1,46 @@
-﻿@model List<Opportunity>
+﻿@model List<SignUpForOpportunity>
 @{
-    ViewData["Title"] = "MyOpportunities";
+    ViewData["Title"] = "My Opportunities";
 }
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <table class="table" width="100%">
+            <thead class="thead-light">
+                <tr>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.Name)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.StartTime)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.EndTime)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.Address)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.City)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.State)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.Zip)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.SlotsAvailable)</b></th>
+                    <th> </th>
+                </tr>
+            </thead>
+        <tbody>
+            @{
+                foreach (var opp in Model)
+                {
+                    <tr>
+                        <td>@opp.Opportunity.Name</td>
+                        <td>@opp.Opportunity.StartTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                        <td>@opp.Opportunity.EndTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                        <td>@opp.Opportunity.Address</td>
+                        <td>@opp.Opportunity.City</td>
+                        <td>@opp.Opportunity.State</td>
+                        <td>@opp.Opportunity.Zip</td>
+                        <td>@opp.Opportunity.SlotsAvailable</td>
+                    </tr>
 
-<h1>My Opportunities</h1>
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th scope="col">Opportunity</th>
-            <th scope="col">Location</th>
-            <th scope="col">Date</th>
-            <th scope="col">Time</th>
-            <th scope="col">Duration</th>
-            <th scope="col">Paid or Unpaid</th>
-            <th scope="col">Cancel Opportunity</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Music Opportunity</td>
-            <td>Jackonville</td>
-            <td>10/31</td>
-            <td>10:45AM</td>
-            <td>1 hour</td>
-            <td>Paid</td>
-            <td><button type="button" class="btn btn-primary btn-sm">Cancel</button></td>
-        </tr>
-        <tr>
-            <td>Music Opportunity</td>
-            <td>Riverside</td>
-            <td>11/5</td>
-            <td>9:45AM</td>
-            <td>2 hours</td>
-            <td>Paid</td>
-            <td><button type="button" class="btn btn-primary btn-sm">Cancel</button></td>
-        </tr>
-        <tr>
-            <td>Music Opportunity</td>
-            <td>San Marcos</td>
-            <td>11/8</td>
-            <td>1:45PM</td>
-            <td>1 hour</td>
-            <td>Paid</td>
-            <td><button type="button" class="btn btn-primary btn-sm">Cancel</button></td>
-        </tr>
-    </tbody>
-</table>
-
+                }
+            }
+        </tbody>
+    </table>
+</body>
+</html>
