@@ -1,0 +1,47 @@
+﻿@model Opportunity
+@{
+    ViewData["Title"] = "Details";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    @Html.AntiForgeryToken()
+    <b>@Html.DisplayNameFor(x => x.Name)</b>
+    <p>@Model.Name</p>
+
+    <b>@Html.DisplayNameFor(x => x.StartTime)</b>
+    <p>@Model.StartTime.ToString("MM/dd/yyyy hh:mm tt")</p>
+
+    <b>@Html.DisplayNameFor(x => x.EndTime)</b>
+    <p>@Model.EndTime.ToString("MM/dd/yyyy hh:mm tt")</p>
+
+    <b>@Html.DisplayNameFor(x => x.Description)</b>
+    <p>@Model.Description</p>
+
+    <b>@Html.DisplayNameFor(x => x.Address)</b>
+    <p>@Model.Address</p>
+
+    <b>@Html.DisplayNameFor(x => x.City)</b>
+    <p>@Model.City</p>
+
+    <b>@Html.DisplayNameFor(x => x.State)</b>
+    <p>@Model.State</p>
+
+    <b>@Html.DisplayNameFor(x => x.Zip)</b>
+    <p>@Model.Zip</p>
+
+    @*<b>@Html.DisplayNameFor(x => x.paidAmount)</b>
+        <p>@Model.paidAmount</p>*@
+
+    <b>@Html.DisplayNameFor(x => x.SlotsAvailable)</b>
+    <p>@Model.SlotsAvailable</p>
+
+    <b>@Html.DisplayNameFor(x => x.SlotsOpenings)</b>
+    <p>@Model.SlotsOpenings</p>
+</body>
+</html>

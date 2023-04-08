@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Models.Domain_Entities;
 using StreamsOfSound.Models.Requests;
 using System.Net;
+using DataTables;
 
 namespace StreamsOfSound.Controllers
 {
@@ -28,9 +29,9 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> OpportunityList()
+        public IActionResult OpportunityList()
         {
-            var opportunitiesList = await _context.Opportunities.ToListAsync();
+            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived).ToList();
 
             return View(opportunitiesList);
         }
@@ -50,13 +51,27 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateOpportunity()
+        public IActionResult Create()
         {
             return View();
         }
 
+        // GET: api/Products
+        [HttpGet]
+        public async Task<ActionResult<DataTableResponse>> GetOpportunities()
+        {
+            var products = await _context.Opportunities.ToListAsync();
+
+            return new DataTableResponse
+            {
+                OpportunitiesTotal = products.Count(),
+                OpportunitiesFiltered = 10,
+                Data = products.ToArray()
+            };
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateOpportunity(CreateOpportunityRequest request)
+        public async Task<IActionResult> Create(CreateOpportunityRequest request)
         {
             if (request == null)
                 return new JsonResult(BadRequest());
@@ -69,27 +84,7 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MyOpportunities(Guid userId)
-        {
-            var opportunitiesList = await _context.Opportunities.Where(x => x.UserId == userId).ToListAsync();
-
-            opportunitiesList = new List<Opportunity>();
-
-            opportunitiesList.Add(new Opportunity() { Name = "James" });
-           
-            return View(opportunitiesList);
-        }
-
-        //[HttpGet]
-        //public ActionResult EditOpportunity()
-        //{ }
-
-        //[HttpPost]
-        //public ActionResult EditOpportunity()
-        //{ }
-
-        [HttpGet]
-        public async Task<ActionResult> DeleteOpportunity(int Id)
+        public async Task<ActionResult> Delete(int Id)
         {
             var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -109,17 +104,74 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("OpportunityList");
         }
 
-        [HttpPost]
-        public async Task<ActionResult> SignUp(VolunteerSignUpFormRequest request)
+        [HttpGet]
+        public async Task<ActionResult> Edit(int Id)
         {
-            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OppId);
-            var user = await _context.Opportunities.FirstOrDefaultAsync(y => y.UserId == request.UserId);
-            if (opportunity == null || user == null)
+            if (Id == default(int))
             {
-                return NotFound("PROVIDE BETTER ERROR MESSAGE HERE");
+                return new JsonResult(BadRequest());
             }
 
-            return View("MyOpportunities");
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if (opportunity == null)
+            {
+                return NotFound();
+            }
+
+            opportunity.StartTime = opportunity.StartTime.ToLocalTime();
+            opportunity.EndTime = opportunity.EndTime.ToLocalTime();
+
+            return View(opportunity);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(Opportunity opportunity)
+        {
+            _context.Opportunities.Update(opportunity);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("OpportunityList");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(int Id)
+        {
+            if (Id == default(int))
+            {
+                return new JsonResult(BadRequest());
+            }
+
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if (opportunity == null)
+            {
+                return NotFound();
+            }
+
+            return View(opportunity);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Archive(int id)
+        {
+            var opportunity = await _context.Opportunities.FindAsync(id);
+
+            if (opportunity == null)
+            {
+                return NotFound();
+            }
+
+            opportunity.isArchived = !opportunity.isArchived; 
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ArchiveList");
+        }
+
+        [HttpGet]
+        public IActionResult ArchiveList()
+        {
+            var archivedOpportunities = _context.Opportunities.Where(x => x.isArchived).ToList();
+            return View(archivedOpportunities);
         }
     }
 }

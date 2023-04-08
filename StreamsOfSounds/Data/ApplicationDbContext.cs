@@ -5,7 +5,6 @@ using StreamsOfSound.Models;
 
 using StreamsOfSound.Models.Domain_Entities;
 
-
 namespace StreamsOfSound.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>

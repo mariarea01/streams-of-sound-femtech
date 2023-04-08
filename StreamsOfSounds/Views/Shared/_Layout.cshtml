@@ -31,21 +31,15 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li>
-                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="CreateOpportunity">Create Opportunity</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="Create">Create Opportunity</a>
                         </li>
                         <li class="nav-item">
 
                             <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="OpportunityList">Opportunity List</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="MyOpportunities">My Opportunites</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="ArchiveList">Archived Opportunities</a>
                         </li>
-                        
-                        @*
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UsersList">Users</a>
-                        </li>
-                        *@
                     </ul>
 
                     <partial name="_LoginPartial" />
