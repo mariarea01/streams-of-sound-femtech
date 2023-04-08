@@ -1,7 +1,4 @@
-﻿using System;
-using DataTables;
-
-namespace StreamsOfSound.Models
+﻿namespace StreamsOfSound.Models
 {
     public class DataTableResponse
     {
@@ -12,4 +9,3 @@ namespace StreamsOfSound.Models
         public string? Error { get; set; }
     }
 }
-

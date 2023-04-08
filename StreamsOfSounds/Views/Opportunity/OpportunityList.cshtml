@@ -8,7 +8,6 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
-    <link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 </head>
 <body>
     @Html.AntiForgeryToken()
@@ -63,12 +62,13 @@
 
 @section Scripts
 {
-    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
-    <script src="~/js/customerDatatable.js"></script>
-    <script>import DataTable from 'datatables.net';
-        import 'datatables.net-responsive-dt';
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />  
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 
+    <script>
         $(document).ready(function () {
             $('#oppTable').DataTable({
                 responsive: true,
@@ -76,7 +76,6 @@
                 ordering: true,
                 paging: true,
                 searching: true,
-                ajax: "api/Opportunities",
                 columns: [
                     { "data": "Name" },
                     { "data": "StartTime" },
@@ -85,7 +84,8 @@
                     { "data": "City" },
                     { "data": "State" },
                     { "data": "Zip" },
-                    { "data": "SlotsAvailable" }
+                    { "data": "SlotsAvailable" },
+                    { "data": "Actions"}
                 ]
             });
         });
@@ -96,6 +96,6 @@
 
         function confirmArchive() {
             return confirm("Are you sure you want to archive this Opportunity? This item will be moved to the Archived list. ");
-        }</script>
-
+        }
+    </script>
 }
