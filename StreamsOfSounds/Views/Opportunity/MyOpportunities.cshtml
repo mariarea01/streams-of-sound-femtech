@@ -1,0 +1,46 @@
+﻿@model List<SignUpForOpportunity>
+@{
+    ViewData["Title"] = "My Opportunities";
+}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <table class="table" width="100%">
+            <thead class="thead-light">
+                <tr>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.Name)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.StartTime)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.EndTime)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.Address)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.City)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.State)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.Zip)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Opportunity.SlotsAvailable)</b></th>
+                    <th> </th>
+                </tr>
+            </thead>
+        <tbody>
+            @{
+                foreach (var opp in Model)
+                {
+                    <tr>
+                        <td>@opp.Opportunity.Name</td>
+                        <td>@opp.Opportunity.StartTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                        <td>@opp.Opportunity.EndTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                        <td>@opp.Opportunity.Address</td>
+                        <td>@opp.Opportunity.City</td>
+                        <td>@opp.Opportunity.State</td>
+                        <td>@opp.Opportunity.Zip</td>
+                        <td>@opp.Opportunity.SlotsAvailable</td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+    </table>
+</body>
+</html>

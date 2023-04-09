@@ -1,6 +1,9 @@
 html {
   font-size: 14px;
 }
+.carousel-item {
+    min-height: 280px;
+}
 
 @media (min-width: 768px) {
   html {

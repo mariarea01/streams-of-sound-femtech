@@ -1,3 +1,13 @@
-﻿@using StreamsOfSounds
-@using StreamsOfSounds.Models
+﻿@using StreamsOfSound
+@using StreamsOfSound.Data
+@using StreamsOfSound.Models
+@using StreamsOfSound.Models.Domain_Entities
+@using StreamsOfSound.Models.Requests
+
+@using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal
+@using Microsoft.AspNetCore.Identity
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject UserManager<ApplicationUser> userManager
+
+
+

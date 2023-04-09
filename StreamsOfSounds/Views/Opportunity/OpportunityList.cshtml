@@ -1,0 +1,59 @@
+@model List<Opportunity>
+@{
+    ViewData["Title"] = "View Opportunities";
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <table class="table" width="100%">
+            <thead class="thead-light">
+                <tr>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Name)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.StartTime)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.EndTime)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Address)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.City)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.State)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Zip)</b></th>
+                    <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.SlotsAvailable)</b></th>
+                    <th> </th>
+                </tr>
+            </thead>
+
+            <tbody>
+            @{
+                if(Model == null || Model.Count() == 0)
+                {
+                        <tr><td colspan="100">No data</td></tr>
+                    return;
+                }
+
+                foreach (var opp in Model)
+                {
+            <tr>
+                <td>@opp.Name</td>
+                <td>@opp.StartTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                <td>@opp.EndTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                <td>@opp.Address</td>
+                <td>@opp.City</td>
+                <td>@opp.State</td>
+                <td>@opp.Zip</td>
+                <td>@opp.SlotsAvailable</td>
+                <td>
+                    @Html.ActionLink("Edit", "EditOpportunity", new{Id = opp.Id })
+                    @Html.ActionLink("Delete", "DeleteOpportunity", new {Id = opp.Id})
+                    @Html.ActionLink("Sign Up", "PassingInSignUp", new {OpportunityId = opp.Id})
+                </td>
+            </tr>
+
+                }
+            }
+            </tbody>
+        </table>
+    </body>
+</html>
