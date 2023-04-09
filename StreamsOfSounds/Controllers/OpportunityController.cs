@@ -25,78 +25,8 @@ namespace StreamsOfSound.Controllers
         [HttpGet]
         public IActionResult OpportunityList()
         {
-            // var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived).ToList();
-            var opp = new Opportunity
-            {
-                Id = 1,
-                Name = "Test",
-                Description = "Random Text",
-                StartTime = new DateTimeOffset(),
-                EndTime = new DateTimeOffset(),
-                Address = "New Address",
-                City = "My City",
-                State = "Florida",
-                Zip = "32258",
-                SlotsAvailable = 10,
-                SlotsOpenings = 2,
-                isArchived = false
-            };
-
-            var opp1 = new Opportunity
-            {
-                Id = 2,
-                Name = "Second",
-                Description = "Second Text",
-                StartTime = new DateTimeOffset(),
-                EndTime = new DateTimeOffset(),
-                Address = "7237 Corklan Dr",
-                City = "Jacksonville",
-                State = "Florida",
-                Zip = "32258",
-                SlotsAvailable = 10,
-                SlotsOpenings = 2,
-                isArchived = false
-            };
-
-            var opp2 = new Opportunity
-            {
-                Id = 3,
-                Name = "Third",
-                Description = "Third Text",
-                StartTime = new DateTimeOffset(),
-                EndTime = new DateTimeOffset(),
-                Address = "120 Brand Rd",
-                City = "Santa Rosa",
-                State = "California",
-                Zip = "95409",
-                SlotsAvailable = 5,
-                SlotsOpenings = 0,
-                isArchived = false
-            };
-
-            var opp3 = new Opportunity
-            {
-                Id = 4,
-                Name = "Fourth",
-                Description = "Fourth text",
-                StartTime = new DateTimeOffset(),
-                EndTime = new DateTimeOffset(),
-                Address = "5454 Clifton Rd",
-                City = "Jacksonville",
-                State = "Florida",
-                Zip = "32211",
-                SlotsAvailable = 1,
-                SlotsOpenings = 1,
-                isArchived = false
-            };
-
-            var oppList = new List<Opportunity>();
-            oppList.Add(opp);
-            oppList.Add(opp1);
-            oppList.Add(opp2);
-            oppList.Add(opp3);
-
-            return View(oppList);
+            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived).ToList();
+            return View(opportunitiesList);
         }
 
         [HttpPost]
@@ -119,7 +49,6 @@ namespace StreamsOfSound.Controllers
             return View();
         }
 
-        // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<DataTableResponse>> GetOpportunities()
         {
@@ -182,9 +111,6 @@ namespace StreamsOfSound.Controllers
                 return NotFound();
             }
 
-            opportunity.StartTime = opportunity.StartTime.ToLocalTime();
-            opportunity.EndTime = opportunity.EndTime.ToLocalTime();
-
             return View(opportunity);
         }
 
@@ -227,7 +153,14 @@ namespace StreamsOfSound.Controllers
             opportunity.isArchived = !opportunity.isArchived;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("ArchiveList");
+            if (opportunity.isArchived)
+            {
+                return RedirectToAction("ArchiveList");
+            }
+            else
+            {
+                return RedirectToAction("OpportunityList");
+            }
         }
 
         [HttpGet]
