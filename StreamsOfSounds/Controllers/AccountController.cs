@@ -18,6 +18,7 @@ using StreamsOfSounds.Models.Requests;
 
 namespace StreamsOfSound.Controllers
 {
+    
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -44,13 +45,14 @@ namespace StreamsOfSound.Controllers
             _logger = logger;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult RegisterNewStaff()
         {
             return View();
         }
 
-        
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> RegisterNewStaff(CreateNewStaff staff, string returnUrl = null)
         {
@@ -70,7 +72,7 @@ namespace StreamsOfSound.Controllers
             if (result.Succeeded)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-
+                await _userManager.AddToRoleAsync(user, "Admin"); 
                 token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
                 var staffCreatePasswordUrl = (Url.Action(
                     "CreateStaffPassword",
@@ -102,6 +104,7 @@ namespace StreamsOfSound.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreateStaffPassword(StaffPasswordRequest request)
         {
@@ -123,6 +126,7 @@ namespace StreamsOfSound.Controllers
             return View("ResetStaffPasswordConfirmation");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> UsersList()
         {
@@ -131,14 +135,15 @@ namespace StreamsOfSound.Controllers
             return View(users);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPut]
-        public async Task<IActionResult> DeleteUser(string id)
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
             // TODO: Tell them what happened
-            if (id == null)
+            if (id == Guid.Empty)
             {
-                return new JsonResult(BadRequest());
+                ModelState.AddModelError("", "No User Found");
+                return View("Error");
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);

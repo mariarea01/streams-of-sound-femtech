@@ -3,7 +3,7 @@
 namespace StreamsOfSounds.Models
 {
     //Application user is essentially going to be the Volunteers  
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         public string FirstName { get; set; }
 
