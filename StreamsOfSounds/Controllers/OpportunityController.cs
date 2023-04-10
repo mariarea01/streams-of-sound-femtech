@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Components.Web;
 using System.Net;
 using System.Security.Cryptography.Xml;
 using StreamsOfSounds.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace StreamsOfSound.Controllers
 {
@@ -39,11 +41,15 @@ namespace StreamsOfSound.Controllers
         {
             return View();
         }
+
+        [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public IActionResult ConfirmSignUp()
         {
             return View();
         }
+
+        [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public IActionResult CancelOpportunity()
         {
@@ -56,6 +62,7 @@ namespace StreamsOfSound.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public async Task<IActionResult> MyOpportunities()
         {
@@ -70,6 +77,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
+        [Authorize(Roles = "Admin, Volunteer")]
         [HttpGet]
         public async Task<IActionResult> OpportunityList()
         {
@@ -78,6 +86,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
+        [Authorize(Roles = "Admin, Volunteer")]
         [HttpPost]
         public IActionResult OpportunityList(int? id)
         {
@@ -135,6 +144,7 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("OpportunityList");
         }
 
+        [Authorize(Roles = "Volunteer")]
         [HttpPost]
         public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest signup)
         {

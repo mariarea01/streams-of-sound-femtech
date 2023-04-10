@@ -38,14 +38,7 @@
                         <li>
                             <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="CreateOpportunity">Create Opportunity</a>
                         </li>
-                        <li class="nav-item">
-
-                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="OpportunityList">Opportunity List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="MyOpportunities">My Opportunities</a>
-                        </li>
-                       
+                                               
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -53,6 +46,18 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="RegisterNewStaff">Add Staff</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="OpportunityList">Opportunity List</a>
+                            </li>
+                        }
+                        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Volunteer"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="OpportunityList">Opportunity List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="MyOpportunities">My Opportunities</a>
                             </li>
                         }
                         
