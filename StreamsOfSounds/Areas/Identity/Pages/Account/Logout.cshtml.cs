@@ -5,7 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using StreamsOfSound.Models.Domain_Entities;
+using StreamsOfSounds.Models;
 
 namespace StreamsOfSound.Areas.Identity.Pages.Account
 {

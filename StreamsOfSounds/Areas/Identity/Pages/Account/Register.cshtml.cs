@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using StreamsOfSound.Models.Domain_Entities;
-
+using StreamsOfSounds.Models;
 namespace StreamsOfSound.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel

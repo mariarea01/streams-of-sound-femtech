@@ -1,5 +1,6 @@
 ﻿using StreamsOfSound.Models.Domain_Entities;
 using System.ComponentModel.DataAnnotations;
+using StreamsOfSounds.Models;
 
 namespace StreamsOfSound.Models.Requests
 {

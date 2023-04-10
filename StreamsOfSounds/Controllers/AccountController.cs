@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 //using StreamsOfSound.Data;
 //using StreamsOfSound.Models.Domain_Entities;
 //using StreamsOfSound.Models.Requests;
-using StreamsOfSounds.Data;
+using StreamsOfSound.Data;
 using StreamsOfSounds.Models;
 using StreamsOfSounds.Services;
 using System.Text.Encodings.Web;

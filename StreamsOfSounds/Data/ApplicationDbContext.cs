@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Models;
+using StreamsOfSounds.Models;
 
 using StreamsOfSound.Models.Domain_Entities;
 

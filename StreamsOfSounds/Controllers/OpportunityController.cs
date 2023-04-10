@@ -15,6 +15,8 @@ using System.Security.Claims;
 using StreamsOfSound.Models.ViewModel;
 using Microsoft.AspNetCore.Components.Web;
 using System.Net;
+using System.Security.Cryptography.Xml;
+using StreamsOfSounds.Models;
 
 namespace StreamsOfSound.Controllers
 {
@@ -55,6 +57,20 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> MyOpportunities()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var guidId = Guid.Parse(userId);
+
+            var opportunitiesList = await _context.SignUpForOpportunities
+                .Include(x => x.Opportunity)
+                .Where(x => x.UserId == guidId)
+                .ToListAsync();
+
+            return View(opportunitiesList);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> OpportunityList()
         {
             var opportunitiesList = await _context.Opportunities.ToListAsync();
@@ -75,9 +91,11 @@ namespace StreamsOfSound.Controllers
 
             return View(opportunitiesList);
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateOpportunity(CreateOpportunityRequest request)
         {
+
             if (request == null)
                 return new JsonResult(BadRequest());
 
@@ -88,15 +106,15 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("OpportunityList");
         }
 
-            //[HttpGet]
-            //public ActionResult EditOpportunity()
-            //{ }
+        //[HttpGet]
+        //public ActionResult EditOpportunity()
+        //{ }
 
-            //[HttpPost]
-            //public ActionResult EditOpportunity()
-            //{ }
+        //[HttpPost]
+        //public ActionResult EditOpportunity()
+        //{ }
 
-            [HttpGet]
+        [HttpGet]
         public async Task<ActionResult> DeleteOpportunity(int Id)
         {
             var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
@@ -128,18 +146,12 @@ namespace StreamsOfSound.Controllers
                 return NotFound("This opportunity or user is not found");
             }
 
-            //var signUpOpportunity = signup.ToSignUp();
-            //_context.SignUpForOpportunities.Add(signUpOpportunity);
-            //await _context.SaveChangesAsync();
-            //var signUpOpportunity = signup.ToSignUp();
-            //_context.SignUpForOpportunities.Add(signUpOpportunity);
-            var ConfirmSignUpViewModel = new ConfirmSignUpViewModel()
-            {
-                Opportunity = opportunity,
-                UserId = user
-            };
-            return View("MyOpportunities",ConfirmSignUpViewModel);
+            var signUpOpportunity = signup.ToSignUp();
+            _context.SignUpForOpportunities.Add(signUpOpportunity);
 
+            await _context.SaveChangesAsync();
+            //return View();
+            return RedirectToAction("MyOpportunities", new { UserId = user.Id });
         }
         public async Task<ActionResult> PassingInSignUp(VolunteerSignUpFormRequest request)
         {
@@ -153,11 +165,17 @@ namespace StreamsOfSound.Controllers
             {
                 return NotFound("This opportunity or user is not found");
             }
+
             var viewModel = new ConfirmSignUpViewModel()
             {
+                OpportunityId = opportunity.Id,
+                UserId = user.Id,
                 Opportunity = opportunity,
-                UserId = user
+                User = user
             };
+            //var signingup = request.ToSignUp();
+            //_context.SignUpForOpportunities.Add(viewModel);
+            //await _context.SaveChangesAsync();
             return View("ConfirmSignUp", viewModel);
         }
 

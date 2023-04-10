@@ -2,12 +2,16 @@
 
 <h1>Confirm Sign Up</h1>
 <body>
+    @using (Html.BeginForm("ConfirmSignUp", "Opportunity", FormMethod.Post))
+    {
+        <input type="hidden" name="UserId" value="@Model.UserId" />
+        <input type="hidden" name="OpportunityId" value="@Model.OpportunityId" />
 
         <table>
             <tr>Confirm Sign Up Table</tr>
             <tr>
                 <td>User ID: </td>
-                <td>@Model.UserId.Id</td>
+                <td>@Model.User.Id</td>
             </tr>
             <tr>
                 <td>Opp ID: </td>
@@ -15,15 +19,15 @@
             </tr>
             <tr>
                 <td>First Name: </td>
-                <td>@Model.UserId.FirstName</td>
+                <td>@Model.User.FirstName</td>
             </tr>
             <tr>
                 <td>Last Name: </td>
-                <td>@Model.UserId.LastName
+                <td>@Model.User.LastName
             </tr>
             <tr>
                 <td>Email: </td>
-                <td>@Model.UserId.Email
+                <td>@Model.User.Email
             </tr>
             <tr>
                 <td>Opportunity Name: </td>
@@ -53,6 +57,9 @@
                 <td>Opportunity End Time: </td>
                 <td>@Model.Opportunity.EndTime
             </tr>
+            <tr>
+                <td><input type="submit" value="Submit" /></td>
+            </tr>
         </table>
-    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("ConfirmSignUp", "Opportunity")'">Confirm</button>
+    }
 </body>

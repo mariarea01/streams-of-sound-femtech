@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using StreamsOfSounds.Data
+@using StreamsOfSound.Data
 @using StreamsOfSounds.Models
 @inject SignInManager<StreamsOfSounds.Models.ApplicationUser> SignInManager
 @inject UserManager<StreamsOfSounds.Models.ApplicationUser> UserManager
@@ -23,7 +23,9 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light" style="background-color: #734e16;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img class="logo" src="~/images/streams-of-sound-logo.png" alt="soslogo" />
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -41,7 +43,7 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="OpportunityList">Opportunity List</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="MyOpportunities">My Opportunites</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="MyOpportunities">My Opportunities</a>
                         </li>
                        
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))

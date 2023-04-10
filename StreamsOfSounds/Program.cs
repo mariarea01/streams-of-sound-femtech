@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using StreamsOfSounds.Data;
+using StreamsOfSound.Data;
 using StreamsOfSounds.Models;
 using StreamsOfSounds.Services;
 using System.Net;
