@@ -2,7 +2,6 @@
 
 namespace StreamsOfSound.Models.Requests
 {
-    // TODO: Consider having a base class to inherit from
     public class CreateOpportunityRequest
     {
         public int Id { get; set; }
@@ -17,6 +16,7 @@ namespace StreamsOfSound.Models.Requests
         public string Zip { get; set; } = string.Empty;
         public int SlotsOpenings { get; set; }
         public int SlotsAvailable { get; set; }
+        //public string paidAmount { get; set; } = string.Empty;
 
         public Opportunity ToOpportunity()
         {
@@ -34,6 +34,7 @@ namespace StreamsOfSound.Models.Requests
                 Zip = Zip,
                 SlotsOpenings = SlotsOpenings,
                 SlotsAvailable = SlotsAvailable,
+                //paidAmount = paidAmount,
                 UserId = null
             };
         }

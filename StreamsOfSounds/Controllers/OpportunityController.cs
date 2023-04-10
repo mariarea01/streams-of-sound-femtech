@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
@@ -79,10 +75,9 @@ namespace StreamsOfSound.Controllers
 
         [Authorize(Roles = "Admin, Volunteer")]
         [HttpGet]
-        public async Task<IActionResult> OpportunityList()
+        public IActionResult OpportunityList()
         {
-            var opportunitiesList = await _context.Opportunities.ToListAsync();
-
+            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived).ToList();
             return View(opportunitiesList);
         }
 
@@ -102,7 +97,7 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOpportunity(CreateOpportunityRequest request)
+        public async Task<IActionResult> Create(CreateOpportunityRequest request)
         {
 
             if (request == null)
@@ -115,16 +110,8 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("OpportunityList");
         }
 
-        //[HttpGet]
-        //public ActionResult EditOpportunity()
-        //{ }
-
-        //[HttpPost]
-        //public ActionResult EditOpportunity()
-        //{ }
-
         [HttpGet]
-        public async Task<ActionResult> DeleteOpportunity(int Id)
+        public async Task<ActionResult> Delete(int Id)
         {
             var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -140,10 +127,75 @@ namespace StreamsOfSound.Controllers
 
             _context.Opportunities.Remove(opportunity);
             await _context.SaveChangesAsync();
+        //[HttpGet]
+        //public ActionResult EditOpportunity()
+        //{ }
 
             return RedirectToAction("OpportunityList");
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Edit(int Id)
+        {
+            if (Id == default(int))
+            {
+                return new JsonResult(BadRequest());
+            }
+
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if (opportunity == null)
+            {
+                return NotFound();
+            }
+
+            return View(opportunity);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(Opportunity opportunity)
+        {
+            _context.Opportunities.Update(opportunity);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("OpportunityList");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(int Id)
+        {
+            if (Id == default(int))
+            {
+                return new JsonResult(BadRequest());
+            }
+
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if (opportunity == null)
+            {
+                return NotFound();
+            }
+
+            return View(opportunity);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Archive(int id)
+        {
+            var opportunity = await _context.Opportunities.FindAsync(id);
+
+            if (opportunity == null)
+            {
+                return NotFound();
+            }
+
+            opportunity.isArchived = !opportunity.isArchived;
+            await _context.SaveChangesAsync();
+
+            if (opportunity.isArchived)
+            {
+                return RedirectToAction("ArchiveList");
+            }
+            else
         [Authorize(Roles = "Volunteer")]
         [HttpPost]
         public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest signup)
@@ -173,9 +225,17 @@ namespace StreamsOfSound.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == guidId);
             if (opportunity == null || user == null)
             {
+                return RedirectToAction("OpportunityList");
+            }
+        }
                 return NotFound("This opportunity or user is not found");
             }
 
+        [HttpGet]
+        public IActionResult ArchiveList()
+        {
+            var archivedOpportunities = _context.Opportunities.Where(x => x.isArchived).ToList();
+            return View(archivedOpportunities);
             var viewModel = new ConfirmSignUpViewModel()
             {
                 OpportunityId = opportunity.Id,

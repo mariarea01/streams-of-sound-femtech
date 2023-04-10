@@ -11,7 +11,7 @@
     "StreamsOfSound": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7149;http://localhost:5149",
+      "applicationUrl": "http://localhost:45649",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
