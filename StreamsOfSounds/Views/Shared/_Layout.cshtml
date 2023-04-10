@@ -4,27 +4,22 @@
 @inject SignInManager<StreamsOfSounds.Models.ApplicationUser> SignInManager
 @inject UserManager<StreamsOfSounds.Models.ApplicationUser> UserManager
 
-@{
-    const string OpporunityController = "Opportunity";
-    const string StreamsOfSound = "Streams of Sound";
-}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - @StreamsOfSound</title>
+    <title>@ViewData["Title"] - StreamsOfSounds</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/StreamsOfSound.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/StreamsOfSounds.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light" style="background-color: #734e16;">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img class="logo" src="~/images/streams-of-sound-logo.png" alt="soslogo" />
+                    <img class="logo" src="~/images/whiteSOSLogo.png" alt="soslogo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -35,17 +30,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li>
-                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="Create">Create Opportunity</a>
-                        </li>
-                        <li class="nav-item">
-
-                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="OpportunityList">Opportunity List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="ArchiveList">Archived Opportunities</a>
-                                               
-                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                       @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="UsersList">Users</a>
@@ -53,26 +38,26 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="RegisterNewStaff">Add Staff</a>
                             </li>
+                             <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="Create">Create Opportunity</a>
+                            </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="OpportunityList">Opportunity List</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="OpportunityStaffList">Opportunity List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="ArchiveList">Archived Opportunities</a>
                             </li>
                         }
                         else if (SignInManager.IsSignedIn(User) && User.IsInRole("Volunteer"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="OpportunityList">Opportunity List</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="OpportunityList">Opportunity List</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="@OpporunityController" asp-action="MyOpportunities">My Opportunities</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="MyOpportunities">My Opportunities</a>
                             </li>
                         }
-                        
-                        @*
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UsersList">Users</a>
-                        </li>
-                    </ul>
-
+                        </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -86,7 +71,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - @StreamsOfSound - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - StreamsOfSounds - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

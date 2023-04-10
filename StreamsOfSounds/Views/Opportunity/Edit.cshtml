@@ -40,10 +40,10 @@
             <label for="city">Address 1:</label>
             <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address1" />
         </div>
-        <div class="col-md-3 mb-3">
+<div class="col-md-3 mb-3">
             <label for="validationServer04">State:</label>
-            <select class="form-control">
-                <option selected value="@Model.State"></option>
+            <select class="form-control" required>
+                <option selected disabled value="">Choose...</option>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>
                 <option value="AZ">AZ</option>

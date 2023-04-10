@@ -53,7 +53,7 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateOpportunity()
+        public IActionResult Create()
         {
             return View();
         }
@@ -73,7 +73,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
-        [Authorize(Roles = "Admin, Volunteer")]
+        [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public IActionResult OpportunityList()
         {
@@ -81,7 +81,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
-        [Authorize(Roles = "Admin, Volunteer")]
+        [Authorize(Roles = "Volunteer")]
         [HttpPost]
         public IActionResult OpportunityList(int? id)
         {
@@ -95,7 +95,28 @@ namespace StreamsOfSound.Controllers
 
             return View(opportunitiesList);
         }
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult OpportunityStaffList()
+        {
+            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived).ToList();
+            return View(opportunitiesList);
+        }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult OpportunityStaffList(int? id)
+        {
+            if (id == null)
+                return new JsonResult(BadRequest());
+
+            var opportunitiesList = _context.Opportunities.SingleOrDefault(x => x.Id == id);
+
+            if (opportunitiesList == null)
+                return NotFound();
+
+            return View(opportunitiesList);
+        }
         [HttpPost]
         public async Task<IActionResult> Create(CreateOpportunityRequest request)
         {
@@ -196,6 +217,18 @@ namespace StreamsOfSound.Controllers
                 return RedirectToAction("ArchiveList");
             }
             else
+            {
+                return RedirectToAction("OpportunityList");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ArchiveList()
+        {
+            var archivedOpportunities = _context.Opportunities.Where(x => x.isArchived).ToList();
+            return View(archivedOpportunities);
+        }
+
         [Authorize(Roles = "Volunteer")]
         [HttpPost]
         public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest signup)
@@ -225,17 +258,9 @@ namespace StreamsOfSound.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == guidId);
             if (opportunity == null || user == null)
             {
-                return RedirectToAction("OpportunityList");
-            }
-        }
                 return NotFound("This opportunity or user is not found");
             }
 
-        [HttpGet]
-        public IActionResult ArchiveList()
-        {
-            var archivedOpportunities = _context.Opportunities.Where(x => x.isArchived).ToList();
-            return View(archivedOpportunities);
             var viewModel = new ConfirmSignUpViewModel()
             {
                 OpportunityId = opportunity.Id,

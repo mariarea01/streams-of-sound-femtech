@@ -49,8 +49,10 @@
                         <td>@opp.SlotsAvailable</td>
                         @*<td>@opp.paidAmount</td>*@
                     <td>
-                        @Html.ActionLink("Details", "Details", new { Id = opp.Id }) | 
-                        @Html.ActionLink("SignUp", "PassingInSignUp", new {OpportunityId = opp.Id})
+                        @Html.ActionLink("Edit", "Edit", new { Id = opp.Id }) |
+                        @Html.ActionLink("View", "Details", new { Id = opp.Id }) | 
+                        @Html.ActionLink("Delete", "Delete", new { Id = opp.Id }, new { onclick = "return confirmDelete()" }) |
+                        @Html.ActionLink("Archive", "Archive", new { Id = opp.Id }, new { onclick = "return confirmArchive()" })
                     </td>
                     </tr>
                 }
