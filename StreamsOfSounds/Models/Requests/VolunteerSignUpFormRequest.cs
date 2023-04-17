@@ -1,6 +1,5 @@
 ﻿using StreamsOfSound.Models.Domain_Entities;
 
-
 namespace StreamsOfSound.Models.Requests
 {
     public class VolunteerSignUpFormRequest

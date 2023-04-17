@@ -3,18 +3,13 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
-//using StreamsOfSound.Data;
-//using StreamsOfSound.Models.Domain_Entities;
-//using StreamsOfSound.Models.Requests;
 using StreamsOfSound.Data;
 using StreamsOfSounds.Models;
-using StreamsOfSounds.Services;
-using System.Text.Encodings.Web;
 using System.Text;
-using Microsoft.Extensions.Logging;
 using NuGet.Protocol;
 using Microsoft.AspNetCore.Authorization;
-using StreamsOfSounds.Models.Requests;
+using StreamsOfSound.Models.Requests;
+using StreamsOfSound.Models;
 
 namespace StreamsOfSound.Controllers
 {
@@ -135,7 +130,7 @@ namespace StreamsOfSound.Controllers
             return View(users);
         }
 
-        [Authorize(Roles = "Admin")]
+        
         [HttpPut]
         public async Task<IActionResult> DeleteUser(Guid id)
         {

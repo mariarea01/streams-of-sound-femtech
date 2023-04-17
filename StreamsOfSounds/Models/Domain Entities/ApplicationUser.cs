@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace StreamsOfSounds.Models
+namespace StreamsOfSound.Models
 {
     //Application user is essentially going to be the Volunteers  
     public class ApplicationUser : IdentityUser<Guid>

@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using StreamsOfSound.Data
-@using StreamsOfSounds.Models
-@inject SignInManager<StreamsOfSounds.Models.ApplicationUser> SignInManager
-@inject UserManager<StreamsOfSounds.Models.ApplicationUser> UserManager
+@using StreamsOfSound.Models
+@inject SignInManager<StreamsOfSound.Models.ApplicationUser> SignInManager
+@inject UserManager<StreamsOfSound.Models.ApplicationUser> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +29,9 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index1">test</a>
                         </li>
                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
@@ -71,7 +74,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - StreamsOfSounds - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - Streams Of Sound
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

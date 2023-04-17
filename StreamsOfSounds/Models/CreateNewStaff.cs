@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using StreamsOfSound.Models;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace StreamsOfSounds.Models

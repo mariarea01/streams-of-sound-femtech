@@ -1,8 +1,7 @@
-﻿using Microsoft.Build.Framework;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribute;
 
-namespace StreamsOfSounds.Models
+namespace StreamsOfSound.Models
 {
     public class CreateStaffPasswordViewModel : ApplicationUser 
     {

@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using StreamsOfSound.Models.Domain_Entities;
-using StreamsOfSounds.Models;
+using StreamsOfSound.Models;
 namespace StreamsOfSound.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel

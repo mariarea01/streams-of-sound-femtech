@@ -1,4 +1,4 @@
-﻿namespace StreamsOfSounds.Models.Requests
+﻿namespace StreamsOfSound.Models.Requests
 {
     public class StaffPasswordRequest 
     {
