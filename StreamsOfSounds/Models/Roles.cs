@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace StreamsOfSounds.Models
+namespace StreamsOfSound.Models
 {
     public class Roles : IdentityRole<Guid>
     {

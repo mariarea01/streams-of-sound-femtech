@@ -12,7 +12,6 @@ using StreamsOfSound.Models.ViewModel;
 using Microsoft.AspNetCore.Components.Web;
 using System.Net;
 using System.Security.Cryptography.Xml;
-using StreamsOfSounds.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 

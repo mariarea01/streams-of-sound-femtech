@@ -1,5 +1,4 @@
 ﻿using StreamsOfSound.Models.Domain_Entities;
-using StreamsOfSounds.Models;
 
 
 namespace StreamsOfSound.Models.ViewModel

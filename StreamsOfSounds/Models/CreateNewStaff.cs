@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace StreamsOfSounds.Models
+namespace StreamsOfSound.Models
 {
     public class CreateNewStaff : ApplicationUser
     {
