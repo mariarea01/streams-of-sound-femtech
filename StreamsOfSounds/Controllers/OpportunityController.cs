@@ -128,7 +128,7 @@ namespace StreamsOfSound.Controllers
             _context.Opportunities.Add(opportunity);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("OpportunityList");
+            return RedirectToAction("OpportunityStaffList");
         }
 
         [HttpGet]
