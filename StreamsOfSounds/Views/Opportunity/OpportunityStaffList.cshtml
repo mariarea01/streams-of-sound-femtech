@@ -23,8 +23,7 @@
                 <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.State)</b></th>
                 <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Zip)</b></th>
                 <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.SlotsAvailable)</b></th>
-                @*<th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.paidAmount)</b></th>*@
-                <th> </th>
+                <th><b>Actions</b></th>
             </tr>
         </thead>
 
@@ -47,7 +46,6 @@
                         <td>@opp.State</td>
                         <td>@opp.Zip</td>
                         <td>@opp.SlotsAvailable</td>
-                        @*<td>@opp.paidAmount</td>*@
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { Id = opp.Id }) |
                         @Html.ActionLink("View", "Details", new { Id = opp.Id }) | 

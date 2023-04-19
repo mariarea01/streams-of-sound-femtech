@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <label for="description">Description:</label>
-            <textarea class="form-control" id="description" name="description" value=@Model.Description</textarea>
+            <textarea class="form-control" id="description" name="description" value=@Model.Description></textarea>
         </div>
         <div class="form-group">
             <label for="Address">Address:</label>
@@ -42,7 +42,7 @@
         </div>
 <div class="col-md-3 mb-3">
             <label for="validationServer04">State:</label>
-            <select class="form-control" name="State" id="State" required>
+            <select class="form-control" name="State" id="State" value="@Model.State" required>
                 <option selected disabled value="">Choose...</option>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>

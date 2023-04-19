@@ -51,6 +51,7 @@ namespace StreamsOfSound.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -130,6 +131,7 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("OpportunityStaffList");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> Delete(int Id)
         {
@@ -147,9 +149,6 @@ namespace StreamsOfSound.Controllers
 
             _context.Opportunities.Remove(opportunity);
             await _context.SaveChangesAsync();
-        //[HttpGet]
-        //public ActionResult EditOpportunity()
-        //{ }
 
             return RedirectToAction("OpportunityList");
         }
@@ -220,6 +219,7 @@ namespace StreamsOfSound.Controllers
                 return RedirectToAction("OpportunityList");
             }
         }
+
 
         [HttpGet]
         public IActionResult ArchiveList()
