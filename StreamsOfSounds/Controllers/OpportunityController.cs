@@ -74,9 +74,9 @@ namespace StreamsOfSound.Controllers
 
         [Authorize(Roles = "Volunteer")]
         [HttpGet]
-        public IActionResult OpportunityList()
+        public async Task<IActionResult> OpportunityList()
         {
-            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived).ToList();
+            var opportunitiesList = await _context.Opportunities.Where(x => !x.IsArchived).ToListAsync();
             return View(opportunitiesList);
         }
 
@@ -98,7 +98,7 @@ namespace StreamsOfSound.Controllers
         [HttpGet]
         public IActionResult OpportunityStaffList()
         {
-            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived).ToList();
+            var opportunitiesList = _context.Opportunities.Where(x => !x.IsArchived).ToList();
             return View(opportunitiesList);
         }
 
@@ -208,10 +208,10 @@ namespace StreamsOfSound.Controllers
                 return NotFound();
             }
 
-            opportunity.isArchived = !opportunity.isArchived;
+            opportunity.IsArchived = !opportunity.IsArchived;
             await _context.SaveChangesAsync();
 
-            if (opportunity.isArchived)
+            if (opportunity.IsArchived)
             {
                 return RedirectToAction("ArchiveList");
             }
@@ -224,7 +224,7 @@ namespace StreamsOfSound.Controllers
         [HttpGet]
         public IActionResult ArchiveList()
         {
-            var archivedOpportunities = _context.Opportunities.Where(x => x.isArchived).ToList();
+            var archivedOpportunities = _context.Opportunities.Where(x => x.IsArchived).ToList();
             return View(archivedOpportunities);
         }
 
