@@ -130,7 +130,6 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("OpportunityStaffList");
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> Delete(int Id)
         {
