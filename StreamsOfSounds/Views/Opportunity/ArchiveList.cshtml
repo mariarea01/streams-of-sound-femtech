@@ -28,13 +28,13 @@
         <tbody>
             @using (Html.BeginForm("Unarchive", "Opportunity"))
             {
-                if (Model == null || !Model.Any(x => x.isArchived))
+                if (Model == null || !Model.Any(x => x.IsArchived))
                 {
                     <tr><td colspan="9">No archived opportunities</td></tr>
                     return;
                 }
 
-                foreach (var opp in Model.Where(x => x.isArchived))
+                foreach (var opp in Model.Where(x => x.IsArchived))
                 {
                     <tr>
                         <td>@opp.Name</td>
