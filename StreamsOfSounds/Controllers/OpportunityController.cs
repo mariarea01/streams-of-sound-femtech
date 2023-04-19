@@ -51,7 +51,6 @@ namespace StreamsOfSound.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
