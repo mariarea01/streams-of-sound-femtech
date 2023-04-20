@@ -14,6 +14,7 @@ using System.Net;
 using System.Security.Cryptography.Xml;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace StreamsOfSound.Controllers
 {
@@ -132,27 +133,6 @@ namespace StreamsOfSound.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Delete(int Id)
-        {
-            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (Id == default(int))
-            {
-                return new JsonResult(BadRequest());
-            }
-
-            if (opportunity == null)
-            {
-                return NotFound();
-            }
-
-            _context.Opportunities.Remove(opportunity);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("OpportunityStaffList");
-        }
-
-        [HttpGet]
         public async Task<ActionResult> Edit(int Id)
         {
             if (Id == default(int))
@@ -218,7 +198,6 @@ namespace StreamsOfSound.Controllers
                 return RedirectToAction("OpportunityStaffList");
             }
         }
-
 
         [HttpGet]
         public IActionResult ArchiveList()

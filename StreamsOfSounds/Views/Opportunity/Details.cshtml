@@ -6,42 +6,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewData["Title"]</title>
 </head>
+<style>
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+</style>
 <body>
-    @Html.AntiForgeryToken()
-    <b>@Html.DisplayNameFor(x => x.Name)</b>
-    <p>@Model.Name</p>
-
-    <b>@Html.DisplayNameFor(x => x.StartTime)</b>
-    <p>@Model.StartTime.ToString("MM/dd/yyyy hh:mm tt")</p>
-
-    <b>@Html.DisplayNameFor(x => x.EndTime)</b>
-    <p>@Model.EndTime.ToString("MM/dd/yyyy hh:mm tt")</p>
-
-    <b>@Html.DisplayNameFor(x => x.Description)</b>
-    <p>@Model.Description</p>
-
-    <b>@Html.DisplayNameFor(x => x.Address)</b>
-    <p>@Model.Address</p>
-
-    <b>@Html.DisplayNameFor(x => x.City)</b>
-    <p>@Model.City</p>
-
-    <b>@Html.DisplayNameFor(x => x.State)</b>
-    <p>@Model.State</p>
-
-    <b>@Html.DisplayNameFor(x => x.Zip)</b>
-    <p>@Model.Zip</p>
-
-    @*<b>@Html.DisplayNameFor(x => x.paidAmount)</b>
-        <p>@Model.paidAmount</p>*@
-
-    <b>@Html.DisplayNameFor(x => x.SlotsAvailable)</b>
-    <p>@Model.SlotsAvailable</p>
-
-    <b>@Html.DisplayNameFor(x => x.SlotsOpenings)</b>
-    <p>@Model.SlotsOpenings</p>
+    <div class="container">
+        <h1>@ViewData["Title"]</h1>
+        <hr>
+        <div>
+            <h2>@Model.Name</h2>
+            <p><strong>Date and Time:</strong> @Model.StartTime.ToString("dddd, MMMM dd, yyyy") at @Model.StartTime.ToString("h:mm tt") - @Model.EndTime.ToString("h:mm tt")</p>
+            <p><strong>Location:</strong> @Model.Address, @Model.City, @Model.State @Model.Zip</p>
+        </div>
+        <div>
+            <h3>Description</h3>
+            <p>@Model.Description</p>
+        </div>
+        <div>
+            <h3>Event Details</h3>
+            <p><strong>Available Slots:</strong> @Model.SlotsAvailable</p>
+            <p><strong>Slots Openings:</strong> @Model.SlotsOpenings</p>
+        </div>
+    </div>
 </body>
 </html>

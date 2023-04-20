@@ -46,7 +46,6 @@
                         <td>@opp.State</td>
                         <td>@opp.Zip</td>
                         <td>@opp.SlotsAvailable</td>
-                        @*<td>@opp.paidAmount</td>*@
                     <td>
                         @Html.ActionLink("Details", "Details", new { Id = opp.Id }) | 
                         @Html.ActionLink("SignUp", "PassingInSignUp", new {OpportunityId = opp.Id})

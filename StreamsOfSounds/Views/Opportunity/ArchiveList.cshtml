@@ -30,7 +30,6 @@
             {
                 if (Model == null || !Model.Any(x => x.IsArchived))
                 {
-                    <tr><td colspan="9">No archived opportunities</td></tr>
                     return;
                 }
 
@@ -46,9 +45,7 @@
                         <td>@opp.Zip</td>
                         <td>@opp.SlotsAvailable</td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { Id = opp.Id }) |
                             @Html.ActionLink("View", "Details", new { Id = opp.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { Id = opp.Id }, new { onclick = "return confirmDelete()" }) |
                             @Html.ActionLink("Unarchive", "Archive", new { Id = opp.Id }, new { onclick = "return confirmUnarchive()" })
                         </td>
                     </tr>
@@ -83,7 +80,10 @@
                     { "data": "Zip" },
                     { "data": "SlotsAvailable" },
                     { "data": "Actions" }
-                ]
+                ],
+                "language": {
+                    "emptyTable": "No archived opportunities"
+                }
             });
         });
 

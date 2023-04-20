@@ -8,118 +8,142 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
+    <style>
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    @Html.AntiForgeryToken()
-    <div class="row pb-2">
-        <h2>Edit Opportunity</h2>
+    <div class="container">
+        @Html.AntiForgeryToken()
+        <div class="row pb-2">
+            <h2>Edit Opportunity</h2>
+        </div>
+        <form method="post" action="Edit" width="100%" display="inline-block">
+
+            <div class="col-md-6 mb-3">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" value="@Model.Name" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="StartDateTimeUtc">Start Date Time:</label>
+                <input type="datetime-local" class="form-control" id="StartDateTimeUtc" name="StartTime" value="@Model.StartTime.ToString("yyyy-MM-ddTHH:mm:ss")" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="EndDateTimeUtc">End Date Time:</label>
+                <input type="datetime-local" class="form-control" id="EndDateTimeUtc" name="EndTime" value="@Model.EndTime.ToString("yyyy-MM-ddTHH:mm:ss")" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description"></textarea>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="Address">Address:</label>
+                <input type="text" class="form-control" id="address" name="address" value="@Model.Address" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="city">Address 1:</label>
+                <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address1" />
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="state">State:</label>
+                <select class="form-control" name="State" id="State">
+                    <option selected disabled>Choose...</option>
+                    <option value="AL">AL</option>
+                    <option value="AK">AK</option>
+                    <option value="AZ">AZ</option>
+                    <option value="AR">AR</option>
+                    <option value="CA">CA</option>
+                    <option value="CO">CO</option>
+                    <option value="CT">CT</option>
+                    <option value="DE">DE</option>
+                    <option value="DC">DC</option>
+                    <option value="FL">FL</option>
+                    <option value="GA">GA</option>
+                    <option value="HI">HI</option>
+                    <option value="ID">ID</option>
+                    <option value="IL">IL</option>
+                    <option value="IN">IN</option>
+                    <option value="IA">IA</option>
+                    <option value="KS">KS</option>
+                    <option value="KY">KY</option>
+                    <option value="LA">LA</option>
+                    <option value="ME">ME</option>
+                    <option value="MD">MD</option>
+                    <option value="MA">MA</option>
+                    <option value="MI">MI</option>
+                    <option value="MN">MN</option>
+                    <option value="MS">MS</option>
+                    <option value="MO">MO</option>
+                    <option value="MT">MT</option>
+                    <option value="NE">NE</option>
+                    <option value="NV">NV</option>
+                    <option value="NH">NH</option>
+                    <option value="NJ">NJ</option>
+                    <option value="NM">NM</option>
+                    <option value="NY">NY</option>
+                    <option value="NC">NC</option>
+                    <option value="ND">ND</option>
+                    <option value="OH">OH</option>
+                    <option value="OK">OK</option>
+                    <option value="OR">OR</option>
+                    <option value="PA">PA</option>
+                    <option value="RI">RI</option>
+                    <option value="SC">SC</option>
+                    <option value="SD">SD</option>
+                    <option value="TN">TN</option>
+                    <option value="TX">TX</option>
+                    <option value="UT">UT</option>
+                    <option value="VT">VT</option>
+                    <option value="VA">VA</option>
+                    <option value="WA">WA</option>
+                    <option value="WV">WV</option>
+                    <option value="WI">WI</option>
+                    <option value="WY">WY</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="city">City:</label>
+                <input type="text" class="form-control" id="city" name="city" value="@Model.City" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="zip">ZIP:</label>
+                <input type="text" class="form-control" id="zip" name="zip" value="@Model.Zip" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="SlotsOpenings">Slots Openings: </label>
+                <input type="text" class="form-control" id="SlotsOpenings" name="SlotsOpenings" value="@Model.SlotsOpenings" />
+            </div>
+
+            <br>
+            <br>
+
+            <input type="submit" value="Save" class="btn btn-primary" asp-action="Edit">
+            <a href="@Url.Action("OpportunityStaffList")" class="btn btn-warning">Cancel</a>
+        </form>
     </div>
-    <form method="post" action="Edit" width="100%" display="inline-block">
-
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" value="@Model.Name" />
-        </div>
-        <div class="form-group">
-            <label for="StartDateTimeUtc">Start Date Time:</label>
-            <input type="datetime-local" class="form-control" id="StartDateTimeUtc" name="StartTime" value="@Model.StartTime.ToString("yyyy-MM-ddTHH:mm:ss")" />
-        </div>
-        <div class="form-group">
-            <label for="EndDateTimeUtc">End Date Time:</label>
-            <input type="datetime-local" class="form-control" id="EndDateTimeUtc" name="EndTime" value="@Model.EndTime.ToString("yyyy-MM-ddTHH:mm:ss")" />
-        </div>
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea class="form-control" id="description" name="description" value=@Model.Description></textarea>
-        </div>
-        <div class="form-group">
-            <label for="Address">Address:</label>
-            <input type="text" class="form-control" id="address" name="address" value="@Model.Address" />
-        </div>
-        <div class="form-group">
-            <label for="city">Address 1:</label>
-            <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address1" />
-        </div>
-<div class="col-md-3 mb-3">
-            <label for="validationServer04">State:</label>
-            <select class="form-control" name="State" id="State" value="@Model.State" required>
-                <option selected disabled value="">Choose...</option>
-                <option value="AL">AL</option>
-                <option value="AK">AK</option>
-                <option value="AZ">AZ</option>
-                <option value="AR">AR</option>
-                <option value="CA">CA</option>
-                <option value="CO">CO</option>
-                <option value="CT">CT</option>
-                <option value="DE">DE</option>
-                <option value="DC">DC</option>
-                <option value="FL">FL</option>
-                <option value="GA">GA</option>
-                <option value="HI">HI</option>
-                <option value="ID">ID</option>
-                <option value="IL">IL</option>
-                <option value="IN">IN</option>
-                <option value="IA">IA</option>
-                <option value="KS">KS</option>
-                <option value="KY">KY</option>
-                <option value="LA">LA</option>
-                <option value="ME">ME</option>
-                <option value="MD">MD</option>
-                <option value="MA">MA</option>
-                <option value="MI">MI</option>
-                <option value="MN">MN</option>
-                <option value="MS">MS</option>
-                <option value="MO">MO</option>
-                <option value="MT">MT</option>
-                <option value="NE">NE</option>
-                <option value="NV">NV</option>
-                <option value="NH">NH</option>
-                <option value="NJ">NJ</option>
-                <option value="NM">NM</option>
-                <option value="NY">NY</option>
-                <option value="NC">NC</option>
-                <option value="ND">ND</option>
-                <option value="OH">OH</option>
-                <option value="OK">OK</option>
-                <option value="OR">OR</option>
-                <option value="PA">PA</option>
-                <option value="RI">RI</option>
-                <option value="SC">SC</option>
-                <option value="SD">SD</option>
-                <option value="TN">TN</option>
-                <option value="TX">TX</option>
-                <option value="UT">UT</option>
-                <option value="VT">VT</option>
-                <option value="VA">VA</option>
-                <option value="WA">WA</option>
-                <option value="WV">WV</option>
-                <option value="WI">WI</option>
-                <option value="WY">WY</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="city">City:</label>
-            <input type="text" class="form-control" id="city" name="city" value="@Model.City" />
-        </div>
-        <div class="form-group">
-            <label for="zip">ZIP:</label>
-            <input type="text" class="form-control" id="zip" name="zip" value="@Model.Zip" />
-        </div>
-        <div class="form-group">
-            <label for="SlotsOpenings">Slots Openings: </label>
-            <input type="text" class="form-control" id="SlotsOpenings" name="SlotsOpenings" value="@Model.SlotsOpenings" />
-        </div>
-
-        <br>
-        <br>
-
-        <input type="submit" value="Update" asp-action="Edit">
-        <input type="reset" value="Clear">
-    </form>
 </body>
 </html>
 
-<script>document.querySelector('form').addEventListener('submit', function (event) {
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        console.log("Ready!");
+
+        var description = document.getElementById("description")
+        description.value = "@Model.Description";
+
+        console.log(description);
+    });
+
+    document.querySelector('form').addEventListener('submit', function (event) {
         var name = document.getElementById('name').value;
         var startDateTime = document.getElementById('StartDateTimeUtc').value;
         var endDateTime = document.getElementById('endDateTimeUtc').value;
