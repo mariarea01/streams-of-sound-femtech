@@ -17,6 +17,7 @@ using System.Data;
 
 namespace StreamsOfSound.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OpportunityController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -31,6 +32,7 @@ namespace StreamsOfSound.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
+        [Authorize(Roles = "Volunteer, Admin")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -44,7 +46,6 @@ namespace StreamsOfSound.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public IActionResult CancelOpportunity()
         {
@@ -94,7 +95,7 @@ namespace StreamsOfSound.Controllers
 
             return View(opportunitiesList);
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpGet]
         public IActionResult OpportunityStaffList()
         {
@@ -102,7 +103,6 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult OpportunityStaffList(int? id)
         {
@@ -116,6 +116,7 @@ namespace StreamsOfSound.Controllers
 
             return View(opportunitiesList);
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateOpportunityRequest request)
         {
@@ -148,7 +149,7 @@ namespace StreamsOfSound.Controllers
             _context.Opportunities.Remove(opportunity);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("OpportunityList");
+            return RedirectToAction("OpportunityStaffList");
         }
 
         [HttpGet]
@@ -174,7 +175,7 @@ namespace StreamsOfSound.Controllers
         {
             _context.Opportunities.Update(opportunity);
             await _context.SaveChangesAsync();
-            return RedirectToAction("OpportunityList");
+            return RedirectToAction("OpportunityStaffList");
         }
 
         [HttpGet]
@@ -214,7 +215,7 @@ namespace StreamsOfSound.Controllers
             }
             else
             {
-                return RedirectToAction("OpportunityList");
+                return RedirectToAction("OpportunityStaffList");
             }
         }
 
@@ -245,6 +246,8 @@ namespace StreamsOfSound.Controllers
             //return View();
             return RedirectToAction("MyOpportunities", new { UserId = user.Id });
         }
+
+        [Authorize(Roles = "Volunteer")]
         public async Task<ActionResult> PassingInSignUp(VolunteerSignUpFormRequest request)
         {
             // TODO: Check if request is null, return to an error page or error message,
