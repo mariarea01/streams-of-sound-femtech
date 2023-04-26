@@ -14,18 +14,14 @@
     <form method="post" asp-action="ObliterateStaff" asp-route-id="@user.Id">
         <div class="card mb-3">
             <div class="card-header">
-                User Id : @user.FirstName @user.LastName
+                Full Name of Archived User: @user.FirstName @user.LastName
             </div>
 
             <div class="card-body">
-                <h5 class="card-title">@user.UserName</h5>
-                <h5 class="card-title">@user.TimeJoined</h5>
-                <h5 class="card-title">@user.TimeEnd</h5>
-                <h5 class="card-title"> Instrument List: @user.Position</h5>
-            </div>
-
-            <div class="card-footer">
-                <button type="submit" class="btn btn-danger">Archive this staff member</button>
+                <h5 class="card-title">Email address: @user.UserName</h5>
+                <h5 class="card-title">Date of Account Creation: @user.TimeJoined.ToString("MM/dd/yyyy")</h5>
+                <h5 class="card-title">Date of Archiving User: @user.TimeEnd.ToString("MM/dd/yyyy")</h5>
+                <h5 class="card-title">Position: @user.Position</h5>
             </div>
         </div>
     </form>

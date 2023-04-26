@@ -8,17 +8,18 @@
 <div class="alert alert-warning">
     When archiving, this will lock the user out of their account completely. If they have been archived, they will
     need to make a new account. (They will need to use a new email).
+    Once you click the Archive this user button, you will be directed to the archived list and the user will be placed there.
 </div>
 @foreach (var user in Model)
 {
-    <form method="post" asp-action="ObliterateStaff" asp-route-id="@user.Id">
+    <form method="post" asp-action="ObliterateStaff" asp-route-id="@user.Id" onsubmit="return AreYouSure()">
         <div class="card mb-3">
             <div class="card-header">
                 User Id : @user.FirstName @user.LastName
             </div>
             <div class="card-body">
                 <h5 class="card-title">@user.UserName</h5>
-                <h5 class="card-title">@user.TimeJoined</h5>
+                <h5 class="card-title">@user.TimeJoined.ToString("MM/dd/yyyy")</h5>
                 <h5 class="card-title"> Position: @user.Position</h5>
             </div>
             <div class="card-footer">
@@ -28,3 +29,8 @@
     </form>
 
 }
+<script>
+    function AreYouSure(){
+        return confirm("Are you sure you want to archive this user? This action is permanent. Once you archive, the user will be permanenty locked out of the system.");
+    }
+</script>

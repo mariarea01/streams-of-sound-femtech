@@ -10,6 +10,6 @@ namespace StreamsOfSound.Models
         public string? Position { get; set; }    
         public bool? Archived { get; set; }
         public DateTimeOffset TimeJoined { get; set; }
-        public DateTimeOffset? TimeEnd { get; set; }
+        public DateTimeOffset TimeEnd { get; set; }
     }
 }

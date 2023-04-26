@@ -209,7 +209,7 @@ namespace StreamsOfSound.Controllers
             var users = from u in _context.Users
                         join ur in _context.UserRoles on u.Id equals ur.UserId
                         join r in _context.Roles on ur.RoleId equals r.Id
-                        where r.Name == "Volunteer"
+                        where r.Name == "Volunteer" && u.Archived == false
                         select new { User = u }; 
             
             return View(users.Select(m=>m.User).ToList());
