@@ -1,7 +1,10 @@
-html {
-    font-size: 14px;
-}
 
+
+.wrapper-main{
+    width:100%;
+    padding:10px 0;
+    margin:0 auto;
+}
 .carousel-item {
     min-height: 280px;
 }
@@ -11,15 +14,7 @@ html {
         font-size: 16px;
     }
 }
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-html {
-    position: relative;
-    min-height: 100%;
-}
+
 
 body {
     margin-bottom: 60px;
@@ -50,11 +45,19 @@ img.logo {
     color: white;
 }
 
-.center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
+.rounded-outline-button {
+    border: 2px solid #734e17;
+    color: #734e17;
+    border-radius: 50rem !important;
+    padding: 7px 28px;
+    color: white;
+}
+
+.rounded-icon-button {
+    border: 2px solid #734e17;
+    color: #734e17;
+    border-radius: 50rem !important;
+    color: white;
 }
 
 .carousel-item {
@@ -85,9 +88,6 @@ img.logo {
     overflow: hidden;
 }
 
-html {
-    font-size: 14px;
-}
 
 @media (min-width: 768px) {
     html {
@@ -95,10 +95,6 @@ html {
     }
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
 
 body {
     margin-bottom: 60px;
@@ -125,6 +121,15 @@ table {
 
 .card {
     border: none;
+}
+
+.card-img-top {
+    margin: auto;
+    display: block;
+    padding: 20px;
+    max-width: 80%;
+    height: auto;
+    object-fit: cover;
 }
 
 .card-img {
@@ -176,12 +181,4 @@ table {
     }
 }
 
-.card-body {
-    flex: 2;
-    padding: 0 0 0 1.25rem;
 
-    @media (max-width: 576px) {
-        padding: 0;
-    }
-}
-}

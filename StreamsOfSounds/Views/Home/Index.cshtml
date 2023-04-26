@@ -1,36 +1,46 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charet="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+</head>
 
-@*<img src="images/SOSBooth2.jpg" class="d-block w-100"  alt="Streams of Sound Booth">*@
-
-<div class="container">
-    <div class="card-group vgr-cards">
-        <div class="card">
-            <div class="card-img-body">
-                <img class="card-img" src="/images/SOSBooth.jpg" alt="Card image cap" width="500" height="334">
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">Streams of Sound</h4>
-                <p class="card-text">
-                    Welcome to Streams of Sound Scheduling application. To view the Streams of Sound main site, click the button below.
-                </p>
-                <a href="https://streamsofsound.org/" class="btn btn-outline-primary">Streams of Sound Main</a>
-            </div>
+<div class="wrapper-main">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Welcome to Streams of Sound Scheduling Application</h1>
+            <p>This app will help us with time management by reducing the need to communicate via text or phone call 
+                when filling vacancies where musicians are needed. </p>
         </div>
-        <div class="card">
-            <div class="card-img-body">
-                <img class="card-img" src="~/images/SOSBooth3.jpg" alt="Card image cap" width="500" height="334">
+    </section>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="card ">
+                    <img class="card-img-top" src="~/images/ericbooth.jpg">
+                    <div class="card-body">
+                        <h5 class="card-title">Visit the main Streams of Sound site</h5>
+                        <p class="card-text">Learn more about Streams of Sound and their mission at the link.</p>
+                        <p>
+                            <a href="http://streamsofsound.com/" class="btn btn-primary my-2">Streams of Sound</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <h4 class="card-title">Profile</h4>
-                <p class="card-text">Text here.</p>
-                <a href="#" class="btn btn-outline-primary">Primary</a>
+
+            <div class="col-6">
+                <div class="card">
+                    <img class="card-img-top" src="~/images/johnbooth.jpg">
+                    <div class="card-body">
+                        <h5 class="card-title">New incoming volunteers</h5>
+                        <p class="card-text">Register your account at the link.</p>
+                        <a href="~/Identity/Account/Register" class="btn btn-primary my-2">Register</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-
-
+</html>

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @model List<Opportunity>
 @{
     ViewData["Title"] = "Opportunity List";
@@ -48,8 +49,12 @@
                         <td>@opp.SlotsAvailable</td>
                         @*<td>@opp.paidAmount</td>*@
                     <td>
-                        @Html.ActionLink("Details", "Details", new { Id = opp.Id }) | 
-                        @Html.ActionLink("SignUp", "PassingInSignUp", new {OpportunityId = opp.Id})
+                        <button class="rounded-icon-button">
+                        <img src="/icons/details.png" alt="buttonpng"/>
+                        @Html.ActionLink("Details", "Details", new { Id = opp.Id })
+                        </button>
+
+                        <button class="rounded-outline-button">@Html.ActionLink("SignUp", "PassingInSignUp", new {OpportunityId = opp.Id})</button>
                     </td>
                     </tr>
                 }
