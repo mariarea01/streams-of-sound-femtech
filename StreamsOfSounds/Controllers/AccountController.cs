@@ -9,6 +9,7 @@ using NuGet.Protocol;
 using Microsoft.AspNetCore.Authorization;
 using StreamsOfSound.Models.Requests;
 using StreamsOfSound.Models;
+using StreamsOfSound.Services;
 
 namespace StreamsOfSound.Controllers
 {
@@ -59,8 +60,8 @@ namespace StreamsOfSound.Controllers
             user.LastName = staff.LastName;
             user.Email = staff.Email;
             user.EmailConfirmed = true;
-            staff.Password = "123Abc!";
-            var result = await _userManager.CreateAsync(user, staff.Password);
+            string password = PasswordGenerator.GeneratePassword();
+            var result = await _userManager.CreateAsync(user, password);
             returnUrl ??= Url.Content("~/");
 
             if (result.Succeeded)

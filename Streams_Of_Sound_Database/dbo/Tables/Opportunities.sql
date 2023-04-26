@@ -11,5 +11,7 @@
     [Zip]               NVARCHAR(50)NOT NULL, 
     [State]             NVARCHAR(50) NOT NULL, 
     [SlotsOpenings]     INT NOT NULL, 
-    [SlotsAvailable]    INT NOT NULL,
+    [SlotsAvailable]    INT NOT NULL, 
+    [isArchived] BIT NULL,
+
 )

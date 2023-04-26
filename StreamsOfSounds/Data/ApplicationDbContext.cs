@@ -16,6 +16,9 @@ namespace StreamsOfSound.Data
 
         public virtual DbSet<Opportunity> Opportunities { get; set; }
         public virtual DbSet<SignUpForOpportunity> SignUpForOpportunities { get; set; }
+        public virtual DbSet<InstrumentsSlots> InstrumentsSlots { get; set; }
+        public virtual DbSet<InstrumentSignUp> InstrumentSignUp { get; set; }
+
 
     }
 }

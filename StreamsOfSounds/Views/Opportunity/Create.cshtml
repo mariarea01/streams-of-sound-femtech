@@ -1,4 +1,5 @@
-﻿@{
+﻿@model CreateOpportunityRequest
+@{
     ViewData["Title"] = "Create";
 }
 
@@ -13,32 +14,41 @@
     <h1>@ViewData["Title"]</h1>
     <form method="post">
         <div class="col-md-6 mb-3">
-            <label for="name">Opportunity Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <label for="name">Opportunity Name</label>
+            <input type="text" class="form-control" id="name" name="name">
         </div>
         <div class="col-md-6 mb-3">
-            <label for="StartDateTimeUtc">Start Date & Time:</label>
-            <input type="datetime-local" class="form-control" id="StartTime" name="StartTime" required>
+            <label for="Date">StartTime</label>
+            <input type="date" class="form-control" id="StartTime" name="StartTime">
         </div>
         <div class="col-md-6 mb-3">
-            <label for="endDateTimeUtc">End Date & Time:</label>
-            <input type="datetime-local" class="form-control" id="EndTime" name="EndTime" required>
+            <label for="Date">EndTime</label>
+            <input type="date" class="form-control" id="EndTime" name="EndTime">
         </div>
         <div class="col-md-6 mb-3">
-            <label for="description">Description:</label>
-            <textarea id="description" class="form-control" name="description" rows="3" required></textarea>
+            <a href="javascript:void(0);" class="btn btn-primary" id="add-slot">Add Instruments and Time Slots</a>
+            <div id="time-slots">
+            </div>
         </div>
         <div class="col-md-6 mb-3">
-            <label for="address">Address:</label>
-            <input type="text" class="form-control" id="address" name="address" required>
+            <label for="description">Description</label>
+            <textarea id="description" class="form-control" name="description" rows="3"></textarea>
         </div>
         <div class="col-md-6 mb-3">
-            <label for="address1">Address 1:</label>
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" name="address">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="address1">Address 1 (Optional)</label>
             <input type="text" class="form-control" id="address1" name="address1">
         </div>
+        <div class="col-md-6 mb-3">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" name="city">
+        </div>
         <div class="col-md-3 mb-3">
-            <label for="validationServer04">State:</label>
-            <select class="form-control" id="State" name="State" required>
+            <label for="state">State:</label>
+            <select class="form-control" id="state" name="state">
                 <option selected disabled value="">Choose...</option>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>
@@ -93,17 +103,9 @@
                 <option value="WY">WY</option>
             </select>
         </div>
-        <div class="col-md-6 mb-3">
-            <label for="city">City:</label>
-            <input type="text" class="form-control" id="city" name="city" required>
-        </div>
         <div class="col-md-3 mb-3">
-            <label for="zip">Zip: </label>
-            <input type="text" class="form-control" id="zip" name="zip" required>
-        </div>
-        <div class="col-md-3 mb-3">
-            <label for="SlotsOpenings">Slots Openings: </label>
-            <input type="text" class="form-control" id="SlotsOpenings" name="SlotsOpenings" required>
+            <label for="zip">Zip</label>
+            <input type="text" class="form-control" id="zip" name="zip">
         </div>
         <input class="btn btn-primary" type="submit" value="Submit">
         <input type="reset" value="Reset" class="btn btn-warning">
@@ -111,7 +113,8 @@
 </body>
 </html>
 
-<script>document.querySelector('form').addEventListener('submit', function (event) {
+<script>
+    document.querySelector('form').addEventListener('submit', function (event) {
         var name = document.getElementById('name').value;
         var startDateTime = document.getElementById('StartDateTimeUtc').value;
         var endDateTime = document.getElementById('endDateTimeUtc').value;
@@ -176,4 +179,25 @@
             event.preventDefault();
             return false;
         }
-    });</script>
+
+
+    });
+    const timeSlotsDiv = document.querySelector("#time-slots");
+    const addSlotButton = document.querySelector("#add-slot");
+    var slotCounter = 0;
+    addSlotButton.addEventListener("click", () => {
+        
+        const newSlot = document.createElement("div");
+        var slotRow = '<label for="instruments">Instruments</label>';
+        slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments">';
+        slotRow += '<label for="startTime">Start:</label>';
+        slotRow += '<input type="date" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time">';
+        slotRow += '<label for="endTime">End:</label>';
+        slotRow += '<input type="date" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time">';
+        
+        newSlot.innerHTML = slotRow;
+        timeSlotsDiv.appendChild(newSlot);
+        slotCounter++;
+    });
+
+</script>
