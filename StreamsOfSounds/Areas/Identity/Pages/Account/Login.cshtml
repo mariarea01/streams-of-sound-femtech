@@ -5,65 +5,60 @@
     ViewData["Title"] = "Log into your Streams of Sound account!";
 }
 
-<!-- Section: Design Block -->
 <section class="">
-  <!-- Jumbotron -->
-  <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
-    <div class="container">
-      <div class="row gx-lg-5 align-items-center">
-        <div class="col-lg-6 mb-5 mb-lg-0">
-          <h1 class="my-5 display-3 fw-bold ls-tight">
-            Welcome message placeholder <br />
-                        <!-- Jumbotron 
+    <!-- Jumbotron -->
+    <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+        <div class="container">
+            <div class="row gx-lg-5 align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="my-5 display-3 fw-bold ls-tight">
+                        Welcome message placeholder <br />
+                        <!-- Jumbotron
                             <span class="bold">Streams of Sound</span>
                         -->
-          </h1>
-          <p style="color: hsl(217, 10%, 50.8%)">
-            Placeholder for photo provided by client
-          </p>
-        </div>
-
-        <div class="col-lg-6 mb-5 mb-lg-0">
-          <div class="card">
-            <div class="card-body py-5 px-md-5">
-              <form id="account" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <!-- Email input -->
-                <div class="form-outline mb-4">
-                  <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                  <label asp-for="Input.Email" class="form-label"></label>
-                  <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </h1>
+                    <p style="color: hsl(217, 10%, 50.8%)">
+                        Placeholder for photo provided by client
+                    </p>
                 </div>
 
-                <!-- Password input -->
-                <div class="form-outline mb-4">
-                  <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
-                  <label asp-for="Input.Password" class="form-label"></label>
-                  <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="card">
+                        <div class="card-body py-5 px-md-5">
+                            <form id="account" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <!-- Email input -->
+                                <div class="form-outline mb-4">
+                                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                                    <label asp-for="Input.Email" class="form-label"></label>
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+
+                                <!-- Password input -->
+                                <div class="form-outline mb-4">
+                                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                                    <label asp-for="Input.Password" class="form-label"></label>
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    <p>
+                                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password? Click Here!</a>
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <button id="login-submit" type="submit" class="rounded-custom-button">Log in</button>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Checkbox -->
-
-                <!-- Submit button
-                                class="rounded-pill"
-                                                -->
-                <div>
-                    <button id="login-submit" type="submit" class="rounded-custom-button">Log in</button>
-                </div>
-
-
-              </form>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- Jumbotron -->
+    <!-- Jumbotron -->
 </section>
 <!-- Section: Design Block -->
-
-
 @section Scripts {
-            <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
 }

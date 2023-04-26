@@ -1,4 +1,5 @@
-﻿@using StreamsOfSound.Models
+﻿@using Microsoft.AspNetCore.Identity.UI.V5.Pages.Account.Manage.Internal
+@using StreamsOfSound.Models
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();

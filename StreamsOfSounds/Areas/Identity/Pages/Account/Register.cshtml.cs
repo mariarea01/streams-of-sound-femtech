@@ -79,6 +79,10 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
+            [Required]
+            [Display(Name = "Please provide a list of instruments you can play")]
+            public string Instruments { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -99,7 +103,6 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -118,14 +121,16 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.FirstName;
+                user.Instruments = Input.Instruments;
                 user.EmailConfirmed = true;
+                user.Archive = false;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
                     await _userManager.AddToRoleAsync(user, "Volunteer");
-                    
+                    #region
                     /*
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -150,6 +155,7 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                     */
+                    #endregion
                     return RedirectToPage("/Account/Login");
                 }
                 foreach (var error in result.Errors)
@@ -157,7 +163,6 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }

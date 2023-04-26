@@ -15,7 +15,7 @@ namespace StreamsOfSound.Data
             : base(options) { }
 
         public virtual DbSet<Opportunity> Opportunities { get; set; }
-        public virtual DbSet<SignUpForOpportunity> SignUpForOpportunities { get; set; }
+        public virtual DbSet<SignUpForOpportunity> SignUpForOpportunity { get; set; }
 
     }
 }

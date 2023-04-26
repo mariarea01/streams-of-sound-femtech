@@ -68,6 +68,9 @@
 
     <script>$(document).ready(function () {
             $('#oppTable').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(1)'
+                },
                 responsive: true,
                 processing: true,
                 ordering: true,

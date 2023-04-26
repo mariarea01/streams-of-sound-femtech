@@ -1,0 +1,29 @@
+﻿@model StreamsOfSound.Models.ViewModel.UpdateInstrumentsViewModel
+
+<h3>@ViewData["Title"]</h3>
+<div class="row">
+    <div class="col-md-6">
+        <form id="email-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-floating input-group">
+                <label asp-for="OldInstruments" class="form-label"></label>
+                <div class="input-group-append">
+                    <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                </div>
+                <br />
+                <input asp-for="OldInstruments" class="form-control" disabled />
+            </div>
+            <div class="form-floating">
+                <input asp-for="NewInstruments" class="form-control" autocomplete="email" aria-required="true"/>
+                <label asp-for="NewInstruments" class="form-label"></label>
+                <span asp-validation-for="NewInstruments" class="text-danger"></span>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Update Instruments</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

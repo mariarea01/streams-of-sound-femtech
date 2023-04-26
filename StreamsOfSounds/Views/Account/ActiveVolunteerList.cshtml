@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ApplicationUser>
+﻿@model List<ApplicationUser>
 
 <h1>List of Active Volunteers</h1>
 
@@ -7,15 +7,16 @@
     <form method="post" asp-action="DeleteUser" asp-route-id="@user.Id">
         <div class="card mb-3">
             <div class="card-header">
-                User Id : @user.LastName
+                User Id : @user.FirstName @user.LastName
             </div>
 
             <div class="card-body">
                 <h5 class="card-title">@user.UserName</h5>
+                <h5 class="card-title"> Instrument List: @user.Instruments</h5>
             </div>
 
             <div class="card-footer">
-                <button type="submit" onclick="return(confirm('Are you sure you want to delete @user.FirstName @user.LastName?')) class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger">Delete this user</button>
             </div>
         </div>
     </form>

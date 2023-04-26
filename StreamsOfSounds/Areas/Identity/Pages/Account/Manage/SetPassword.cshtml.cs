@@ -2,28 +2,27 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StreamsOfSound.Models;
 
-namespace StreamsOfSounds.Areas.Identity.Pages.Account.Manage
+namespace StreamsOfSound.Areas.Identity.Pages.Account.Manage
 {
-    public class ChangePasswordModel : PageModel
+    public class SetPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ILogger<ChangePasswordModel> _logger;
 
-        public ChangePasswordModel(
+        public SetPasswordModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            ILogger<ChangePasswordModel> logger)
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _logger = logger;
         }
 
         /// <summary>
@@ -46,15 +45,6 @@ namespace StreamsOfSounds.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
-            public string OldPassword { get; set; }
-
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -84,9 +74,10 @@ namespace StreamsOfSounds.Areas.Identity.Pages.Account.Manage
             }
 
             var hasPassword = await _userManager.HasPasswordAsync(user);
-            if (!hasPassword)
+
+            if (hasPassword)
             {
-                return RedirectToPage("./SetPassword");
+                return RedirectToPage("./ChangePassword");
             }
 
             return Page();
@@ -105,10 +96,10 @@ namespace StreamsOfSounds.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
-            if (!changePasswordResult.Succeeded)
+            var addPasswordResult = await _userManager.AddPasswordAsync(user, Input.NewPassword);
+            if (!addPasswordResult.Succeeded)
             {
-                foreach (var error in changePasswordResult.Errors)
+                foreach (var error in addPasswordResult.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
@@ -116,8 +107,7 @@ namespace StreamsOfSounds.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = "Your password has been set.";
 
             return RedirectToPage();
         }

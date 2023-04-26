@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace StreamsOfSound.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class OpportunityController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -47,6 +47,7 @@ namespace StreamsOfSound.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public IActionResult CancelOpportunity()
         {
@@ -66,7 +67,7 @@ namespace StreamsOfSound.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var guidId = Guid.Parse(userId);
 
-            var opportunitiesList = await _context.SignUpForOpportunities
+            var opportunitiesList = await _context.SignUpForOpportunity
                 .Include(x => x.Opportunity)
                 .Where(x => x.UserId == guidId)
                 .ToListAsync();
@@ -97,6 +98,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult OpportunityStaffList()
         {
@@ -104,6 +106,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult OpportunityStaffList(int? id)
         {
@@ -118,6 +121,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateOpportunityRequest request)
         {
@@ -132,6 +136,7 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("OpportunityStaffList");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> Edit(int Id)
         {
@@ -150,6 +155,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunity);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> Edit(Opportunity opportunity)
         {
@@ -158,6 +164,7 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("OpportunityStaffList");
         }
 
+        [Authorize(Roles = "Admin, Volunteer")]
         [HttpGet]
         public async Task<ActionResult> Details(int Id)
         {
@@ -176,6 +183,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunity);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Archive(int id)
         {
@@ -199,6 +207,7 @@ namespace StreamsOfSound.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult ArchiveList()
         {
@@ -219,7 +228,7 @@ namespace StreamsOfSound.Controllers
             }
 
             var signUpOpportunity = signup.ToSignUp();
-            _context.SignUpForOpportunities.Add(signUpOpportunity);
+            _context.SignUpForOpportunity.Add(signUpOpportunity);
 
             await _context.SaveChangesAsync();
             //return View();
@@ -247,10 +256,7 @@ namespace StreamsOfSound.Controllers
                 Opportunity = opportunity,
                 User = user
             };
-            //var signingup = request.ToSignUp();
-            //_context.SignUpForOpportunities.Add(viewModel);
-            //await _context.SaveChangesAsync();
-            return View("ConfirmSignUp", viewModel);
+            return View("UpdateInstruments", viewModel);
         }
 
     }

@@ -33,7 +33,7 @@
                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="UsersList">Users</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveVolunteerList">Users</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="RegisterNewStaff">Add Staff</a>
@@ -56,7 +56,11 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="MyOpportunities">My Opportunities</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="UpdateInstruments">Test</a>
+                            </li>
                         }
+                        
                         </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -69,7 +73,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer">
         <div class="container">
             &copy; 2023 - Streams Of Sound
         </div>
