@@ -69,7 +69,6 @@
     <Build Include="dbo\Tables\AspNetUserLogins.sql" />
     <Build Include="dbo\Tables\AspNetUserClaims.sql" />
     <Build Include="dbo\Tables\AspNetRoleClaims.sql" />
-    <Build Include="dbo\Tables\SignUpForOpportunity.sql" />
     <Build Include="dbo\Tables\ReasonToCancel.sql" />
     <Build Include="dbo\Tables\InstrumentsSlots.sql" />
     <Build Include="dbo\Tables\InstrumentSignUp.sql" />

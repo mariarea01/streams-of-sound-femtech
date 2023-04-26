@@ -22,18 +22,18 @@
 <body>
     @Html.AntiForgeryToken()
     <h1>@ViewData["Title"]</h1>
-    <form method="post">
+    <form id="frm-create" method="post">
         <div class="col-md-6 mb-3">
             <label for="name">Opportunity Name</label>
             <input type="text" class="form-control" id="name" name="name">
         </div>
         <div class="col-md-6 mb-3">
             <label for="Date">StartTime</label>
-            <input type="date" class="form-control" id="StartTime" name="StartTime">
+            <input type="datetime-local" class="form-control" id="StartTime" name="StartTime">
         </div>
         <div class="col-md-6 mb-3">
             <label for="Date">EndTime</label>
-            <input type="date" class="form-control" id="EndTime" name="EndTime">
+            <input type="datetime-local" class="form-control" id="EndTime" name="EndTime">
         </div>
         <div class="col-md-6 mb-3">
             <a href="javascript:void(0);" class="btn btn-primary" id="add-slot">Add Instruments and Time Slots</a>
@@ -122,8 +122,26 @@
     </form>
 </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 <script>
+    $(document).ready(function () {
+    $("#frm-create").on("click", ".btn-delete", function(){
+        var slotId = $(this).attr("data-slot");
+        $("#instrument-"+slotId).remove();
+        slotCounter--;
+        var newSlotCount = 0;
+            const regex =  /\[[0-9]+\]/gm;
+        $(".instrument").each(function(k, v){
+            var oldHtml = $(v).html();
+                var newHtml = oldHtml.replace(regex, "[" + newSlotCount + "]");
+                console.log({new_Html:newHtml});
+                $(v).html(newHtml);
+                newSlotCount++;
+        });
+        slotCounter = newSlotCount;
+    });
+        });
     document.querySelector('form').addEventListener('submit', function (event) {
         var name = document.getElementById('name').value;
         var startDateTime = document.getElementById('StartDateTimeUtc').value;
@@ -198,13 +216,16 @@
     addSlotButton.addEventListener("click", () => {
         
         const newSlot = document.createElement("div");
-        var slotRow = '<label for="instruments">Instruments</label>';
+        var slotRow = '<div class="instrument" id="instrument-'+slotCounter+'">'
+        slotRow += '<label for="instruments">Instruments</label>';
         slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments">';
         slotRow += '<label for="startTime">Start:</label>';
-        slotRow += '<input type="date" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time">';
+        slotRow += '<input type="datetime-local" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time">';
         slotRow += '<label for="endTime">End:</label>';
-        slotRow += '<input type="date" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time">';
-        
+        slotRow += '<input type="datetime-local" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time">';
+        slotRow += '<a href="javascript:void(0);" class="btn btn-danger btn-delete" data-slot="'+slotCounter+'">Delete Slot</a>' 
+        slotRow += '</div>'
+
         newSlot.innerHTML = slotRow;
         timeSlotsDiv.appendChild(newSlot);
         slotCounter++;

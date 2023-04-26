@@ -123,7 +123,8 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
                 user.LastName = Input.FirstName;
                 user.Instruments = Input.Instruments;
                 user.EmailConfirmed = true;
-                user.Archive = false;
+                user.Archived = false;
+                user.TimeJoined = DateTime.Now; 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

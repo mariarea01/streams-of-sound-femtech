@@ -1,6 +1,7 @@
 ﻿@model Opportunity
 @{
     ViewData["Title"] = "Edit";
+    var slots = (List<InstrumentsSlots>)ViewData["Slots"];
 }
 
 <!DOCTYPE html>
@@ -25,8 +26,8 @@
         <div class="row pb-2">
             <h2>Edit Opportunity</h2>
         </div>
-        <form method="post" action="Edit" width="100%" display="inline-block">
-
+        <form method="post" id="frm-edit" action="Edit" width="100%" display="inline-block">
+            @Html.HiddenFor(m=> m.Id)
             <div class="col-md-6 mb-3">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" value="@Model.Name" />
@@ -43,6 +44,24 @@
                 <label for="description">Description:</label>
                 <textarea class="form-control" id="description" name="description"></textarea>
             </div>
+             <div class="col-md-6 mb-3">
+            <a href="javascript:void(0);" class="btn btn-primary" id="add-slot">Add Instruments and Time Slots</a>
+            <div id="time-slots">
+                    @for (int i = 0; i < slots.Count(); i++)
+                    {
+                        <div class="instrument" id="instrument-@i">
+                            <label for="instruments">Instruments</label>
+                            <input type="text" id="instruments" name="Slots[@i].Instrument" placeholder="Instruments" value="@slots[i].Instrument" fdprocessedid="ql2e4t">
+                            <label for="startTime">Start:</label>
+                            <input type="datetime-local" id="startTime" name="Slots[@i].StartTime" value="@slots[i].StartTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="Start Time">
+                            <label for="endTime">End:</label>
+                            <input type="datetime-local" id="endTime" name="Slots[@i].EndTime" value="@slots[i].EndTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="End Time">
+                            <a href="javascript:void(0);" class="btn btn-danger btn-delete" data-slot="@i">Delete Slot</a>
+                        </div>
+                    }
+            </div>
+        </div>
+
             <div class="col-md-6 mb-3">
                 <label for="Address">Address:</label>
                 <input type="text" class="form-control" id="address" name="address" value="@Model.Address" />
@@ -125,7 +144,7 @@
             <br>
 
             <input type="submit" value="Save" class="btn btn-primary" asp-action="Edit">
-            <a href="@Url.Action("OpportunityStaffList")" class="btn btn-warning">Cancel</a>
+            <a href="@Url.Action("OpportunityStaffList") class="btn btn-warning">Cancel</a>
         </form>
     </div>
 </body>
@@ -141,6 +160,47 @@
         description.value = "@Model.Description";
 
         console.log(description);
+        @if(!string.IsNullOrEmpty(Model.State))
+        {
+            <text>
+            $("#State").val("@Model.State");
+            </text>
+        }
+            $("#frm-edit").on("click", ".btn-delete", function () {
+                var slotId = $(this).attr("data-slot");
+                $("#instrument-" + slotId).remove();
+                slotCounter--;
+                var newSlotCount = 0;
+                const regex = /\[[0-9]+\]/gm;
+                $(".instrument").each(function (k, v) {
+                    var oldHtml = $(v).html();
+                    var newHtml = oldHtml.replace(regex, "[" + newSlotCount + "]");
+                    console.log({ new_Html: newHtml });
+                    $(v).html(newHtml);
+                    newSlotCount++;
+                });
+                slotCounter = newSlotCount;
+            });
+    });
+    const timeSlotsDiv = document.querySelector("#time-slots");
+    const addSlotButton = document.querySelector("#add-slot");
+    var slotCounter = @slots.Count();
+    addSlotButton.addEventListener("click", () => {
+
+        const newSlot = document.createElement("div");
+        var slotRow = '<div class="instrument" id="instrument-' + slotCounter + '">'
+        slotRow += '<label for="instruments">Instruments</label>';
+        slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments">';
+        slotRow += '<label for="startTime">Start:</label>';
+        slotRow += '<input type="datetime-local" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time">';
+        slotRow += '<label for="endTime">End:</label>';
+        slotRow += '<input type="datetime-local" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time">';
+        slotRow += '<a href="javascript:void(0);" class="btn btn-danger btn-delete" data-slot="' + slotCounter + '">Delete Slot</a>'
+        slotRow += '</div>'
+
+        newSlot.innerHTML = slotRow;
+        timeSlotsDiv.appendChild(newSlot);
+        slotCounter++;
     });
 
     document.querySelector('form').addEventListener('submit', function (event) {

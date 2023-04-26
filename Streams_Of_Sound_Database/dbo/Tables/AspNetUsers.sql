@@ -19,6 +19,8 @@
     [Instruments]          NVARCHAR (MAX)     NULL,
     [Position]             NVARCHAR (MAX)     NULL,
     [Archived]             BIT                NOT NULL, 
+    [TimeJoined]           DATETIMEOFFSET     NOT NULL, 
+    [TimeEnd]              DATETIMEOFFSET     NULL, 
     CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

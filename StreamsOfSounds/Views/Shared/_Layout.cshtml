@@ -30,7 +30,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                       @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveVolunteerList">Users</a>
@@ -38,7 +39,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="RegisterNewStaff">Add Staff</a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="Create">Create Opportunity</a>
                             </li>
                             <li class="nav-item">
@@ -46,6 +47,18 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="ArchiveList">Archived Opportunities</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveStaffList">Staff Mmbers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveVolunteerList">active volunteer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveVolunteers">archive volunteer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveStaff">archive staff</a>
                             </li>
                         }
                         else if (SignInManager.IsSignedIn(User) && User.IsInRole("Volunteer"))
@@ -59,9 +72,21 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="UpdateInstruments">Test</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveStaffList">Staff Mmbers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveVolunteerList">active volunteer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveVolunteers">archive volunteer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveStaff">archive staff</a>
+                            </li>
                         }
-                        
-                        </ul>
+
+                    </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>

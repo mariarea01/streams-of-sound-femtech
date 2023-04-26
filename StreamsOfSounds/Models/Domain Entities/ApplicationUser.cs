@@ -8,6 +8,8 @@ namespace StreamsOfSound.Models
         public string LastName { get; set; }
         public string? Instruments { get; set; } 
         public string? Position { get; set; }    
-        public bool? Archive { get; set; }
+        public bool? Archived { get; set; }
+        public DateTimeOffset TimeJoined { get; set; }
+        public DateTimeOffset? TimeEnd { get; set; }
     }
 }

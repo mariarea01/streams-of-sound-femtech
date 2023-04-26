@@ -6,14 +6,13 @@ namespace StreamsOfSound.Models.ViewModel
 {
     public class UpdateInstrumentsViewModel
     {
-        [Required]
         [Display(Name = "Current Instrument List")]
-        public string OldInstruments { get; set; }
+        public string? OldInstruments { get; set; }
 
         [Required]
         [Display(Name = "Updated Instrument List")]
         public string? NewInstruments { get; set; }
-        
+        public string StatusMessage { get; set; }   
 
     }
 }

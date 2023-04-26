@@ -16,6 +16,7 @@ namespace StreamsOfSound.Models.Requests
         public int SlotsOpenings { get; set; }
         public int SlotsAvailable { get; set; }
         public List<InstrumentsSlots> Slots { get; set; }
+        public int Id { get; set; } 
 
         public Opportunity ToOpportunity()
         {

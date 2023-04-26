@@ -1,6 +1,6 @@
 ﻿@model List<ApplicationUser>
 
-<h1>List of Active Volunteers</h1>
+<h1>List of Archive Volunteers</h1>
 @if (ViewData["Message"] != null)
 {
     @ViewData["Message"]
@@ -19,11 +19,10 @@
             <div class="card-body">
                 <h5 class="card-title">@user.UserName</h5>
                 <h5 class="card-title">@user.TimeJoined</h5>
+                <h5 class="card-title">@user.TimeEnd</h5>
                 <h5 class="card-title"> Instrument List: @user.Instruments</h5>
-            </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-danger">Archive this volunteer</button>
             </div>
         </div>
     </form>
+
 }

@@ -8,17 +8,22 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StreamsOfSound.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Policy;
+using StreamsOfSound.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace StreamsOfSound.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, ApplicationDbContext context)
         {
             _signInManager = signInManager;
+            _context = context;
             _logger = logger;
         }
 
@@ -103,6 +108,12 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var user = _context.Users.FirstOrDefault(m => m.UserName == Input.Email);
+
+                if (user != null && user.Archived == true)
+                {
+                    return RedirectToPage("./Lockout");
+                }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);

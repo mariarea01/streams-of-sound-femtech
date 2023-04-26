@@ -85,7 +85,7 @@ namespace StreamsOfSound.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var guidId = Guid.Parse(userId);
 
-            var opportunitiesList = await _context.SignUpForOpportunity
+            var opportunitiesList = await _context.SignUpForOpportunities
                 .Include(x => x.Opportunity)
                 .Where(x => x.UserId == guidId)
                 .ToListAsync();
@@ -121,7 +121,11 @@ namespace StreamsOfSound.Controllers
         public IActionResult OpportunityStaffList()
         {
             var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived ?? false).ToList();
-            return View(opportunitiesList);
+            var slotsList = _context.InstrumentsSlots.ToList();
+            var model = new OpportunityStaffListViewModel();
+            model.Opportunity = opportunitiesList;
+            model.Slots = slotsList;
+            return View(model);
         }
 
         [Authorize(Roles = "Admin")]
@@ -175,20 +179,50 @@ namespace StreamsOfSound.Controllers
             {
                 return NotFound();
             }
+            ViewData["Slots"] = _context.InstrumentsSlots.Where(m => m.OpportunityId == opportunity.Id).ToList();
 
             return View(opportunity);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult> Edit(Opportunity opportunity)
-        {
-            _context.Opportunities.Update(opportunity);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("OpportunityStaffList");
-        }
+        public async Task<ActionResult> Edit(CreateOpportunityRequest request)
+        //{
+        //    _context.Opportunities.Update(opportunity);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction("OpportunityStaffList");
 
-        [Authorize(Roles = "Admin, Volunteer")]
+
+        //}
+         {
+            if (request == null)
+                return new JsonResult(BadRequest());
+
+            var opportunity = _context.Opportunities.FirstOrDefault(m => m.Id == request.Id);
+            opportunity.Name = request.Name;
+            opportunity.StartTime = request.StartTime;
+            opportunity.EndTime = request.EndTime;
+            opportunity.Description = request.Description;
+            opportunity.Address1 = request.Address1;
+            opportunity.Address = request.Address;
+            opportunity.State = request.State;
+            opportunity.City = request.City;
+            opportunity.Zip = request.Zip; 
+            await _context.SaveChangesAsync();
+
+            var slots = _context.InstrumentsSlots.Where(m => m.OpportunityId == request.Id);
+            _context.InstrumentsSlots.RemoveRange(slots);
+            var opportunityId = opportunity.Id;
+            foreach(var item in request.Slots)
+            {
+                item.OpportunityId = opportunityId;
+                _context.InstrumentsSlots.Add(item);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("OpportunityStaffList");
+}
+
+[Authorize(Roles = "Admin, Volunteer")]
         [HttpGet]
         public async Task<ActionResult> Details(int Id)
         {
@@ -252,7 +286,7 @@ namespace StreamsOfSound.Controllers
             }
 
             var signUpOpportunity = signup.ToSignUp();
-            _context.SignUpForOpportunity.Add(signUpOpportunity);
+            _context.SignUpForOpportunities.Add(signUpOpportunity);
 
             await _context.SaveChangesAsync();
             //return View();

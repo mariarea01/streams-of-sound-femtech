@@ -19,6 +19,7 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
+
         public ResetPasswordModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
@@ -101,7 +102,10 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
                 // Don't reveal that the user does not exist
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
-
+            if (user != null && user.Archived == true)
+            {
+                return RedirectToPage("./Lockout");
+            }
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {

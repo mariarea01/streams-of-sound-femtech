@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using StreamsOfSound.Data;
 using StreamsOfSound.Models;
 
 namespace StreamsOfSound.Areas.Identity.Pages.Account
@@ -59,6 +60,10 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToPage("./ForgotPasswordConfirmation");
+                }
+                if (user != null && user.Archived == true)
+                {
+                    return RedirectToPage("./Lockout");
                 }
 
                 // For more information on how to enable account confirmation and password reset please

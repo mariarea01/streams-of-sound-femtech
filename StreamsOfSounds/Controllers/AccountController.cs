@@ -12,6 +12,7 @@ using StreamsOfSound.Models;
 using System.Security.Claims;
 using StreamsOfSound.Models.Domain_Entities;
 using StreamsOfSound.Models.ViewModel;
+using StreamsOfSound.Services;
 
 namespace StreamsOfSound.Controllers
 {
@@ -49,6 +50,32 @@ namespace StreamsOfSound.Controllers
             return View();
         }
 
+        //[Authorize(Roles = "Super, Admin")]
+        [HttpGet]
+        public IActionResult ArchiveStaff()
+        {
+            var users = from u in _context.Users
+                        join ur in _context.UserRoles on u.Id equals ur.UserId
+                        join r in _context.Roles on ur.RoleId equals r.Id
+                        where r.Name == "Admin" && u.Archived == true
+                        select new { User = u };
+
+            return View(users.Select(m => m.User).ToList());
+        }
+
+        //[Authorize(Roles = "Admin, Super")]
+        [HttpGet]
+        public IActionResult ArchiveVolunteers()
+        {
+            var users = from u in _context.Users
+                        join ur in _context.UserRoles on u.Id equals ur.UserId
+                        join r in _context.Roles on ur.RoleId equals r.Id
+                        where r.Name == "Volunteer" && u.Archived == true
+                        select new { User = u };
+
+            return View(users.Select(m => m.User).ToList());
+        }
+
         [HttpGet]
         public async Task<IActionResult> UpdateInstrumentsAsync()
         {
@@ -74,25 +101,23 @@ namespace StreamsOfSound.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateInstruments(UpdateInstrumentsRequest request)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var guidId = Guid.Parse(userId);
-            var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == guidId);
+            var userId = User.Identity.Name;
+            var user = await _context.Users.FirstOrDefaultAsync(y => y.UserName == userId);
 
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
             user.Instruments = request.NewInstruments;
-            _context.Users.Add(user);
             _context.SaveChanges();
 
             var model = new UpdateInstrumentsViewModel
             {
                 OldInstruments = user.Instruments,
-                NewInstruments = user.Instruments
+                NewInstruments = user.Instruments,
+                StatusMessage = "Instrument List has been updated!"
             };
-
+            
             return View("UpdateInstruments", model);
         }
 
@@ -109,6 +134,7 @@ namespace StreamsOfSound.Controllers
             user.Email = staff.Email;
             user.Position = staff.Position;
             user.EmailConfirmed = true;
+            user.Archived = false;
             string password = PasswordGenerator.GeneratePassword();
             var result = await _userManager.CreateAsync(user, password);
             returnUrl ??= Url.Content("~/");
@@ -140,7 +166,12 @@ namespace StreamsOfSound.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CreateStaffPasswordAsync(string token, string email)
         {
-            await _signInManager.SignOutAsync();
+            if(User.Identity.IsAuthenticated)
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("CreateStaffPassword", "Account", new {token = token, email=email});   
+            }
+            
             if (email == null || token == null)
             {
                 ModelState.AddModelError("", "invalid password reset token");
@@ -152,7 +183,6 @@ namespace StreamsOfSound.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateStaffPassword(StaffPasswordRequest request)
         {
-            await _signInManager.SignOutAsync();
             var user = await _userManager.FindByEmailAsync(request.Email);  
             if(user != null)
             {
@@ -171,31 +201,34 @@ namespace StreamsOfSound.Controllers
             return View("ResetStaffPasswordConfirmation");
         }
 
-        /*
-        private async Task LoadAsync(ApplicationUser user)
-        {
-            var email = await _userManager.GetEmailAsync(user);
-            user.Email = email;
-
-            var input = new UpdateInstrumentsRequest()
-            {
-                //NewInstruments = request.,
-            };
-        }
-        */
-
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public async Task<IActionResult> ActiveVolunteerList()
         {
-            var users = await _context.Users.ToListAsync();
-            //var volunteers = _userManager.GetUsersInRoleAsync("Volunteer");
+            var users = from u in _context.Users
+                        join ur in _context.UserRoles on u.Id equals ur.UserId
+                        join r in _context.Roles on ur.RoleId equals r.Id
+                        where r.Name == "Volunteer"
+                        select new { User = u }; 
+            
+            return View(users.Select(m=>m.User).ToList());
+        }
 
-            return View(users);
+        //[Authorize(Roles = "Volunteer, Admin")]
+        [HttpGet]
+        public async Task<IActionResult> ActiveStaffList()
+        {
+            var users = from u in _context.Users
+                        join ur in _context.UserRoles on u.Id equals ur.UserId
+                        join r in _context.Roles on ur.RoleId equals r.Id
+                        where r.Name == "Admin" && u.Archived == false
+                        select new { User = u };
+
+            return View(users.Select(m => m.User).ToList());
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteUser(Guid id)
+        public async Task<IActionResult> ObliterateVolunteer(Guid id)
         {
             // TODO: Tell them what happened
             if (id == Guid.Empty)
@@ -211,11 +244,39 @@ namespace StreamsOfSound.Controllers
                 ModelState.AddModelError("", "No user found");
                 return View("Error");
             }
-
-            _context.Users.Remove(user);
+            user.Archived = true;
+            user.TimeEnd = DateTime.Now;
             await _context.SaveChangesAsync();
-          
-            return RedirectToAction(nameof(ActiveVolunteerList));
+
+            ViewData["Message"] = $"User {user.UserName} has been archived.";
+
+            return RedirectToAction("ArchiveVolunteers", "Account");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ObliterateStaff(Guid id)
+        {
+            // TODO: Tell them what happened
+            if (id == Guid.Empty)
+            {
+                ModelState.AddModelError("", "No User Found");
+                return View("Error");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "No user found");
+                return View("Error");
+            }
+            user.Archived = true;
+            user.TimeEnd= DateTime.Now; 
+            await _context.SaveChangesAsync();
+
+            ViewData["Message"] = $"User {user.UserName} has been archived.";
+
+            return RedirectToAction("ArchiveStaff", "Account");
         }
 
         private IUserEmailStore<ApplicationUser> GetEmailStore()
