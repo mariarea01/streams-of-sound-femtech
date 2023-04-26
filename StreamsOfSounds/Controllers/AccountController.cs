@@ -109,9 +109,8 @@ namespace StreamsOfSound.Controllers
             user.Email = staff.Email;
             user.Position = staff.Position;
             user.EmailConfirmed = true;
-            user.Archive = false;
-            staff.Password = "123Abc!";
-            var result = await _userManager.CreateAsync(user, staff.Password);
+            string password = PasswordGenerator.GeneratePassword();
+            var result = await _userManager.CreateAsync(user, password);
             returnUrl ??= Url.Content("~/");
 
             if (result.Succeeded)

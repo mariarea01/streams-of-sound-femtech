@@ -12,5 +12,6 @@
     [State]             NVARCHAR(50) NOT NULL, 
     [SlotsOpenings]     INT NOT NULL, 
     [SlotsAvailable]    INT NOT NULL, 
-    [IsArchived]        BIT NOT NULL DEFAULT 0
+    [isArchived] BIT NULL,
+
 )

@@ -15,6 +15,7 @@ namespace StreamsOfSound.Models.Requests
         public string Zip { get; set; } = string.Empty;
         public int SlotsOpenings { get; set; }
         public int SlotsAvailable { get; set; }
+        public List<InstrumentsSlots> Slots { get; set; }
 
         public Opportunity ToOpportunity()
         {
@@ -30,7 +31,7 @@ namespace StreamsOfSound.Models.Requests
                 State = State,
                 Zip = Zip,
                 SlotsOpenings = SlotsOpenings,
-                SlotsAvailable = SlotsAvailable
+                SlotsAvailable = SlotsAvailable,
             };
         }
     }

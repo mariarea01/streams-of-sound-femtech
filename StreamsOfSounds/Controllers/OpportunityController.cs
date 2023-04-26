@@ -57,7 +57,25 @@ namespace StreamsOfSound.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            /*
+            var model = new CreateOpportunityRequest();
+            model.Slots = new List<InstrumentsSlots>();
+            model.Slots.Add(new InstrumentsSlots
+            {
+                Instrument = "handpan",
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now
+            });
+
+            model.Slots.Add(new InstrumentsSlots
+            {
+                Instrument = "bazooka",
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now
+            });
+            */
             return View();
+
         }
 
         [Authorize(Roles = "Volunteer")]
@@ -79,7 +97,7 @@ namespace StreamsOfSound.Controllers
         [HttpGet]
         public async Task<IActionResult> OpportunityList()
         {
-            var opportunitiesList = await _context.Opportunities.Where(x => !x.IsArchived).ToListAsync();
+            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived??false).ToList();
             return View(opportunitiesList);
         }
 
@@ -102,7 +120,7 @@ namespace StreamsOfSound.Controllers
         [HttpGet]
         public IActionResult OpportunityStaffList()
         {
-            var opportunitiesList = _context.Opportunities.Where(x => !x.IsArchived).ToList();
+            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived ?? false).ToList();
             return View(opportunitiesList);
         }
 
@@ -125,14 +143,20 @@ namespace StreamsOfSound.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateOpportunityRequest request)
         {
-
             if (request == null)
                 return new JsonResult(BadRequest());
 
             var opportunity = request.ToOpportunity();
+            opportunity.isArchived = false;
             _context.Opportunities.Add(opportunity);
             await _context.SaveChangesAsync();
-
+            var opportunityId = opportunity.Id;
+            foreach(var item in request.Slots)
+            {
+                item.OpportunityId = opportunityId;
+                _context.InstrumentsSlots.Add(item);
+                _context.SaveChanges();
+            }
             return RedirectToAction("OpportunityStaffList");
         }
 
@@ -194,10 +218,10 @@ namespace StreamsOfSound.Controllers
                 return NotFound();
             }
 
-            opportunity.IsArchived = !opportunity.IsArchived;
+            opportunity.isArchived = !opportunity.isArchived;
             await _context.SaveChangesAsync();
 
-            if (opportunity.IsArchived)
+            if (opportunity.isArchived ?? false)
             {
                 return RedirectToAction("ArchiveList");
             }
@@ -211,7 +235,7 @@ namespace StreamsOfSound.Controllers
         [HttpGet]
         public IActionResult ArchiveList()
         {
-            var archivedOpportunities = _context.Opportunities.Where(x => x.IsArchived).ToList();
+            var archivedOpportunities = _context.Opportunities.Where(x => x.isArchived ?? false).ToList();
             return View(archivedOpportunities);
         }
 
