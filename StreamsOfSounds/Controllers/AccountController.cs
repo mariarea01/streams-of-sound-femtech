@@ -134,6 +134,7 @@ namespace StreamsOfSound.Controllers
             user.Email = staff.Email;
             user.Position = staff.Position;
             user.EmailConfirmed = true;
+            user.TimeJoined = DateTime.Now;
             user.Archived = false;
             string password = PasswordGenerator.GeneratePassword();
             var result = await _userManager.CreateAsync(user, password);
