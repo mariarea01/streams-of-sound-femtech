@@ -11,6 +11,10 @@ html {
     border-top: solid 1px #eee;
 }
 
+.dropdown-menu{
+    border:none;
+    background-color: #734e16;
+}
 
 .carousel-item {
     min-height: 280px;
@@ -35,7 +39,11 @@ body {
     margin-bottom: 60px;
     color: #fffdfa;
 }
-
+.form-style {
+    max-width: 1000px;
+    
+    padding: 15px;
+}
 .color {
     color: #734e16;
 }
@@ -104,11 +112,11 @@ img.logo {
     cursor: pointer;
     text-align: center;
 }
-
+/*
 .whiteButtonText {
     color: white;
 }
-
+*/
 
 .content {
     padding: 0 18px;
@@ -215,4 +223,4 @@ table {
         padding: 0;
     }
 }
-}
+

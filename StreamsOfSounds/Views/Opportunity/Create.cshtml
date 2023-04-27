@@ -9,20 +9,12 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
 </head>
-<style>
-    .container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-    }
-</style>
 <body>
     @Html.AntiForgeryToken()
     <h1>@ViewData["Title"]</h1>
+
     <form id="frm-create" method="post">
+     <div class="form-style">
         <div class="col-md-6 mb-3">
             <label for="name">Opportunity Name</label>
             <input type="text" class="form-control" id="name" name="name">
@@ -36,8 +28,9 @@
             <input type="datetime-local" class="form-control" id="EndTime" name="EndTime">
         </div>
         <div class="col-md-6 mb-3">
-            <a href="javascript:void(0);" class="btn btn-primary" id="add-slot">Add Instruments and Time Slots</a>
+            <a href="javascript:void(0);" class="btn btn-primary" id="add-slot">Add Instruments and Time Slots</a> <br />
             <div id="time-slots">
+                    <br />
             </div>
         </div>
         <div class="col-md-6 mb-3">
@@ -119,6 +112,7 @@
         </div>
         <input class="btn btn-primary" type="submit" value="Submit">
         <input type="reset" value="Reset" class="btn btn-warning">
+     </div>
     </form>
 </body>
 </html>
@@ -217,12 +211,12 @@
         
         const newSlot = document.createElement("div");
         var slotRow = '<div class="instrument" id="instrument-'+slotCounter+'">'
-        slotRow += '<label for="instruments">Instruments</label>';
-        slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments">';
-        slotRow += '<label for="startTime">Start:</label>';
-        slotRow += '<input type="datetime-local" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time">';
-        slotRow += '<label for="endTime">End:</label>';
-        slotRow += '<input type="datetime-local" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time">';
+        slotRow += '<label for="instruments">Instruments: &nbsp; </label>';
+        slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments"><br />';
+        slotRow += '<label for="startTime">Start: &nbsp; </label>';
+        slotRow += '<input type="datetime-local" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time"><br />';
+        slotRow += '<label for="endTime">End: &nbsp;</label>';
+        slotRow += '<input type="datetime-local" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time"><br />';
         slotRow += '<a href="javascript:void(0);" class="btn btn-danger btn-delete" data-slot="'+slotCounter+'">Delete Slot</a>' 
         slotRow += '</div>'
 

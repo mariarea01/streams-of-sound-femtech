@@ -31,7 +31,6 @@ namespace StreamsOfSound.Models.Requests
                 City = City,
                 State = State,
                 Zip = Zip,
-                SlotsOpenings = SlotsOpenings,
                 SlotsAvailable = SlotsAvailable,
             };
         }
