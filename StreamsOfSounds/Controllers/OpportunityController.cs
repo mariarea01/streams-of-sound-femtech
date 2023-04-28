@@ -49,9 +49,58 @@ namespace StreamsOfSound.Controllers
 
         [Authorize(Roles = "Volunteer")]
         [HttpGet]
-        public IActionResult CancelOpportunity()
+        public IActionResult CancelOpportunity(int Id)
         {
-            return View();
+            var oppData = (from su in _context.InstrumentSignUp
+                          join sl in _context.InstrumentsSlots on su.InstrumentSlotsId equals sl.Id
+                          join o in _context.Opportunities on sl.OpportunityId equals o.Id
+                          where su.Id == Id
+                          select new
+                          {
+                              youRaiseMeUp = su,
+                              slotoriusBIG = sl,
+                              gelegenheit = o,
+                          }).FirstOrDefault();
+
+            var yeet = new ReasonToTeetViewModel();
+            yeet.youRaiseMeUpId = oppData.youRaiseMeUp.Id;
+            yeet.gelegenheitId = oppData.gelegenheit.Id;
+            yeet.slotoriousBIGId = oppData.slotoriusBIG.Id;
+            
+            return View(yeet);
+        }
+
+        [HttpPost]
+        public IActionResult YeetOpportunity(int Id)
+        {
+
+            return Redirect("MyOpportunities");
+        }
+
+        //[Authorize(Roles = "Volunteer")]
+        [HttpPost]
+        public IActionResult YeetSignUp(YeetSignUpRequest request)
+        {
+            var slotToCancel = _context.InstrumentsSlots.SingleOrDefault(x => x.Id == request.slotId);
+
+            if (slotToCancel == null)
+                return NotFound();
+
+            var userToYeetOut = _context.InstrumentSignUp.SingleOrDefault(x => x.Id == request.signUpId);
+
+            var toYeetOrToNotYeet = slotToCancel == null || userToYeetOut == null;
+            if (toYeetOrToNotYeet)
+                return NotFound();
+
+            var yeet = new ReasonToYeet();
+            yeet.YeetedSlotId = userToYeetOut.InstrumentSlotsId;
+            yeet.ThisIsMyLastResort = request.ReasonToCancel;
+            _context.ReasonToYeet.Add(yeet);
+
+            _context.InstrumentSignUp.Remove(userToYeetOut);
+
+            _context.SaveChanges();
+            return Redirect("MyOpportunities");
         }
 
         [HttpGet]
@@ -78,27 +127,48 @@ namespace StreamsOfSound.Controllers
 
         }
 
-        [Authorize(Roles = "Volunteer")]
+        [Authorize(Roles = "Volunteer, Admin")]
         [HttpGet]
         public async Task<IActionResult> MyOpportunities()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var guidId = Guid.Parse(userId);
 
-            var opportunitiesList = await _context.SignUpForOpportunities
-                .Include(x => x.Opportunity)
-                .Where(x => x.UserId == guidId)
-                .ToListAsync();
+            var opportunitiesList = from o in _context.Opportunities
+                                    join isl in _context.InstrumentsSlots on o.Id equals isl.OpportunityId
+                                    join su in _context.InstrumentSignUp on isl.Id equals su.InstrumentSlotsId
+                                    where su.UserId == guidId
+                                    select new MyOpportuntiesViewModel 
+                                    { 
+                                        Id= o.Id,
+                                        Name = o.Name,
+                                        Description = o.Description,
+                                        StartTime = o.StartTime,
+                                        EndTime = o.EndTime,
+                                        Address = o.Address,
+                                        Address1 = o.Address1,
+                                        City = o.City,
+                                        State = o.State,
+                                        Zip = o.Zip,
+                                        Instrument = isl.Instrument,
+                                        SlotStartTime = isl.StartTime,
+                                        SlotEndTime = isl.EndTime,
+                                        signUpId = su.Id
 
-            return View(opportunitiesList);
+                                    };
+            return View(opportunitiesList.ToList());
         }
 
         [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public async Task<IActionResult> OpportunityList()
         {
-            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived??false).ToList();
-            return View(opportunitiesList);
+            var opportunitiesList = _context.Opportunities.Where(x => !x.isArchived ?? false).ToList();
+            var slotsList = _context.InstrumentsSlots.ToList();
+            var model = new OpportunityStaffListViewModel();
+            model.Opportunity = opportunitiesList;
+            model.Slots = slotsList;
+            return View(model);
         }
 
         [Authorize(Roles = "Volunteer")]
@@ -155,7 +225,7 @@ namespace StreamsOfSound.Controllers
             _context.Opportunities.Add(opportunity);
             await _context.SaveChangesAsync();
             var opportunityId = opportunity.Id;
-            foreach(var item in request.Slots)
+            foreach (var item in request.Slots)
             {
                 item.OpportunityId = opportunityId;
                 _context.InstrumentsSlots.Add(item);
@@ -187,18 +257,18 @@ namespace StreamsOfSound.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> Edit(CreateOpportunityRequest request)
-        //{
-        //    _context.Opportunities.Update(opportunity);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction("OpportunityStaffList");
-
-
-        //}
-         {
+        {
             if (request == null)
                 return new JsonResult(BadRequest());
 
             var opportunity = _context.Opportunities.FirstOrDefault(m => m.Id == request.Id);
+
+            if (opportunity == null)
+            {
+                return NotFound();
+
+            }
+
             opportunity.Name = request.Name;
             opportunity.StartTime = request.StartTime;
             opportunity.EndTime = request.EndTime;
@@ -207,25 +277,27 @@ namespace StreamsOfSound.Controllers
             opportunity.Address = request.Address;
             opportunity.State = request.State;
             opportunity.City = request.City;
-            opportunity.Zip = request.Zip; 
+            opportunity.Zip = request.Zip;
             await _context.SaveChangesAsync();
 
             var slots = _context.InstrumentsSlots.Where(m => m.OpportunityId == request.Id);
             _context.InstrumentsSlots.RemoveRange(slots);
             var opportunityId = opportunity.Id;
-            foreach(var item in request.Slots)
+            foreach (var item in request.Slots)
             {
                 item.OpportunityId = opportunityId;
                 _context.InstrumentsSlots.Add(item);
                 _context.SaveChanges();
             }
             return RedirectToAction("OpportunityStaffList");
-}
+        }
 
-[Authorize(Roles = "Admin, Volunteer")]
+
+        [Authorize(Roles = "Admin, Volunteer")]
         [HttpGet]
         public async Task<ActionResult> Details(int Id)
         {
+
             if (Id == default(int))
             {
                 return new JsonResult(BadRequest());
@@ -237,7 +309,21 @@ namespace StreamsOfSound.Controllers
             {
                 return NotFound();
             }
+            var signUps = (from o in _context.Opportunities
+                           join isl in _context.InstrumentsSlots on o.Id equals isl.OpportunityId
+                           join su in _context.InstrumentSignUp on isl.Id equals su.InstrumentSlotsId
+                           where o.Id == Id
+                           select new
+                           {
+                               youRaiseMeUp = su,
+                           }).ToList();
 
+            var slots = _context.InstrumentsSlots.Where(m => m.OpportunityId == opportunity.Id).ToList();
+            var takenSignUps = signUps.Select(m=>m.youRaiseMeUp).Where(m=>slots.Any(x=>x.Id==m.InstrumentSlotsId)).ToList();
+            var openSlots = slots.Where(m => !takenSignUps.Any(x => x.InstrumentSlotsId == m.Id)).ToList();
+            ViewData["OpenSlots"] = openSlots;
+            ViewData["Slots"] = slots;
+            ViewData["SlotSignUp"] = signUps;   
             return View(opportunity);
         }
 
@@ -273,36 +359,40 @@ namespace StreamsOfSound.Controllers
             return View(archivedOpportunities);
         }
 
-        [Authorize(Roles = "Volunteer")]
+        [Authorize(Roles = "Volunteer, Admin")]
         [HttpPost]
         public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest signup)
         {
 
-            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == signup.OpportunityId);
+            var slot = await _context.InstrumentsSlots.FirstOrDefaultAsync(x => x.Id == signup.InstrumentSlotsId);
             var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == signup.UserId);
-            if (opportunity == null || user == null)
+            if (slot == null || user == null)
             {
                 return NotFound("This opportunity or user is not found");
             }
 
-            var signUpOpportunity = signup.ToSignUp();
-            _context.SignUpForOpportunities.Add(signUpOpportunity);
+
+            var signUpForSlot = signup.ToSignUp();
+
+            _context.InstrumentSignUp.Add(signUpForSlot);
 
             await _context.SaveChangesAsync();
             //return View();
             return RedirectToAction("MyOpportunities", new { UserId = user.Id });
         }
 
-        [Authorize(Roles = "Volunteer")]
-        public async Task<ActionResult> PassingInSignUp(VolunteerSignUpFormRequest request)
+        [Authorize(Roles = "Volunteer, Admin")]
+        public async Task<ActionResult> PassingInSignUp(int Id, int OpportunityId)
         {
             // TODO: Check if request is null, return to an error page or error message,
             // if opp not null - update & obtain userID, verify that the user exists - context (similar to 23)
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var guidId = Guid.Parse(userId);
-            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == request.OpportunityId);
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == OpportunityId);
+            var instrumentSlot = await _context.InstrumentsSlots.FirstOrDefaultAsync(x => x.Id == Id);
             var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == guidId);
-            if (opportunity == null || user == null)
+
+            if (instrumentSlot == null || user == null)
             {
                 return NotFound("This opportunity or user is not found");
             }
@@ -312,9 +402,10 @@ namespace StreamsOfSound.Controllers
                 OpportunityId = opportunity.Id,
                 UserId = user.Id,
                 Opportunity = opportunity,
-                User = user
+                User = user,
+                Slot = instrumentSlot,
             };
-            return View("UpdateInstruments", viewModel);
+            return View("ConfirmSignUp", viewModel);
         }
 
     }

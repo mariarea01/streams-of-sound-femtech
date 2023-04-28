@@ -29,6 +29,7 @@ namespace StreamsOfSound.Models.Domain_Entities
 
         [Required(ErrorMessage = "Enter Zip")]
         public string Zip { get; set; } = string.Empty;
+
         public int SlotsAvailable { get; set; }
         public bool? isArchived { get; set; }
         

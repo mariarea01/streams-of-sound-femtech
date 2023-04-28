@@ -1,6 +1,7 @@
 ﻿@model Opportunity
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Edit";
+    var slots = (List<InstrumentsSlots>)ViewData["OpenSlots"];
 }
 
 <!DOCTYPE html>
@@ -34,7 +35,22 @@
         </div>
         <div>
             <h3>Event Details</h3>
-            <p><strong>Available Slots:</strong> @Model.SlotsAvailable</p>
+            <div class="col-md-6 mb-3">
+                <div id="time-slots">
+                    @for (int i = 0; i < slots.Count(); i++)
+                    {
+                        <div class="instrument" id="instrument-@i">
+                            <label for="instruments">Instruments</label>
+                            <input type="text" id="instruments" name="Slots[@i].Instrument" placeholder="Instruments" value="@slots[i].Instrument" fdprocessedid="ql2e4t">
+                            <label for="startTime">Start:</label>
+                            <input type="datetime-local" id="startTime" name="Slots[@i].StartTime" value="@slots[i].StartTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="Start Time">
+                            <label for="endTime">End:</label>
+                            <input type="datetime-local" id="endTime" name="Slots[@i].EndTime" value="@slots[i].EndTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="End Time">
+                            @Html.ActionLink("SignUp", "PassingInSignUp","Opportunity", new { Id = slots[i].Id, OpportunityId = Model.Id })
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </body>

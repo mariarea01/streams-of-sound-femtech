@@ -109,6 +109,8 @@
         <input class="btn btn-primary" type="submit" value="Submit">
         <input type="reset" value="Reset" class="btn btn-warning">
      </div>
+     <br />
+        <td><button type="button" class = "btn-dark" onclick="location.href='@Url.Action("OpportunityStaffList","Opportunity")'">Back to List</button></td>
     </form>
 </body>
 </html>
@@ -206,12 +208,12 @@
         
         const newSlot = document.createElement("div");
         var slotRow = '<div class="instrument" id="instrument-'+slotCounter+'">'
-        slotRow += '<label for="instruments">Instruments: &nbsp; </label>';
-        slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments"><br />';
-        slotRow += '<label for="startTime">Start: &nbsp; </label>';
-        slotRow += '<input type="datetime-local" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time"><br />';
-        slotRow += '<label for="endTime">End: &nbsp;</label>';
-        slotRow += '<input type="datetime-local" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time"><br />';
+        slotRow += '<label for="instruments">Instruments</label>';
+        slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments">';
+        slotRow += '<label for="startTime">Start:</label>';
+        slotRow += '<input type="time" id="startTime" name="Slots[' + slotCounter + '].StartTime" max="23:00" min:"5:00">';
+        slotRow += '<label for="endTime">End:</label>';
+        slotRow += '<input type="time" id="endTime" name="Slots[' + slotCounter + '].EndTime" max="23:00" min:"5:00"">';
         slotRow += '<a href="javascript:void(0);" class="btn btn-danger btn-delete" data-slot="'+slotCounter+'">Delete Slot</a>' 
         slotRow += '</div>'
 

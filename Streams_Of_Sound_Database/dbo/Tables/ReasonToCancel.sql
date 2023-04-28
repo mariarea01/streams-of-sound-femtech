@@ -1,8 +1,8 @@
-﻿CREATE TABLE [dbo].[ReasonToCancel]
+﻿CREATE TABLE [dbo].[ReasonToYeet]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[ReasonToCancel] NVARCHAR(MAX) NOT NULL,
-	InstrumentSignUpId INT NOT NULL,
+	[ThisIsMyLastResort] NVARCHAR(MAX) NOT NULL,
+	YeetedSlotId INT NOT NULL,
 
-	CONSTRAINT [FK_ReasonToCancel_InstrumentSignUp] FOREIGN KEY (InstrumentSignUpId) REFERENCES [InstrumentSignUp](Id),
+	CONSTRAINT [FK_ReasonToYeet_InstrumentsSlots] FOREIGN KEY (YeetedSlotId) REFERENCES [InstrumentsSlots](Id),
 )

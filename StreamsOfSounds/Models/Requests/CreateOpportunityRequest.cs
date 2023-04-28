@@ -13,7 +13,7 @@ namespace StreamsOfSound.Models.Requests
         public string City { get; set; } = string.Empty;
         public string State { get; set; } = string.Empty;
         public string Zip { get; set; } = string.Empty;
-        public int SlotsOpenings { get; set; }
+        //public int SlotsOpenings { get; set; }
         public int SlotsAvailable { get; set; }
         public List<InstrumentsSlots> Slots { get; set; }
         public int Id { get; set; } 
