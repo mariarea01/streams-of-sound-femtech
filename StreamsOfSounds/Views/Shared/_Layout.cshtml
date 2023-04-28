@@ -34,55 +34,37 @@
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveVolunteerList">Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="RegisterNewStaff">Add Staff</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="Create">Create Opportunity</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="OpportunityStaffList">Opportunity List</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="ArchiveList">Archived Opportunities</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Opportunities</a>
+                                <div class="dropdown-menu" id="dropdown-style">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="Create">Create an Opportunity</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="ArchiveList">Archived Opportunities</a>
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveStaffList">Staff Mmbers</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Staff</a>
+                                <div class="dropdown-menu">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="RegisterNewStaff">Add a New Staff Member</a>
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveVolunteerList">active volunteer</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Volunteers</a>
+                                <div class="dropdown-menu">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveVolunteerList">Active Volunteers</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveVolunteers">Archive Volunteers</a>
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveVolunteers">archive volunteer</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveStaff">archive staff</a>
-                            </li>
+
                         }
                         else if (SignInManager.IsSignedIn(User) && User.IsInRole("Volunteer"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="OpportunityList">Opportunity List</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="OpportunityStaffList">Opportunity List</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="MyOpportunities">My Opportunities</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="UpdateInstruments">Test</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveStaffList">Staff Mmbers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveVolunteerList">active volunteer</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveVolunteers">archive volunteer</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveStaff">archive staff</a>
                             </li>
                         }
 
@@ -98,14 +80,16 @@
         </main>
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            &copy; 2023 - Streams Of Sound
-        </div>
-    </footer>
+   <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="text-center text-muted">© 2023 Streams of Sound Scheduling Application</p>
+        </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
