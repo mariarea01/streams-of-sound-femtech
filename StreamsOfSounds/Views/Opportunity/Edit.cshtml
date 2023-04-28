@@ -9,16 +9,6 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
-    <style>
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -45,17 +35,17 @@
                 <textarea class="form-control" id="description" name="description"></textarea>
             </div>
              <div class="col-md-6 mb-3">
-            <a href="javascript:void(0);" class="btn btn-primary" id="add-slot">Add Instruments and Time Slots</a>
+                <a href="javascript:void(0);" class="btn btn-primary" id="add-slot">Add Instruments and Time Slots</a> <br />
             <div id="time-slots">
                     @for (int i = 0; i < slots.Count(); i++)
                     {
                         <div class="instrument" id="instrument-@i">
-                            <label for="instruments">Instruments</label>
-                            <input type="text" id="instruments" name="Slots[@i].Instrument" placeholder="Instruments" value="@slots[i].Instrument" fdprocessedid="ql2e4t">
-                            <label for="startTime">Start:</label>
-                            <input type="datetime-local" id="startTime" name="Slots[@i].StartTime" value="@slots[i].StartTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="Start Time">
-                            <label for="endTime">End:</label>
-                            <input type="datetime-local" id="endTime" name="Slots[@i].EndTime" value="@slots[i].EndTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="End Time">
+                            <label for="instruments">Instruments: &nbsp;</label>
+                            <input type="text" id="instruments" name="Slots[@i].Instrument" placeholder="Instruments" value="@slots[i].Instrument" fdprocessedid="ql2e4t"> <br />
+                            <label for="startTime">Start: &nbsp;</label>
+                            <input type="datetime-local" id="startTime" name="Slots[@i].StartTime" value="@slots[i].StartTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="Start Time"> <br/>
+                            <label for="endTime">End: &nbsp; </label>
+                            <input type="datetime-local" id="endTime" name="Slots[@i].EndTime" value="@slots[i].EndTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="End Time"> <br />
                             <a href="javascript:void(0);" class="btn btn-danger btn-delete" data-slot="@i">Delete Slot</a>
                         </div>
                     }
@@ -140,7 +130,7 @@
             <br>
 
             <input type="submit" value="Save" class="btn btn-primary" asp-action="Edit">
-            <a href="@Url.Action("OpportunityStaffList") class="btn btn-warning">Cancel</a>
+            <td><button type="button" class="btn-warning" onclick="location.href='@Url.Action("OpportunityStaffList","Opportunity")'">Back to List</button></td>
         </form>
     </div>
 </body>
@@ -185,12 +175,12 @@
 
         const newSlot = document.createElement("div");
         var slotRow = '<div class="instrument" id="instrument-' + slotCounter + '">'
-        slotRow += '<label for="instruments">Instruments</label>';
-        slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments">';
-        slotRow += '<label for="startTime">Start:</label>';
-        slotRow += '<input type="datetime-local" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time">';
-        slotRow += '<label for="endTime">End:</label>';
-        slotRow += '<input type="datetime-local" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time">';
+        slotRow += '<label for="instruments">Instruments: &nbsp;</label>';
+        slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments"><br />';
+        slotRow += '<label for="startTime">Start: &nbsp;</label>';
+        slotRow += '<input type="datetime-local" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time"><br />';
+        slotRow += '<label for="endTime">End: &nbsp;</label>';
+        slotRow += '<input type="datetime-local" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time"><br />';
         slotRow += '<a href="javascript:void(0);" class="btn btn-danger btn-delete" data-slot="' + slotCounter + '">Delete Slot</a>'
         slotRow += '</div>'
 

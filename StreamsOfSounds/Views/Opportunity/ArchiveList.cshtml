@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Archived Opportunity List";
 }
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,6 @@
                 <th><b>Actions</b></th>
             </tr>
         </thead>
-        <tbody>
             @using (Html.BeginForm("Unarchive", "Opportunity"))
             {
                 if (Model == null || !Model.Any(x => x.isArchived ??false) )
@@ -49,7 +49,6 @@
                     </tr>
                 }
             }
-        </tbody>
     </table>
 </body>
 </html>
@@ -58,7 +57,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 
     <script>$(document).ready(function () {
             $('#oppTable').DataTable({
