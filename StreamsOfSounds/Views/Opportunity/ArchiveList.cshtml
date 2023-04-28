@@ -10,7 +10,7 @@
 </head>
 <body>
     @Html.AntiForgeryToken()
-
+    <div class="container">
     <table id="oppTable" class="table table-bordered table-striped" style="width: 100%" cellpadding="0" cellspacing="0">
         <thead class="thead-light">
             <tr>
@@ -51,6 +51,7 @@
             }
         </tbody>
     </table>
+    </div>
 </body>
 </html>
 @section Scripts
@@ -83,6 +84,7 @@
             });
         });
 
+       
         function confirmDelete() {
             return confirm("Are you sure you want to delete this Opportunity? This action is permenant, once you click ok you wont be able to get it back.");
         }
