@@ -21,7 +21,6 @@
                 <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.City)</b></th>
                 <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.State)</b></th>
                 <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Zip)</b></th>
-                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.SlotsAvailable)</b></th>
                 <th><b>Actions</b></th>
             </tr>
         </thead>
@@ -43,7 +42,6 @@
                         <td>@opp.City</td>
                         <td>@opp.State</td>
                         <td>@opp.Zip</td>
-                        <td>@opp.SlotsAvailable</td>
                         <td>
                             @Html.ActionLink("View", "Details", new { Id = opp.Id }) |
                             @Html.ActionLink("Unarchive", "Archive", new { Id = opp.Id }, new { onclick = "return confirmUnarchive()" })
@@ -78,7 +76,6 @@
                     { "data": "City" },
                     { "data": "State" },
                     { "data": "Zip" },
-                    { "data": "SlotsAvailable" },
                     { "data": "Actions" }
                 ],
                 "language": {

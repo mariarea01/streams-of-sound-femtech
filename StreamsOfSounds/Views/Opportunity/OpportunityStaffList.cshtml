@@ -23,7 +23,6 @@
                 <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.City)</b></th>
                 <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.State)</b></th>
                 <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.Zip)</b></th>
-                <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.SlotsAvailable)</b></th>
                 <th><b>Actions</b></th>
             </tr>
         </thead>
@@ -46,7 +45,6 @@
                         <td>@opp.City</td>
                         <td>@opp.State</td>
                         <td>@opp.Zip</td>
-                        <td>@Model.Slots.Where(m=>m.OpportunityId == opp.Id).Count()</td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { Id = opp.Id }) |
                         @Html.ActionLink("View", "Details", new { Id = opp.Id }) | 
@@ -83,9 +81,11 @@
                     { "data": "City" },
                     { "data": "State" },
                     { "data": "Zip" },
-                    { "data": "SlotsAvailable" },
                     { "data": "Actions" }
-                ]
+                ],
+                "language": {
+                    "emptyTable": "No archived opportunities"
+                }
             });
         });
         function confirmDelete() {

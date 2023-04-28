@@ -6,15 +6,14 @@ namespace StreamsOfSound.Models.Requests
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
-        public int OpportunityId { get; set; }
+        public int InstrumentSlotsId { get; set; }
 
-        public SignUpForOpportunity ToSignUp()
+        public InstrumentSignUp ToSignUp()
         {
-            return new SignUpForOpportunity
+            return new InstrumentSignUp
             {
                 UserId = UserId,
-                OpportunityId = OpportunityId,
-                Id = Id,
+                InstrumentSlotsId = InstrumentSlotsId,
             };
         }
     }

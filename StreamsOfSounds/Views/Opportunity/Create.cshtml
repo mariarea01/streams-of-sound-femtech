@@ -220,9 +220,9 @@
         slotRow += '<label for="instruments">Instruments</label>';
         slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments">';
         slotRow += '<label for="startTime">Start:</label>';
-        slotRow += '<input type="datetime-local" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time">';
+        slotRow += '<input type="time" id="startTime" name="Slots[' + slotCounter + '].StartTime" max="23:00" min:"5:00">';
         slotRow += '<label for="endTime">End:</label>';
-        slotRow += '<input type="datetime-local" id="endTime" name="Slots[' + slotCounter + '].EndTime" placeholder="End Time">';
+        slotRow += '<input type="time" id="endTime" name="Slots[' + slotCounter + '].EndTime" max="23:00" min:"5:00"">';
         slotRow += '<a href="javascript:void(0);" class="btn btn-danger btn-delete" data-slot="'+slotCounter+'">Delete Slot</a>' 
         slotRow += '</div>'
 

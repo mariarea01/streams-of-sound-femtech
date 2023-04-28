@@ -5,7 +5,7 @@
     @using (Html.BeginForm("ConfirmSignUp", "Opportunity", FormMethod.Post))
     {
         <input type="hidden" name="UserId" value="@Model.UserId" />
-        <input type="hidden" name="OpportunityId" value="@Model.OpportunityId" />
+        <input type="hidden" name="InstrumentSlotsId" value="@Model.Slot.Id" />
 
         <table>
             <tr>Confirm Sign Up Table</tr>
@@ -56,6 +56,18 @@
             <tr>
                 <td>Opportunity End Time: </td>
                 <td>@Model.Opportunity.EndTime
+            </tr>
+            <tr>
+                <td>Slot Instrument: </td>
+                <td>@Model.Slot.Instrument
+            </tr>
+            <tr>
+                <td>Slot StartTime: </td>
+                <td>@Model.Slot.StartTime
+            </tr>
+            <tr>
+                <td>Slot EndTime: </td>
+                <td>@Model.Slot.EndTime
             </tr>
             <tr>
                 <td><input type="submit" value="Submit" /></td>

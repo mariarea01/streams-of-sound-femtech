@@ -9,9 +9,8 @@
     [Address1]          NVARCHAR(50) NULL, 
     [City]              NVARCHAR(50) NOT NULL, 
     [Zip]               NVARCHAR(50) NOT NULL, 
-    [State]             NVARCHAR(50) NOT NULL, 
-    [SlotsOpenings]     INT NOT NULL, 
+    [State]             NVARCHAR(50) NOT NULL,
     [SlotsAvailable]    INT NOT NULL, 
-    [isArchived] BIT NULL,
+    [isArchived]        BIT NULL,
 
 )

@@ -1,4 +1,5 @@
-@model List<Opportunity>
+@using StreamsOfSound.Models.ViewModel
+@model OpportunityStaffListViewModel
 @{
     ViewData["Title"] = "Opportunity List";
 }
@@ -15,27 +16,27 @@
     <table id="oppTable" class="table table-bordered table-striped" style="width: 100%" cellpadding="0" cellspacing="0">
         <thead class="thead-light">
             <tr>
-                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Name)</b></th>
-                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.StartTime)</b></th>
-                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.EndTime)</b></th>
-                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Address)</b></th>
-                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.City)</b></th>
-                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.State)</b></th>
-                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Zip)</b></th>
-                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.SlotsAvailable)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.Name)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.StartTime)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.EndTime)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.Address)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.City)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.State)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.Zip)</b></th>
+                @*<th><b>@Html.DisplayNameFor(x => x.Opportunity.FirstOrDefault()!.SlotsAvailable)</b></th>*@
                 <th><b>Actions</b></th>
             </tr>
         </thead>
 
         <tbody>
             @{
-                if (Model == null || Model.Count() == 0)
+                if (Model == null || Model.Opportunity.Count() == 0)
                 {
-                        <tr><td colspan="100">No data</td></tr>
+                        <tr><td colspan="100">No Opportunities</td></tr>
                     return;
                 }
 
-                foreach (var opp in Model)
+                foreach (var opp in Model.Opportunity)
                 {
                     <tr>
                         <td>@opp.Name</td>
@@ -45,10 +46,9 @@
                         <td>@opp.City</td>
                         <td>@opp.State</td>
                         <td>@opp.Zip</td>
-                        <td>@opp.SlotsAvailable</td>
+                        @*<td>@Model.Slots.Where(m=>m.OpportunityId == opp.Id).Count()</td>*@
                     <td>
-                        @Html.ActionLink("Details", "Details", new { Id = opp.Id }) | 
-                        @Html.ActionLink("SignUp", "PassingInSignUp", new {OpportunityId = opp.Id})
+                        @Html.ActionLink("Details", "Details", new { Id = opp.Id })
                     </td>
                     </tr>
                 }
@@ -84,9 +84,11 @@
                     { "data": "City" },
                     { "data": "State" },
                     { "data": "Zip" },
-                    { "data": "SlotsAvailable" },
                     { "data": "Actions" }
-                ]
+                ],
+                "language": {
+                    "emptyTable": "No Opportunities Available. Check back soon."
+                }
             });
         });
         function confirmDelete() {
