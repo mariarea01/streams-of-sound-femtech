@@ -70,6 +70,10 @@
                 rowReorder: {
                     selector: 'td:nth-child(1)'
                 },
+                columnDefs: [
+                    { orderable: false, className: 'reorder', targets: 7 },
+                    { orderable: true, targets: '_all' }
+                ],
                 responsive: true,
                 processing: true,
                 ordering: true,

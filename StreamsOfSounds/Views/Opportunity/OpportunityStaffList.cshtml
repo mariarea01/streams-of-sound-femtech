@@ -64,6 +64,9 @@
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
         <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap.css" />
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap5.min.js"></script>
+
 
         <script>$(document).ready(function () {
                 $('#oppTable').DataTable({
@@ -72,6 +75,10 @@
                     ordering: true,
                     paging: true,
                     searching: true,
+                columnDefs: [
+                    { orderable: false, className: 'reorder', targets: 7 },
+                    { orderable: true, targets: '_all' }
+                ],
                     columns: [
                         { "data": "Name" },
                         { "data": "StartTime" },

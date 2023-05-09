@@ -4,22 +4,23 @@
     ViewData["Title"] = "CancelOpportunity";
 }
 
-<h1>Cancel Opportunity</h1>
-<h2>Are you sure you want to cancel?</h2>
+<h2 class="text-center pt-2">Are you sure you want to cancel?</h2>
 <br />
+
 <form action="/Opportunity/YeetSignUp" method="post">
     @Html.Hidden("OpportunityId", Model.gelegenheitId)
     @Html.Hidden("slotId", Model.slotoriousBIGId)
     @Html.Hidden("signUpId", Model.youRaiseMeUpId)
-    <div class="form-group">
-        <label for="ReasonToYeet">Reason for Cancelling</label>
-        <textarea class="form-control" id="ReasonToYeet" name="ReasonToCancel" rows="3"></textarea>
+    <div class="container-details">
+        <div class="form-group">
+            <label for="ReasonToYeet">Reason for Cancelling</label>
+            <textarea class="form-control" id="ReasonToYeet" name="ReasonToCancel" rows="3"></textarea>
+        </div>
+        <div>
+            <button type="submit" class="rounded-custom-button">Cancel My Sign Up</button>
+            <br />
+            <td><a class="rounded-custom-button" href="@Url.Action("MyOpportunities","Opportunity")">Back to List</a></td>
+        </div>
     </div>
-    <div>
-        <button type="submit" class="rounded-custom-button">Cancel My Sign Up</button>
-        <br />
-        <td><a class="rounded-custom-button" href="@Url.Action("MyOpportunities","Opportunity")">Back to List</a></td>
-    </div>
-
-
 </form>
+

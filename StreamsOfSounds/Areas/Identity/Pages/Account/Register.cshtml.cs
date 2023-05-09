@@ -80,7 +80,7 @@ namespace StreamsOfSound.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
-            [Display(Name = "Please provide a list of instruments you can play")]
+            [Display(Name = "Instrument List")]
             public string Instruments { get; set; }
 
             /// <summary>
