@@ -9,21 +9,27 @@
     When archiving, this will lock the user out of their account completely. If they have been archived, they will
     need to make a new account. (They will need to use a new email).
 </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+
 @foreach (var user in Model)
 {
     <form method="post" asp-action="ObliterateStaff" asp-route-id="@user.Id">
-        <div class="card mb-3">
-            <div class="card-header">
-                Full Name of Archived User: @user.FirstName @user.LastName
-            </div>
-
-            <div class="card-body">
-                <h5 class="card-title">Email address: @user.UserName</h5>
-                <h5 class="card-title">Date of Account Creation: @user.TimeJoined.ToString("MM/dd/yyyy")</h5>
-                <h5 class="card-title">Date of Archiving User: @user.TimeEnd.ToString("MM/dd/yyyy")</h5>
-                <h5 class="card-title">Position: @user.Position</h5>
-            </div>
-        </div>
+              <div class="card">
+                    <div class="card-body-users text-white">
+                        <h2>Full Name of Archived User: @user.FirstName @user.LastName </h2>
+                        <h5 class="card-title">Email address: @user.UserName</h5>
+                        <h5 class="card-title">Date of Account Creation: @user.TimeJoined.ToString("MM/dd/yyyy")</h5>
+                        <h5 class="card-title">Date of Archiving User: @user.TimeEnd.ToString("MM/dd/yyyy")</h5>
+                        <h5 class="card-title">Position: @user.Position</h5>
+                    </div>
+                </div>
     </form>
 
 }
+            </div>
+        </div>
+    </div>

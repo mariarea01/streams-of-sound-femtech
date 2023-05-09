@@ -1,22 +1,15 @@
 ﻿@model StreamsOfSound.Models.ViewModel.ConfirmSignUpViewModel
 
-<h1>Confirm Sign Up</h1>
 <body>
+    <h1>Confirmation of Sign Up</h1>
+    <div class="container-details">
     @using (Html.BeginForm("ConfirmSignUp", "Opportunity", FormMethod.Post))
     {
         <input type="hidden" name="UserId" value="@Model.UserId" />
         <input type="hidden" name="InstrumentSlotsId" value="@Model.Slot.Id" />
-
         <table>
-            <tr>Confirm Sign Up Table</tr>
             <tr>
-                <td>User ID: </td>
-                <td>@Model.User.Id</td>
-            </tr>
-            <tr>
-                <td>Opp ID: </td>
-                <td>@Model.Opportunity.Id</td>
-            </tr>
+            <th>User Information</th>
             <tr>
                 <td>First Name: </td>
                 <td>@Model.User.FirstName</td>
@@ -28,7 +21,11 @@
             <tr>
                 <td>Email: </td>
                 <td>@Model.User.Email
+            <br />
             </tr>
+
+            <tr>
+            <th>Opportunity Information</th>
             <tr>
                 <td>Opportunity Name: </td>
                 <td>@Model.Opportunity.Name
@@ -51,12 +48,17 @@
             </tr>
             <tr>
                 <td>Opportunity Start Time: </td>
-                <td>@Model.Opportunity.StartTime
+                <td>@Model.Opportunity.StartTime.ToString("MM-dd-yyyy HH:mm:ss tt")
             </tr>
             <tr>
                 <td>Opportunity End Time: </td>
-                <td>@Model.Opportunity.EndTime
+                    <td>
+                        @Model.Opportunity.EndTime.ToString("MM-dd-yyyy hh:mm:ss tt")
+            <br />
             </tr>
+
+            <tr>
+            <th>Instrument Slot you signed up for</th>
             <tr>
                 <td>Slot Instrument: </td>
                 <td>@Model.Slot.Instrument
@@ -68,10 +70,13 @@
             <tr>
                 <td>Slot EndTime: </td>
                 <td>@Model.Slot.EndTime
-            </tr>
+            <br />
+            </tr> 
             <tr>
-                <td><input type="submit" value="Submit" /></td>
+                <td><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("OpportunityList","Opportunity")'">Back to List</button></td>
+                <td><button type="submit" class="btn btn-primary" />Submit</td>
             </tr>
         </table>
     }
+    </div>
 </body>

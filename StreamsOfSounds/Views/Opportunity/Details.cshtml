@@ -10,18 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewData["Title"]</title>
 </head>
-<style>
-    .container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-    }
-</style>
+
 <body>
-    <div class="container">
+    <div class="container-details">
         <h1>@ViewData["Title"]</h1>
         <hr>
         <div>
@@ -41,11 +32,11 @@
                     {
                         <div class="instrument" id="instrument-@i">
                             <label for="instruments">Instruments</label>
-                            <input type="text" id="instruments" name="Slots[@i].Instrument" placeholder="Instruments" value="@slots[i].Instrument" fdprocessedid="ql2e4t">
+                            <input type="text" id="instruments" name="Slots[@i].Instrument" placeholder="Instruments" value="@slots[i].Instrument" fdprocessedid="ql2e4t"> <br>
                             <label for="startTime">Start:</label>
-                            <input type="datetime-local" id="startTime" name="Slots[@i].StartTime" value="@slots[i].StartTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="Start Time">
+                            <input type="datetime-local" id="startTime" name="Slots[@i].StartTime" value="@slots[i].StartTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="Start Time"> <br>
                             <label for="endTime">End:</label>
-                            <input type="datetime-local" id="endTime" name="Slots[@i].EndTime" value="@slots[i].EndTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="End Time">
+                            <input type="datetime-local" id="endTime" name="Slots[@i].EndTime" value="@slots[i].EndTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="End Time"><br>
                             @Html.ActionLink("SignUp", "PassingInSignUp","Opportunity", new { Id = slots[i].Id, OpportunityId = Model.Id })
                         </div>
                     }

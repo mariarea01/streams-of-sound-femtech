@@ -1,4 +1,4 @@
-
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 .dropdown-menu{
     border:none;
     background-color: #734e16;
@@ -89,7 +89,13 @@ img.logo {
     border-radius: 50rem !important;
     color: white;
 }
-
+.container-details {
+    margin-top: 20px;
+    max-width: 100%;
+    padding: 50px;
+    box-shadow: 0 0 5px 5px #734e16;
+    border-radius: 10px;
+}
 .center {
     display: flex;
     justify-content: center;
@@ -142,8 +148,29 @@ img.logo {
     overflow: hidden;
 }
 
-html {
-    font-size: 14px;
+/*USER LIST*/
+.card-body-users {
+    text-align: center;
+    padding: 10px;
+    box-shadow: 5px 10px #d5c9b9;
+    border-radius: 10px;
+    background-color: #734e16;
+    margin:10px;
+}
+.card-title {
+    font-size: 16px;
+}
+/*USER LIST*/
+.button-pad{
+    padding:15px;
+}
+.card {
+    width:500px;
+    padding:10px;
+    margin: 0 auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 10px; /* Added */
+    border: none;
 }
 
 @media (min-width: 768px) {
@@ -169,10 +196,6 @@ table {
     table td {
         color: black;
     }
-
-.card {
-    border: none;
-}
 
 .card-img-body {
     flex: 1;
