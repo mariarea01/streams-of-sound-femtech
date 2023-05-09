@@ -79,25 +79,36 @@ namespace StreamsOfSound.Controllers
 
         //[Authorize(Roles = "Volunteer")]
         [HttpPost]
-        public IActionResult YeetSignUp(YeetSignUpRequest request)
+        public async Task<IActionResult> YeetSignUpAsync(YeetSignUpRequest request)
         {
             var slotToCancel = _context.InstrumentsSlots.SingleOrDefault(x => x.Id == request.slotId);
 
             if (slotToCancel == null)
                 return NotFound();
 
-            var userToYeetOut = _context.InstrumentSignUp.SingleOrDefault(x => x.Id == request.signUpId);
+            var slotToYeetOut = _context.InstrumentSignUp.SingleOrDefault(x => x.Id == request.signUpId);
 
-            var toYeetOrToNotYeet = slotToCancel == null || userToYeetOut == null;
+            var toYeetOrToNotYeet = slotToCancel == null || slotToYeetOut == null;
             if (toYeetOrToNotYeet)
                 return NotFound();
 
             var yeet = new ReasonToYeet();
-            yeet.YeetedSlotId = userToYeetOut.InstrumentSlotsId;
+            
+            yeet.YeetedSlotId = slotToYeetOut.InstrumentSlotsId;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var guidId = Guid.Parse(userId);
+            var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == guidId);
+
+            if(user == null)
+            {
+                return NotFound();  
+            }
+
+            yeet.UserId = user.Id;
             yeet.ThisIsMyLastResort = request.ReasonToCancel;
             _context.ReasonToYeet.Add(yeet);
 
-            _context.InstrumentSignUp.Remove(userToYeetOut);
+            _context.InstrumentSignUp.Remove(slotToYeetOut);
 
             _context.SaveChanges();
             return Redirect("MyOpportunities");
@@ -225,12 +236,16 @@ namespace StreamsOfSound.Controllers
             _context.Opportunities.Add(opportunity);
             await _context.SaveChangesAsync();
             var opportunityId = opportunity.Id;
-            foreach (var item in request.Slots)
+            if(request.Slots != null)
             {
-                item.OpportunityId = opportunityId;
-                _context.InstrumentsSlots.Add(item);
-                _context.SaveChanges();
+                foreach (var item in request.Slots)
+                {
+                    item.OpportunityId = opportunityId;
+                    _context.InstrumentsSlots.Add(item);
+                    _context.SaveChanges();
+                }
             }
+            
             return RedirectToAction("OpportunityStaffList");
         }
 
@@ -280,15 +295,59 @@ namespace StreamsOfSound.Controllers
             opportunity.Zip = request.Zip;
             await _context.SaveChangesAsync();
 
-            var slots = _context.InstrumentsSlots.Where(m => m.OpportunityId == request.Id);
-            _context.InstrumentsSlots.RemoveRange(slots);
-            var opportunityId = opportunity.Id;
-            foreach (var item in request.Slots)
+            var slots = _context.InstrumentsSlots.Where(m => m.OpportunityId == request.Id).ToList();
+            var newSlots = request.Slots.Where(m => m.Id == 0).ToList();
+
+            foreach(var slot in slots)
             {
-                item.OpportunityId = opportunityId;
-                _context.InstrumentsSlots.Add(item);
+                var slotoriousBIGId = slot.Id;
+
+                var signUps = _context.InstrumentSignUp.Where(m => m.InstrumentSlotsId == slotoriousBIGId).ToList();
+                var reasonsToYot = _context.ReasonToYeet.Where(m => m.YeetedSlotId == slotoriousBIGId).ToList();
+
+                var existingSlot = request.Slots.Where(m => m.Id == slotoriousBIGId).FirstOrDefault();
+
+                if (existingSlot != null)
+                {
+                    existingSlot.Id = 0;
+                    existingSlot.OpportunityId = opportunity.Id;
+                    _context.InstrumentsSlots.Add(existingSlot);
+                    _context.SaveChanges();
+
+                    var newSlotId = existingSlot.Id;
+                    var mappedReasonsToYeet = new List<ReasonToYeet>();
+
+                    mappedReasonsToYeet.AddRange(reasonsToYot);
+                    mappedReasonsToYeet.ForEach(m =>
+                    {
+                        m.YeetedSlotId = newSlotId;
+                        m.Id = 0;
+                    });
+
+                    _context.ReasonToYeet.AddRange(mappedReasonsToYeet);
+
+                    var mappedSignUps = new List<InstrumentSignUp>();
+
+                    mappedSignUps.AddRange(signUps);
+                    mappedSignUps.ForEach(m => 
+                    {
+                        m.InstrumentSlotsId = newSlotId;
+                        m.Id = 0;
+                     });
+
+                    _context.InstrumentSignUp.AddRange(mappedSignUps);
+                    _context.SaveChanges();
+                }
+                _context.ReasonToYeet.RemoveRange(reasonsToYot);
+                
+                _context.InstrumentSignUp.RemoveRange(signUps);
+                _context.InstrumentsSlots.Remove(slot);
                 _context.SaveChanges();
             }
+            newSlots.ForEach(m => m.OpportunityId = opportunity.Id);
+            _context.InstrumentsSlots.AddRange(newSlots);
+            _context.SaveChanges();
+
             return RedirectToAction("OpportunityStaffList");
         }
 

@@ -42,6 +42,7 @@
                         <div class="instrument" id="instrument-@i">
                             <label for="instruments">Instruments: &nbsp;</label>
                             <input type="text" id="instruments" name="Slots[@i].Instrument" placeholder="Instruments" value="@slots[i].Instrument" fdprocessedid="ql2e4t"> <br />
+                            <input type="hidden" id="slotsId" name="Slots[@i].Id" placeholder="Instruments" value="@slots[i].Id" fdprocessedid="ql2e4t"> <br />
                             <label for="startTime">Start: &nbsp;</label>
                             <input type="datetime-local" id="startTime" name="Slots[@i].StartTime" value="@slots[i].StartTime.ToString("yyyy-MM-ddTHH:mm:ss")" placeholder="Start Time"> <br/>
                             <label for="endTime">End: &nbsp; </label>
@@ -172,6 +173,7 @@
         var slotRow = '<div class="instrument" id="instrument-' + slotCounter + '">'
         slotRow += '<label for="instruments">Instruments: &nbsp;</label>';
         slotRow += '<input type="text" id="instruments" name="Slots[' + slotCounter + '].Instrument" placeholder="Instruments"><br />';
+        @*slotRow += '<input type="hidden" id="instruments" name="Slots[' + slotCounter + '].Id" placeholder="Instruments"><br />';*@
         slotRow += '<label for="startTime">Start: &nbsp;</label>';
         slotRow += '<input type="datetime-local" id="startTime" name="Slots[' + slotCounter + '].StartTime" placeholder="Start Time"><br />';
         slotRow += '<label for="endTime">End: &nbsp;</label>';
