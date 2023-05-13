@@ -1,0 +1,88 @@
+﻿@using StreamsOfSound.Models.ViewModel
+@model List<CancelListViewModel>
+@{
+    ViewData["Title"] = "My Opportunities";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    @Html.AntiForgeryToken()
+        <table id="cancelTable" class="table table-bordered table-striped" style="width: 100%" cellpadding="0" cellspacing="0">
+        <thead class="thead-light">
+            <tr>
+                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.firstName)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.lastName)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Email)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.OppName)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.OppStartTime)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.Instrument)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.SlotStartTime)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.SlotEndTime)</b></th>
+                <th><b>@Html.DisplayNameFor(x => x.FirstOrDefault()!.ThisIsMyLastResort)</b></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var cancel in Model)
+                {
+                    <tr>
+                        <td>@cancel.firstName</td>
+                        <td>@cancel.lastName</td>
+                        <td>@cancel.Email</td>
+                        <td>@cancel.OppName</td>
+                        <td>@cancel.OppStartTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                        <td>@cancel.Instrument</td>
+                        <td>@cancel.SlotStartTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                        <td>@cancel.SlotEndTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                        <td>@cancel.ThisIsMyLastResort</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</body>
+</html>
+@section Scripts
+    {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+    <script>
+        $(document).ready(function () {
+            $('#cancelTable').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(1)'
+                },
+                columnDefs: [
+                    { orderable: false, className: 'reorder', targets: 7 },
+                    { orderable: true, targets: '_all' }
+                ],
+                responsive: true,
+                processing: true,
+                ordering: true,
+                paging: true,
+                searching: true,
+                columns: [
+                    { "data": "firstName" },
+                    { "data": "lastName" },
+                    { "data": "Email" },
+                    { "data": "OppName" },
+                    { "data": "OppStartTime" },
+                    { "data": "Instrument" },
+                    { "data": "SlotStartTime" },
+                    { "data": "SlotEndTime" },
+                    { "data": "ThisIsMyLastResort"}
+                ],
+                "language": {
+                    "emptyTable": "No cancellations"
+                }
+            });
+        });
+        }</script>
+}

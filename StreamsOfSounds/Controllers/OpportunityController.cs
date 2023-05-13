@@ -15,6 +15,8 @@ using System.Security.Cryptography.Xml;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using StreamsOfSounds.Services;
 
 namespace StreamsOfSound.Controllers
 {
@@ -24,13 +26,16 @@ namespace StreamsOfSound.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEmailSender _emailSender;
         public OpportunityController(ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _emailSender = new EmailSender();
         }
 
         [Authorize(Roles = "Volunteer, Admin")]
@@ -170,6 +175,32 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList.ToList());
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult CancelList()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var guidId = Guid.Parse(userId);
+
+            var opportunitiesList = from o in _context.Opportunities
+                                    join isl in _context.InstrumentsSlots on o.Id equals isl.OpportunityId
+                                    join rty in _context.ReasonToYeet on isl.Id equals rty.YeetedSlotId
+                                    join u in _context.Users on rty.UserId equals u.Id
+                                    select new CancelListViewModel
+                                    {
+                                        ThisIsMyLastResort = rty.ThisIsMyLastResort,
+                                        firstName = u.FirstName,
+                                        lastName = u.LastName,
+                                        Email = u.Email,
+                                        OppName = o.Name,
+                                        OppStartTime = o.StartTime,
+                                        Instrument = isl.Instrument,
+                                        SlotStartTime = isl.StartTime,
+                                        SlotEndTime = isl.EndTime,
+                                    };
+            return View(opportunitiesList.ToList());
+        }
+
         [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public async Task<IActionResult> OpportunityList()
@@ -281,7 +312,6 @@ namespace StreamsOfSound.Controllers
             if (opportunity == null)
             {
                 return NotFound();
-
             }
 
             opportunity.Name = request.Name;
@@ -306,6 +336,11 @@ namespace StreamsOfSound.Controllers
                 var reasonsToYot = _context.ReasonToYeet.Where(m => m.YeetedSlotId == slotoriousBIGId).ToList();
 
                 var existingSlot = request.Slots.Where(m => m.Id == slotoriousBIGId).FirstOrDefault();
+
+                _context.ReasonToYeet.RemoveRange(reasonsToYot);
+                _context.InstrumentSignUp.RemoveRange(signUps);
+                _context.InstrumentsSlots.Remove(slot);
+                _context.SaveChanges();
 
                 if (existingSlot != null)
                 {
@@ -338,11 +373,6 @@ namespace StreamsOfSound.Controllers
                     _context.InstrumentSignUp.AddRange(mappedSignUps);
                     _context.SaveChanges();
                 }
-                _context.ReasonToYeet.RemoveRange(reasonsToYot);
-                
-                _context.InstrumentSignUp.RemoveRange(signUps);
-                _context.InstrumentsSlots.Remove(slot);
-                _context.SaveChanges();
             }
             newSlots.ForEach(m => m.OpportunityId = opportunity.Id);
             _context.InstrumentsSlots.AddRange(newSlots);
@@ -422,8 +452,8 @@ namespace StreamsOfSound.Controllers
         [HttpPost]
         public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest signup)
         {
-
             var slot = await _context.InstrumentsSlots.FirstOrDefaultAsync(x => x.Id == signup.InstrumentSlotsId);
+            var opportunity = await _context.Opportunities.FirstOrDefaultAsync(x => x.Id == slot.OpportunityId);
             var user = await _context.Users.FirstOrDefaultAsync(y => y.Id == signup.UserId);
             if (slot == null || user == null)
             {
@@ -432,11 +462,15 @@ namespace StreamsOfSound.Controllers
 
 
             var signUpForSlot = signup.ToSignUp();
-
             _context.InstrumentSignUp.Add(signUpForSlot);
-
             await _context.SaveChangesAsync();
-            //return View();
+
+            var userIsSignedUp = _context.InstrumentSignUp.Any(m => m.UserId == signup.UserId && m.InstrumentSlotsId == signup.InstrumentSlotsId); 
+            if(userIsSignedUp)
+            {
+                //await _emailSender.SignUpConfirmationAsync(user.Email, opportunity.Name, opportunity.Address, opportunity.City, opportunity.State, opportunity.Zip, opportunity.StartTime, opportunity.EndTime, slot.Instrument, slot.StartTime, slot.EndTime, user.FirstName, user.LastName);
+            }
+
             return RedirectToAction("MyOpportunities", new { UserId = user.Id });
         }
 
