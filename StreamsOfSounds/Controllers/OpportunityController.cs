@@ -339,6 +339,7 @@ namespace StreamsOfSound.Controllers
 
                 _context.ReasonToYeet.RemoveRange(reasonsToYot);
                 _context.InstrumentSignUp.RemoveRange(signUps);
+                _context.SaveChanges(); 
                 _context.InstrumentsSlots.Remove(slot);
                 _context.SaveChanges();
 
