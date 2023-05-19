@@ -103,6 +103,12 @@
                                     <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveVolunteers">Archive Volunteers</a>
                                 </div>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Volunteers</a>
+                                <div class="dropdown-menu">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="RoleManager" asp-action="ManageRoles">Manage Roles</a>
+                                </div>
+                            </li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />
