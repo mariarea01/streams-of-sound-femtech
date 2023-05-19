@@ -9,38 +9,38 @@ namespace StreamsOfSounds.Services
     public class EmailSender : IEmailSender
     {
 
-        Task IEmailSender.SendEmailAsync(string email, string subject, string htmlMessage)
+        //Task IEmailSender.SendEmailAsync(string email, string subject, string htmlMessage)
+        //{
+        //    var client = new SmtpClient("smtp.gmail.com", 587);
+
+        //    client.EnableSsl = true;
+        //    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+        //    client.UseDefaultCredentials = false;
+        //    client.Credentials = new NetworkCredential("seca8303@gmail.com", "ttkzxocysojgkfii");
+
+        //    var message = new MailMessage();
+        //    message.Subject = subject;
+        //    message.To.Add(email);
+        //    message.From = new MailAddress("seca8303@gmail.com");
+        //    message.Body = htmlMessage;
+        //    message.IsBodyHtml = true;
+
+        //    client.Send(message);
+
+        //    return Task.CompletedTask;
+        //}
+
+        private readonly string _apiKey = "";
+
+        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            var client = new SmtpClient("smtp.gmail.com", 587);
+            var client = new SendGridClient(_apiKey);
+            var from = new EmailAddress("no-reply@streamsofsoundinc.onmicrosoft.com", "StreamsOfSound");
+            var to = new EmailAddress(email);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, htmlMessage, htmlMessage);
 
-            client.EnableSsl = true;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("seca8303@gmail.com", "ttkzxocysojgkfii");
-
-            var message = new MailMessage();
-            message.Subject = subject;
-            message.To.Add(email);
-            message.From = new MailAddress("seca8303@gmail.com");
-            message.Body = htmlMessage;
-            message.IsBodyHtml = true;
-
-            client.Send(message);
-
-            return Task.CompletedTask;
+            await client.SendEmailAsync(msg);
         }
-
-        //    private readonly string _apiKey = "";
-
-        //    public async Task SendEmailAsync(string email, string subject, string htmlMessage)
-        //    {
-        //        var client = new SendGridClient(_apiKey);
-        //        var from = new EmailAddress("no-reply@streamsofsoundinc.onmicrosoft.com", "StreamsOfSound");
-        //        var to = new EmailAddress(email);
-        //        var msg = MailHelper.CreateSingleEmail(from, to, subject, htmlMessage, htmlMessage);
-
-        //        await client.SendEmailAsync(msg);
-        //    }
 
         //    public async Task SignUpConfirmationAsync(string email, string opportunityName, string address, DateTimeOffset oppStartTime, DateTimeOffset oppEndTime, string instrumentName, DateTime startTime, DateTime endTime, string firstName, string lastName)
         //    {

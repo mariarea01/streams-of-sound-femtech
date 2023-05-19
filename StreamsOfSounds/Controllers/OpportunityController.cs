@@ -75,6 +75,34 @@ namespace StreamsOfSound.Controllers
             return View(yeet);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> ViewSignUps()
+        {
+            var signUpData = await (from su in _context.InstrumentSignUp
+                                    join sl in _context.InstrumentsSlots on su.InstrumentSlotsId equals sl.Id
+                                    join u in _context.Users on su.UserId equals u.Id
+                                    join o in _context.Opportunities on sl.OpportunityId equals o.Id
+                                    select new ViewSignUpsViewModel
+                                    {
+                                        FirstName = u.FirstName,
+                                        LastName = u.LastName,
+                                        Email = u.Email,
+                                        OppName = o.Name,
+                                        OppStartTime = o.StartTime,
+                                        Instrument = sl.Instrument,
+                                        SlotStartTime = sl.StartTime,
+                                        SlotEndTime = sl.EndTime
+                                    }).ToListAsync();
+
+            if (signUpData.Count == 0)
+            {
+                ModelState.AddModelError("", "No sign ups yet");
+            }
+
+            return View(signUpData);
+        }
+
         [HttpPost]
         public IActionResult YeetOpportunity(int Id)
         {
@@ -122,23 +150,6 @@ namespace StreamsOfSound.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            /*
-            var model = new CreateOpportunityRequest();
-            model.Slots = new List<InstrumentsSlots>();
-            model.Slots.Add(new InstrumentsSlots
-            {
-                Instrument = "handpan",
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now
-            });
-
-            model.Slots.Add(new InstrumentsSlots
-            {
-                Instrument = "bazooka",
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now
-            });
-            */
             return View();
 
         }
@@ -182,7 +193,7 @@ namespace StreamsOfSound.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var guidId = Guid.Parse(userId);
 
-            var opportunitiesList = from o in _context.Opportunities
+            var cancelList = from o in _context.Opportunities
                                     join isl in _context.InstrumentsSlots on o.Id equals isl.OpportunityId
                                     join rty in _context.ReasonToYeet on isl.Id equals rty.YeetedSlotId
                                     join u in _context.Users on rty.UserId equals u.Id
@@ -198,7 +209,7 @@ namespace StreamsOfSound.Controllers
                                         SlotStartTime = isl.StartTime,
                                         SlotEndTime = isl.EndTime,
                                     };
-            return View(opportunitiesList.ToList());
+            return View(cancelList.ToList());
         }
 
         [Authorize(Roles = "Volunteer")]
