@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
+using StreamsOfSound.Data;
 using StreamsOfSound.Models;
 using StreamsOfSound.Models.ViewModel;
 
@@ -9,25 +11,41 @@ namespace StreamsOfSound.Controllers
     public class UserRoleController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public UserRoleController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly ApplicationDbContext _context;
+        public UserRoleController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager)
         {
+            _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> StaffRoleUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
-            var userRolesViewModel = new List<ManageRolesViewModel>();
+
+         
+            //return View(users.Select(m => m.User).ToList());
+           //var userRoles = _context.UserRoles.ToList().Where(m => m.RoleId == "")
+           var users = await _userManager.Users.ToListAsync();
+            var userRolesViewModel = new List<StaffRoleUserViewModel>();
+
+            if(users == null)
+            {
+                return NotFound();
+            }
+
             foreach (ApplicationUser user in users)
             {
-                var thisViewModel = new ManageRolesViewModel();
-                thisViewModel.UserId = user.Id;
-                thisViewModel.Email = user.Email;
-                thisViewModel.FirstName = user.FirstName;
-                thisViewModel.LastName = user.LastName;
-                thisViewModel.Roles = await GetUserRoles(user);
-                userRolesViewModel.Add(thisViewModel);
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains("Admin"))
+                {
+                    var thisViewModel = new StaffRoleUserViewModel();
+                    thisViewModel.UserId = user.Id;
+                    thisViewModel.Email = user.Email;
+                    thisViewModel.FirstName = user.FirstName;
+                    thisViewModel.LastName = user.LastName;
+                    thisViewModel.Roles = await GetUserRoles(user);
+                    userRolesViewModel.Add(thisViewModel);
+                }
             }
             return View(userRolesViewModel);
         }
@@ -36,7 +54,7 @@ namespace StreamsOfSound.Controllers
             return new List<string>(await _userManager.GetRolesAsync(user));
         }
 
-        public async Task<IActionResult> Manage(string userId)
+        public async Task<IActionResult> ManageStaffRole(string userId)
         {
             ViewBag.userId = userId;
             var user = await _userManager.FindByIdAsync(userId);
@@ -46,10 +64,10 @@ namespace StreamsOfSound.Controllers
                 return View("NotFound");
             }
             ViewBag.UserName = user.UserName;
-            var model = new List<ManageUserRolesViewModel>();
+            var model = new List<ManageStaffRoleViewModel>();
             foreach (var role in _roleManager.Roles)
             {
-                var userRolesViewModel = new ManageUserRolesViewModel
+                var userRolesViewModel = new ManageStaffRoleViewModel
                 {
                     RoleId = role.Id,
                     RoleName = role.Name
@@ -66,8 +84,10 @@ namespace StreamsOfSound.Controllers
             }
             return View(model);
         }
+
+
         [HttpPost]
-        public async Task<IActionResult> Manage(List<ManageUserRolesViewModel> model, string userId)
+        public async Task<IActionResult> ManageStaffRole(List<ManageStaffRoleViewModel> model, string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)

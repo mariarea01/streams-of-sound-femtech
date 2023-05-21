@@ -1,8 +1,8 @@
 ﻿namespace StreamsOfSound.Models.ViewModel
 {
-    public class ManageUserRolesViewModel
+    public class ManageStaffRoleViewModel
     {
-        public string RoleId { get; set; }
+        public Guid RoleId { get; set; }
         public string RoleName { get; set; }
         public bool Selected { get; set; }
     }

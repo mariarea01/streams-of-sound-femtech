@@ -1,6 +1,6 @@
 ﻿namespace StreamsOfSound.Models.ViewModel
 {
-    public class ManageRolesViewModel
+    public class StaffRoleUserViewModel
     {
         public Guid UserId { get; set; }
         public string FirstName { get; set; }
