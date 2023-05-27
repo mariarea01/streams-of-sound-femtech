@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SendGrid.Helpers.Mail;
 using StreamsOfSound.Data;
 using StreamsOfSound.Models;
 using StreamsOfSound.Models.ViewModel;
+using System.Data;
 
 namespace StreamsOfSound.Controllers
 {
+    //[Authorize(Roles = "Super")]
     public class UserRoleController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -22,9 +25,6 @@ namespace StreamsOfSound.Controllers
         public async Task<IActionResult> StaffRoleUsers()
         {
 
-         
-            //return View(users.Select(m => m.User).ToList());
-           //var userRoles = _context.UserRoles.ToList().Where(m => m.RoleId == "")
            var users = await _userManager.Users.ToListAsync();
             var userRolesViewModel = new List<StaffRoleUserViewModel>();
 
@@ -36,7 +36,7 @@ namespace StreamsOfSound.Controllers
             foreach (ApplicationUser user in users)
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
-                if (userRoles.Contains("Admin"))
+                if (userRoles.Contains("Admin") || userRoles.Contains("Super"))
                 {
                     var thisViewModel = new StaffRoleUserViewModel();
                     thisViewModel.UserId = user.Id;
@@ -49,15 +49,15 @@ namespace StreamsOfSound.Controllers
             }
             return View(userRolesViewModel);
         }
+
         private async Task<List<string>> GetUserRoles(ApplicationUser user)
         {
             return new List<string>(await _userManager.GetRolesAsync(user));
         }
 
-        public async Task<IActionResult> ManageStaffRole(string userId)
+        public async Task<IActionResult> ManageStaffRole(Guid userId)
         {
-            ViewBag.userId = userId;
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Id == userId);
             if (user == null)
             {
                 ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
@@ -65,21 +65,16 @@ namespace StreamsOfSound.Controllers
             }
             ViewBag.UserName = user.UserName;
             var model = new List<ManageStaffRoleViewModel>();
-            foreach (var role in _roleManager.Roles)
+            var allRoles = _roleManager.Roles.ToList(); 
+            foreach (var role in allRoles)
             {
                 var userRolesViewModel = new ManageStaffRoleViewModel
                 {
                     RoleId = role.Id,
                     RoleName = role.Name
                 };
-                if (await _userManager.IsInRoleAsync(user, role.Name))
-                {
-                    userRolesViewModel.Selected = true;
-                }
-                else
-                {
-                    userRolesViewModel.Selected = false;
-                }
+                userRolesViewModel.Selected = await _userManager.IsInRoleAsync(user, role.Name);
+               
                 model.Add(userRolesViewModel);
             }
             return View(model);
@@ -107,7 +102,7 @@ namespace StreamsOfSound.Controllers
                 ModelState.AddModelError("", "Cannot add selected roles to user");
                 return View(model);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("StaffRoleUsers");
         }
     }
 }

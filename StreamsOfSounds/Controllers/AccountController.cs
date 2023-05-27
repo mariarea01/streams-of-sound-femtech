@@ -25,6 +25,7 @@ namespace StreamsOfSound.Controllers
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly ILogger<CreateNewStaffRequest> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IEmailYeeter _emailYeeter;
 
         public AccountController(
             ApplicationDbContext context,
@@ -32,6 +33,7 @@ namespace StreamsOfSound.Controllers
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
+            IEmailYeeter emailYeeter,
             ILogger<CreateNewStaffRequest> logger
             )
         {
@@ -41,16 +43,18 @@ namespace StreamsOfSound.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _emailYeeter = emailYeeter;
+
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public IActionResult RegisterNewStaff()
         {
             return View();
         }
 
-        //[Authorize(Roles = "Super, Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult ArchiveStaff()
         {
@@ -63,7 +67,7 @@ namespace StreamsOfSound.Controllers
             return View(users.Select(m => m.User).ToList());
         }
 
-        //[Authorize(Roles = "Admin, Super")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public IActionResult ArchiveVolunteers()
         {
@@ -76,6 +80,7 @@ namespace StreamsOfSound.Controllers
             return View(users.Select(m => m.User).ToList());
         }
 
+        [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public async Task<IActionResult> UpdateInstrumentsAsync()
         {
@@ -202,7 +207,7 @@ namespace StreamsOfSound.Controllers
             return View("ResetStaffPasswordConfirmation");
         }
 
-        //[Authorize(Roles = "Admin, Super")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public async Task<IActionResult> ActiveVolunteerList()
         {
@@ -215,7 +220,7 @@ namespace StreamsOfSound.Controllers
             return View(users.Select(m=>m.User).ToList());
         }
 
-        //[Authorize(Roles = "Volunteer, Admin")]
+        [Authorize(Roles = "Super")]
         [HttpGet]
         public async Task<IActionResult> ActiveStaffList()
         {
@@ -228,6 +233,7 @@ namespace StreamsOfSound.Controllers
             return View(users.Select(m => m.User).ToList());
         }
 
+        [Authorize(Roles = "Admin, Super")]
         [HttpPost]
         public async Task<IActionResult> ObliterateVolunteer(Guid id)
         {
@@ -254,6 +260,7 @@ namespace StreamsOfSound.Controllers
             return RedirectToAction("ArchiveVolunteers", "Account");
         }
 
+        [Authorize(Roles = "Super")]
         [HttpPost]
         public async Task<IActionResult> ObliterateStaff(Guid id)
         {

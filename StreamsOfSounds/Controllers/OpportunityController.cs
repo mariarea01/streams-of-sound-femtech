@@ -17,28 +17,31 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using StreamsOfSounds.Services;
+using StreamsOfSound.Services;
 
 namespace StreamsOfSound.Controllers
 {
-    //[Authorize(Roles = "Admin")]
     public class OpportunityController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEmailSender _emailSender;
+        private readonly IEmailYeeter _emailYeeter;
         public OpportunityController(ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             IHttpContextAccessor httpContextAccessor,
+            IEmailYeeter emailYeeter,
             IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
+            _emailYeeter = emailYeeter;
             _httpContextAccessor = httpContextAccessor;
             _emailSender = new EmailSender();
         }
 
-        [Authorize(Roles = "Volunteer, Admin")]
+        [Authorize(Roles = "Volunteer, Admin, Super")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -75,7 +78,7 @@ namespace StreamsOfSound.Controllers
             return View(yeet);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public async Task<IActionResult> ViewSignUps()
         {
@@ -110,7 +113,7 @@ namespace StreamsOfSound.Controllers
             return Redirect("MyOpportunities");
         }
 
-        //[Authorize(Roles = "Volunteer")]
+        [Authorize(Roles = "Volunteer")]
         [HttpPost]
         public async Task<IActionResult> YeetSignUpAsync(YeetSignUpRequest request)
         {
@@ -154,7 +157,7 @@ namespace StreamsOfSound.Controllers
 
         }
 
-        [Authorize(Roles = "Volunteer, Admin")]
+        [Authorize(Roles = "Volunteer")]
         [HttpGet]
         public async Task<IActionResult> MyOpportunities()
         {
@@ -186,7 +189,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList.ToList());
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public IActionResult CancelList()
         {
@@ -239,7 +242,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public IActionResult OpportunityStaffList()
         {
@@ -251,7 +254,7 @@ namespace StreamsOfSound.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpPost]
         public IActionResult OpportunityStaffList(int? id)
         {
@@ -266,7 +269,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunitiesList);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateOpportunityRequest request)
         {
@@ -287,11 +290,22 @@ namespace StreamsOfSound.Controllers
                     _context.SaveChanges();
                 }
             }
-            
+
+            var usersEmail = from u in _context.Users
+                        join ur in _context.UserRoles on u.Id equals ur.UserId
+                        join r in _context.Roles on ur.RoleId equals r.Id
+                        where r.Name == "Volunteer" && u.Archived == false
+                        select new { User = u };
+            foreach (var user in usersEmail)
+            {
+                var email = user.User.Email;
+                await _emailYeeter.IfYoureSeeingThisItsTooLate(email, request.Name, request.Address, request.City, request.State, request.Zip, request.StartTime, request.EndTime);
+            }
+
             return RedirectToAction("OpportunityStaffList");
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public async Task<ActionResult> Edit(int Id)
         {
@@ -311,7 +325,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunity);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpPost]
         public async Task<ActionResult> Edit(CreateOpportunityRequest request)
         {
@@ -394,7 +408,7 @@ namespace StreamsOfSound.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, Volunteer")]
+        [Authorize(Roles = "Admin, Volunteer, Super")]
         [HttpGet]
         public async Task<ActionResult> Details(int Id)
         {
@@ -428,7 +442,7 @@ namespace StreamsOfSound.Controllers
             return View(opportunity);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public async Task<IActionResult> Archive(int id)
         {
@@ -452,7 +466,7 @@ namespace StreamsOfSound.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Super")]
         [HttpGet]
         public IActionResult ArchiveList()
         {
@@ -460,7 +474,7 @@ namespace StreamsOfSound.Controllers
             return View(archivedOpportunities);
         }
 
-        [Authorize(Roles = "Volunteer, Admin")]
+        [Authorize(Roles = "Volunteer")]
         [HttpPost]
         public async Task<ActionResult> ConfirmSignUp(VolunteerSignUpFormRequest signup)
         {
@@ -480,13 +494,19 @@ namespace StreamsOfSound.Controllers
             var userIsSignedUp = _context.InstrumentSignUp.Any(m => m.UserId == signup.UserId && m.InstrumentSlotsId == signup.InstrumentSlotsId); 
             if(userIsSignedUp)
             {
-                //await _emailSender.SignUpConfirmationAsync(user.Email, opportunity.Name, opportunity.Address, opportunity.City, opportunity.State, opportunity.Zip, opportunity.StartTime, opportunity.EndTime, slot.Instrument, slot.StartTime, slot.EndTime, user.FirstName, user.LastName);
+                await _emailYeeter.SignUpConfirmationAsync(user.Email, 
+                    opportunity.Name, 
+                    opportunity.Address, 
+                    opportunity.City, 
+                    opportunity.State, 
+                    opportunity.Zip, 
+                    opportunity.StartTime, opportunity.EndTime, slot.Instrument, slot.StartTime, slot.EndTime, user.FirstName, user.LastName);
             }
 
             return RedirectToAction("MyOpportunities", new { UserId = user.Id });
         }
 
-        [Authorize(Roles = "Volunteer, Admin")]
+        [Authorize(Roles = "Volunteer")]
         public async Task<ActionResult> PassingInSignUp(int Id, int OpportunityId)
         {
             // TODO: Check if request is null, return to an error page or error message,

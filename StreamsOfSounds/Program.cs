@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using StreamsOfSound.Data;
 using StreamsOfSound.Models;
+using StreamsOfSound.Services;
 using StreamsOfSounds.Services;
 using System.Net;
 
@@ -29,6 +30,7 @@ builder.Services.AddRazorPages();
 
 //Added Dependency Injection for Email Service to use emailsender class
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IEmailYeeter, EmailSender>();
 
 var app = builder.Build();
 

@@ -32,9 +32,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li>
-                            <a class="nav-link text-light" asp-area="" asp-controller="UserRole" asp-action="StaffRoleusers">Staff Role List</a>
-                        </li>
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -77,26 +74,22 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="OpportunityStaffList">Opportunity List</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="CancelList">Cancel List</a>
-                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Opportunities</a>
                                 <div class="dropdown-menu" id="dropdown-style">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="Create">Create an Opportunity</a>
                                     <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="ArchiveList">Archived Opportunities</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="ViewSignUps">View Sign Ups</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Opportunity" asp-action="CancelList">View Cancel List</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Staff</a>
                                 <div class="dropdown-menu">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="RegisterNewStaff">Add a New Staff Member</a>
-                                </div>
-                                <div class="dropdown-menu">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveStaffList">Active Staff List</a>
-                                </div>
-                                <div class="dropdown-menu">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveStaff">Archive Staffr</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveStaff">Archive Staff</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="UserRole" asp-action="StaffRoleUsers">Manage Staff Roles</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -104,12 +97,6 @@
                                 <div class="dropdown-menu">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ActiveVolunteerList">Active Volunteers</a>
                                     <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="ArchiveVolunteers">Archive Volunteers</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Volunteers</a>
-                                <div class="dropdown-menu">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="RoleManager" asp-action="ManageRoles">Manage Roles</a>
                                 </div>
                             </li>
                         }
