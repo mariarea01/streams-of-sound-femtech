@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SendGrid.Helpers.Mail;
 using StreamsOfSound.Data;
 using StreamsOfSound.Models;
 using StreamsOfSound.Models.ViewModel;

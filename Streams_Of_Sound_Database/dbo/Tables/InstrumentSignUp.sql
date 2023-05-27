@@ -7,5 +7,4 @@
     CONSTRAINT [FK_InstrumentSignUp_InstrumentSlots] FOREIGN KEY (InstrumentSlotsId) REFERENCES [InstrumentsSlots](Id), 
 	CONSTRAINT [FK_InstrumentSignUp_AspNetUsers] FOREIGN KEY (UserId) REFERENCES [AspNetUsers](Id), 
 
-    
 )

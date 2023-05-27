@@ -6,6 +6,5 @@
     [EndTime] DATETIME NOT NULL, 
     [OpportunityId] INT NULL,
 
-
     CONSTRAINT [FK_InstrumentSlots_Opportunities] FOREIGN KEY (OpportunityId) REFERENCES [Opportunities](Id)
 )
